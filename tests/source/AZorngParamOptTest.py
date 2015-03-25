@@ -2,7 +2,7 @@ import logging
 import os
 import unittest
 
-from trainingMethods import AZorngPLS
+from trainingMethods import AZorngRF
 from trainingMethods import AZorngRF
 from trainingMethods import AZorngCvANN
 from trainingMethods import AZorngCvSVM
@@ -123,13 +123,13 @@ class optimizerTest(AZorngTestUtil.AZorngTestUtil):
 
 
 
-    def test_PLSAdvanced_Usage(self):
+    def test_RFAdvanced_Usage(self):
         """PLS - Test of optimizer with advanced configuration
         """
         #Create  the appspack instance
         opt=paramOptUtilities.Appspack()
         #Learner to be optimized
-        learner=AZorngPLS.PLSLearner()
+        learner=AZorngRF.RFLearner()
         #dataset to use in the parameters optimization (Discrete class in this example)
         dataSet=self.discTrainDataPath
         # Define the objective function. This requires:
@@ -143,11 +143,11 @@ class optimizerTest(AZorngTestUtil.AZorngTestUtil):
         runPath = miscUtilities.createScratchDir(desc="ParamOptTest")
 
         # Load the optimization parameters from the default configuration (AZLearnersParamsConfig.py)
-        parameters = AZLearnersParamsConfig.API("PLSLearner")
-        parameters.setParameter("method","default",'pls1')
+        parameters = AZLearnersParamsConfig.API("RFLearner")
+        parameters.setParameter("method","default",'rf1')
 
         # change the optimization parameters
-        parameters.setParameter("method","default",'pls1')      #   make the method fixed (do not optimize) to be pls1
+        parameters.setParameter("method","default",'rf1')      #   make the method fixed (do not optimize) to be pls1
         parameters.setParameter("method","optimize",False)
         parameters.setParameter("method","rangeType","values")  #   assure that the keyword for the values range type is 
                                                                 #set correctly for values instead of interval
@@ -189,14 +189,14 @@ class optimizerTest(AZorngTestUtil.AZorngTestUtil):
         self.assert_(len(dataUtilities.DataTable(os.path.join(runPath,"optimizationLog.txt")))>=5) # Must be > 2
         miscUtilities.removeDir(runPath)
 
-    def test_PLS_Classification(self):
+    def test_RF_Classification(self):
         """PLS - Test of optimizer with discrete class data
         """
         expectedAcc = [0.57999999999999996, 0.58999999999999997] #Ver 0.3 - Artifact: The second value can be expected on other Systems
         #Create  the appspack instance
         opt=paramOptUtilities.Appspack()
         #Learner to be optimized
-        learner=AZorngPLS.PLSLearner()
+        learner=AZorngRF.RFLearner()
         #dataset to use in the parameters optimization (Discrete class in this example)
         dataSet=self.discTrainDataPath
         # Define the objective function. This requires:
@@ -237,14 +237,14 @@ class optimizerTest(AZorngTestUtil.AZorngTestUtil):
 
         miscUtilities.removeDir(runPath)
 
-    def test_PLS_Regression(self):
-        """PLS - Test of optimizer with continuous class data        
+    def test_RF_Regression(self):
+        """RF - Test of optimizer with continuous class data        
         """ 
         expectedRes = [3.27, 3.2599999999999998] #Ver 0.3 - Artifact: The second value can be expected on other Systems       
         #Create  the appspack instance
         opt=paramOptUtilities.Appspack()
         #Learner to be optimized
-        learner=AZorngPLS.PLSLearner()
+        learner=AZorngRF.RFLearner()
         #dataset to use in the parameters optimization 
         dataSet=self.contTrainDataPath
         # Define the objective function. This requires:

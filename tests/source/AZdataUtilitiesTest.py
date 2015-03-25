@@ -4,7 +4,7 @@ import time
 import unittest
 
 import orange
-from trainingMethods import AZorngPLS
+from trainingMethods import AZorngRF
 from AZutilities import dataUtilities
 import AZOrangeConfig as AZOC
 
@@ -81,7 +81,7 @@ class dataUtilitiesTest(unittest.TestCase):
     def test_getDataWithoutUnusedValues(self):
         """Test the getDataWithoutUnusedValues method"""
         # on Data self.unusedValuesData the attrs RING_HERG and Activity have unused Values!
-        learner = AZorngPLS.PLSLearner()
+        learner = AZorngRF.RFLearner()
 
         valuesSel = str(self.unusedValuesData.domain["Attr3"].values)
         valuesActivity = str(self.unusedValuesData.domain["Activity"].values)
@@ -579,8 +579,8 @@ class dataUtilitiesTest(unittest.TestCase):
         self.assertEqual(fixLog,{'Missing Attributes': {'YetOther': 1, '[O]([C])': 1}})
 
         #### Teting now real case where fixing example is needed
-        from trainingMethods import AZorngPLS
-        classifier=AZorngPLS.PLSLearner(self.testData)
+        from trainingMethods import AZorngRF
+        classifier=AZorngRF.RFLearner(self.testData)
         
         # Test different but compatible vartypes
         expected = ("POS", "NEG")
@@ -617,7 +617,7 @@ class dataUtilitiesTest(unittest.TestCase):
         self.assertEqual(classifier.examplesFixedLog,{'Missing Attributes': {'YetOther': 1, '[O]([C])': 1}, 'Fixed Types of variables': 2, 'Vars needing type fix': {'[Br]([C])': "EnumVariable to FloatVariable (some impossible conversions. It was set to '?' for some examples.)"}})
 
         # Test different but compatible var number
-        classifier=AZorngPLS.PLSLearner(self.badVarCountData)
+        classifier=AZorngRF.RFLearner(self.badVarCountData)
         #Artifact: Second result is expected in the UBUNTU 10.10
         self.assert_(classifier(self.testData[0]).value in expected,"VarOrder: Prediction was not done correcly")
 

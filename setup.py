@@ -85,7 +85,7 @@ class Installer:
         self.ftmDir = None
         self.structClustDir = None
         self.fminerDir = None
-        self.plearnDir = None
+        #self.plearnDir = None
         self.R8Dir = None
         self.ctoolsDir = None
         self.trainingDir = None
@@ -270,7 +270,7 @@ class Installer:
         self.ftmDir = os.path.join(self.buildDir,"orangeDependencies/src/ftm")
         self.structClustDir = os.path.join(self.buildDir,"orangeDependencies/src/structuralClustering")
         self.fminerDir = os.path.join(self.buildDir,"orangeDependencies/src/fminer")
-        self.plearnDir = os.path.join(self.buildDir,"orangeDependencies/src/plearn")
+        #self.plearnDir = os.path.join(self.buildDir,"orangeDependencies/src/plearn")
         self.ctoolsDir = os.path.join(self.buildDir,"orangeDependencies/src/Ctools")
         self.R8Dir = os.path.join(self.buildDir,"orangeDependencies/src/R8/Src")
 
@@ -610,7 +610,8 @@ class Installer:
         if ("rdkit" not in self.dependencies):
             print "Not using the local rdkit"
             return
-        rdkitinstallDir = os.path.join(self.orangeDependenciesDir,os.path.split(self.rdkitDir)[1])
+        #rdkitinstallDir = os.path.join(self.orangeDependenciesDir,os.path.split(self.rdkitDir)[1])
+        rdkitinstallDir = os.path.join(self.orangeDependenciesDir,"src/"+os.path.split(self.rdkitDir)[1])
         if self.dependencies["rdkit"]:   #compile and install
                 # The source Dir will have to be available at running time
                 print "Copying rdkit dir to orangeDependencies"
@@ -961,6 +962,8 @@ class Installer:
                 # for debug include:    --enable-debug=\"yes\"
                 #stat, out = commands.getstatusoutput("./configure --prefix=\"" + openCVinstallDir  + "\" --with-openmp --enable-apps=\"no\"")
                 # Disabled openmp because of too many cores used in SGE
+                print "**************** OpenCV Config statement *********************"
+                print "./configure --prefix=\"" + openCVinstallDir  + "\" --disable-openmp --enable-apps=\"no\""
                 stat, out = commands.getstatusoutput("./configure --prefix=\"" + openCVinstallDir  + "\" --disable-openmp --enable-apps=\"no\"")
                 checkStatus(stat, out,"Error configuring opencv.")
                 stat, out = commands.getstatusoutput("make")

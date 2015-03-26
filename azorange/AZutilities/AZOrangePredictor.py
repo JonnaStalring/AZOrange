@@ -43,7 +43,7 @@ from rdkit.Chem.Features.FeatDirUtilsRD import findNeighbors
 from rdkit.Chem.rdmolops import GetAdjacencyMatrix
 from rdkit.Chem.Draw import MolDrawing
 from collections import defaultdict
-from PIL import Image
+#from PIL import Image
 import ConfigParser
 """
     Module for getting predictions from the AZOrange models defined by a full path.

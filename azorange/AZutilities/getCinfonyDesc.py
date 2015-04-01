@@ -246,7 +246,8 @@ def getRdkDescResult(data,descList, radius = 1):
             continue    
 
 
-    resData = orange.ExampleTable(orange.Domain([data.domain[smilesName]] + attrObj,0))     
+    #resData = orange.ExampleTable(orange.Domain([data.domain[smilesName]] + attrObj,0))     
+    resData = orange.ExampleTable(orange.Domain([data.domain[smilesName]] + attrObj, data.domain.classVar))     
     badCompounds = 0
     for ex in data:
         newEx = orange.Example(resData.domain)   # All attrs: ?, ?, ?, ..., ?
@@ -270,6 +271,8 @@ def getRdkDescResult(data,descList, radius = 1):
                          newEx[desc.name] = fingerPrintsRes[molStr][desc.name]
                      else:
                          newEx[desc.name] = 0.0
+             # Added to preserve the class
+             newEx[data.domain.classVar] = ex[data.domain.classVar].value
              resData.append(newEx)
         except: 
             badCompounds += 1

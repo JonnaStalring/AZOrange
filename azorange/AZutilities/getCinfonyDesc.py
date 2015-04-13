@@ -245,13 +245,16 @@ def getRdkDescResult(data,descList, radius = 1):
         except:
             continue    
 
-
     #resData = orange.ExampleTable(orange.Domain([data.domain[smilesName]] + attrObj,0))     
-    resData = orange.ExampleTable(orange.Domain([data.domain[smilesName]] + attrObj, data.domain.classVar))     
+    #resData = orange.ExampleTable(orange.Domain([data.domain[smilesName]] + attrObj, data.domain.classVar))     
+    #resData = orange.ExampleTable(orange.Domain([data.domain[smilesName]] + data.domain.attributes + attrObj, data.domain.classVar))     
+    resData = orange.ExampleTable(orange.Domain(data.domain.attributes + attrObj, data.domain.classVar))     
     badCompounds = 0
     for ex in data:
         newEx = orange.Example(resData.domain)   # All attrs: ?, ?, ?, ..., ?
         newEx[smilesName] = ex[smilesName]
+        for attr in data.domain.attributes:
+            newEx[attr.name] = ex[attr.name]
         molStr = str(newEx[smilesName].value)
         # OBS - add something keeping count on the number of unused smiles
         try:

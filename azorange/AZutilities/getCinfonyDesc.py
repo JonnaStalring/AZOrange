@@ -176,10 +176,12 @@ def getRdkDescResult(data,descList, radius = 1):
         return None
     FingerPrints = False
     smilesName = getSMILESAttr(data) 
+
     if not smilesName: return None
     
     FP_desc = []
     myDescList = [desc.replace(toolkitsDef["rdk"]["tag"],"") for desc in descList if toolkitsDef["rdk"]["tag"] in desc]
+
     if not myDescList: return None
 
     if "FingerPrints" in myDescList:
@@ -275,7 +277,8 @@ def getRdkDescResult(data,descList, radius = 1):
                      else:
                          newEx[desc.name] = 0.0
              # Added to preserve the class
-             newEx[data.domain.classVar] = ex[data.domain.classVar].value
+             if data.domain.classVar
+                 newEx[data.domain.classVar] = ex[data.domain.classVar].value
              resData.append(newEx)
         except: 
             badCompounds += 1
@@ -292,6 +295,7 @@ def getCinfonyDescResults(origData,descList,radius=1):
             Returns a new Dataset"""
     if not origData or not descList: return None
     smilesName = getSMILESAttr(origData)
+
     if not smilesName: return None
     #Create a new domain saving original smiles and other attributes
     newDomain = orange.Domain([attr for attr in origData.domain if attr is not origData.domain.classVar] + [orange.StringVariable("origSmiles")],origData.domain.classVar)
@@ -299,6 +303,7 @@ def getCinfonyDescResults(origData,descList,radius=1):
     # Standardize SMILES
     for ex in data:
         ex["origSmiles"] = ex[smilesName].value
+
     #TODO: Create a method in dataUtilities to standardize the attribute smilesName in place having the attr origSmiles as ID
     if "AZutilities.extraUtilities" in sys.modules and hasattr(extraUtilities, "StandardizeSMILES"):
          # Call a method for standardizing the SMILES in Data.

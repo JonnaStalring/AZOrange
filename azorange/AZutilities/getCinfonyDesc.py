@@ -277,7 +277,7 @@ def getRdkDescResult(data,descList, radius = 1):
                      else:
                          newEx[desc.name] = 0.0
              # Added to preserve the class
-             if data.domain.classVar
+             if data.domain.classVar:
                  newEx[data.domain.classVar] = ex[data.domain.classVar].value
              resData.append(newEx)
         except: 

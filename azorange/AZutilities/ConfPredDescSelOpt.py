@@ -148,8 +148,8 @@ def probPred(idx, extTrain, SVMparam):
 
 
     # Train a model
-    #model = AZorngRF.RFLearner(train, nActVars = 2)
-    model, SVMparam = trainSVMOptParam(train, SVMparam)
+    model = AZorngRF.RFLearner(train)
+    #model, SVMparam = trainSVMOptParam(train, SVMparam)
 
     # Predict example idx
     predList = model(extTrain[idx], returnDFV = True)
@@ -606,7 +606,7 @@ def getPvalue(train, predEx, label, SVMparam, method = "avgNN", measure = None):
     newPredEx[0][newPredEx.domain.classVar] = label
 
     # Add predEx to train
-    extTrain = dataUtilities.concatenate([train, newPredEx])
+    extTrain = dataUtilities.concatenate([train, newPredEx], True)
     extTrain = extTrain[0]
 
     # Calculate a non-conf score for each ex in train + predEx with given label
@@ -869,7 +869,7 @@ def getConfPred(train, work, method, SVMparam, measure = None, resultsFile = "CP
     resDict = {}
     idx = 0
     for predEx in work:
-        labels = predEx.domain.classVar.values
+        labels = train.domain.classVar.values
         pvalues = []
         pvaluesMondrian = []
         for label in labels:
@@ -893,7 +893,7 @@ def getConfPred(train, work, method, SVMparam, measure = None, resultsFile = "CP
     if verbose:
         printStat(resDict, labels)
 
-    return SVMparam
+    return SVMparam, resDict
 
 
 def getIndConfPred(train, work, method, measure = None, resultsFile = "CPresults.txt", verbose = False):
@@ -942,22 +942,14 @@ if __name__ == "__main__":
     This main will test the implemented CP methods in a 10 fold CV
     """
 
-    data = dataUtilities.DataTable("trainDataCompleteCLiP.tab")
-    descListList = [
-                    ["IT03423_Seq_BF", "Time", "Conc"],
-                    ["IT03423_Seq_BF", "Time", "Conc", "ACDlogD74"],
-                    ["IT03423_Seq_BF", "Time", "Conc", "ACDlogD74", "Caco2_intrinsic"],
-                    ["IT03423_Seq_BF", "Time", "Conc", "ACDlogD74", "Caco2_intrinsic", "ClogP"],
-                    ["IT03423_Seq_BF", "Time", "Conc", "IT03713_BF"]
-                      ]
+    data = dataUtilities.DataTable("HLMSeries2_rdkPhysChemPrepClass.txt")
+    attrList = ['"Medivir;HLM (XEN025);CLint (uL/min/mg);(Num)"', 'Structure', '"MV Number"', "rdk.MolecularFormula"]
+    data = dataUtilities.attributeDeselectionData(data, attrList)
 
-    #deselectionList = ["AZ13410548"]
-    #print "Deselecting compounds ", deselectionList
-    #trainList = []
-    #for ex in data:
-    #    if ex["Name"].value not in deselectionList:
-    #        trainList.append(ex)
-    #data = dataUtilities.DataTable(trainList)
+    print "Select all attributes"
+    descListList = [[]]
+    for attr in data.domain.attributes:
+        descListList[0].append(attr.name)
 
     #methods = ["kNNratio", "minNN", "avgNN", "probPred", "combo", "LLOO", "LLOOprob"]   # Non-conformity score method
     methods = ["probPred"]
@@ -971,14 +963,14 @@ if __name__ == "__main__":
     methodIdx = 1
     method = methods[0]
     idx = 0
-    descResultsFile = "resultsDescSelectionOptSVM.txt"
+    descResultsFile = "CPresults.txt"
     fid = open(descResultsFile, "w")
     fid.close()
     for descList in descListList:
 
         SVMparam = []
         idx = idx + 1
-        resultsFile = "CPresults_CompCLiP_Seq_"+str(idx)+"_OptSVM.txt"
+        resultsFile = "CPresults_DescSet.txt"
         fid = open(resultsFile, "w")
         fid.write("Name\tActualLabel\tLabel1\tLabel2\tPvalue1\tPvalue2\tConf1\tConf2\tPrediction\n")
         fid.close()
@@ -1003,17 +995,13 @@ if __name__ == "__main__":
                     else:
                         train.extend(data.select(ind, iidx))
 
-            print "Obs desc deselected in getPvalue"
-            #descList = ["IT03423_BF", "Conc", "Caco2_intrinsic", "ACDlogD74"]
-            #train = dataUtilities.attributeSelectionData(train, descList)
-            #work = dataUtilities.attributeSelectionData(work, descList)
-
             print "Length of train ", len(train)
             print "Length of work ", len(work)
 
             # Create results file and get the conformal predictions
             if cpMethod == "transductive":
-                SVMparam = getConfPred(train, work, method, descList, SVMparam, measure, resultsFile, verbose = True)
+                #SVMparam = getConfPred(train, work, method, descList, SVMparam, measure, resultsFile, True)
+                SVMparam, resDict = getConfPred(train, work, method, SVMparam, measure, resultsFile, True)
             elif cpMethod == "inductive":
                 print "Please note, only kNNratio and probPred implemented for ICP!"
                 getIndConfPred(train, work, method, measure, resultsFile, verbose = True)

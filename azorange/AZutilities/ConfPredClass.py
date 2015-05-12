@@ -561,8 +561,8 @@ def getPvalue(train, predEx, label, method = "avgNN", measure = None):
     newPredEx = Orange.data.Table(predEx.domain, [predEx])
     newPredEx[0][newPredEx.domain.classVar] = label
 
-    # Add predEx to train
-    extTrain = dataUtilities.concatenate([train, newPredEx])
+    # Add predEx to train, but use only the attributes of train!!
+    extTrain = dataUtilities.concatenate([train, newPredEx], True)
     extTrain = extTrain[0]
 
     # Calculate a non-conf score for each ex in train + predEx with given label
@@ -824,11 +824,12 @@ def getConfPred(train, work, method, measure = None, resultsFile = "CPresults.tx
     method - non-conformity score method
     """
 
+    labels = train.domain.classVar.values
+
     # Get conformal predictions
     resDict = {}
     idx = 0
     for predEx in work:
-        labels = predEx.domain.classVar.values
         pvalues = []
         for label in labels:
             if method == "combo":
@@ -849,6 +850,8 @@ def getConfPred(train, work, method, measure = None, resultsFile = "CPresults.tx
     if verbose:
         printStat(resDict, labels)
 
+    return resDict
+
 
 def getIndConfPred(train, work, method, measure = None, resultsFile = "CPresults.txt", verbose = False):
     """
@@ -857,7 +860,7 @@ def getIndConfPred(train, work, method, measure = None, resultsFile = "CPresults
     method - non-conformity score method
     """
 
-    # Randomily select 10% of train as a cal set
+    # Randomly select 10% of train as a cal set
     indices2 = Orange.data.sample.SubsetIndices2(p0=0.10)
     ind = indices2(train)
     calSet = train.select(ind, 0)
@@ -893,19 +896,18 @@ if __name__ == "__main__":
     """
     Assumptions;
     Binary classification 
-    Class labels not generalized, assumed to be 'A' and 'N'
 
     This main will test the implemented CP methods in a 10 fold CV
     """
 
-    data = dataUtilities.DataTable("trainData.tab")
-    descList = ["SMILES", "SMILES_1"]
+    data = dataUtilities.DataTable("MVpotAggrSeries2_DescPrep_Class.txt")
+    descList = ['"HEP2C_RSV_A2_XTT;EC50 (uM);(Num)"', 'Structure', '"MV Number"']
     data = dataUtilities.attributeDeselectionData(data, descList)
 
     print "Please note that the class labels are not generalized and need to be checked for a new data set"
-    print "Assumed to be A and N"
+    print "Assumed to be A and N in comparision to RF predictions"
     methods = ["kNNratio", "minNN", "avgNN", "probPred", "combo", "LLOO", "LLOOprob"]   # Non-conformity score method
-    #methods = ["kNNratio"]
+    methods = ["probPred"]
     cpMethod = "transductive"   # inductive or transductive
 
     #print "Temp position to save comp time!!"
@@ -938,7 +940,7 @@ if __name__ == "__main__":
 
             # Create results file and get the conformal predictions
             if cpMethod == "transductive":
-                getConfPred(train, work, method, measure, resultsFile, verbose = True)
+                resDict = getConfPred(train, work, method, measure, resultsFile, verbose = True)
             elif cpMethod == "inductive":
                 print "Please note, only kNNratio and probPred implemented for ICP!"
                 getIndConfPred(train, work, method, measure, resultsFile, verbose = True)
@@ -946,14 +948,14 @@ if __name__ == "__main__":
                 print "Valid cpMethod values are 'transductive' and 'inductive'"
 
             # Compare with RF predictions
-            if methodIdx == 1:
-                getRFAcc(train, work)
-                prob = 0.1
-                getRFprobAcc(train, work, prob)
-                prob = 0.2
-                getRFprobAcc(train, work, prob)
-                prob = 0.3
-                getRFprobAcc(train, work, prob)
+            #if methodIdx == 1:
+            #    getRFAcc(train, work)
+            #    prob = 0.1
+            #    getRFprobAcc(train, work, prob)
+            #    prob = 0.2
+            #    getRFprobAcc(train, work, prob)
+            #    prob = 0.3
+            #    getRFprobAcc(train, work, prob)
 
             #print "Breaking after first fold"
             #if idx == 0: break

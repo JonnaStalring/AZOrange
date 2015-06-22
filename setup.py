@@ -789,6 +789,8 @@ class Installer:
                     break
                 elif runningVerList[idx] > minVerList[idx]:
                     break
+        print "************* Config APPSPACK without MPI (would need gcc 3) !!!!!!!!!!**********************"
+        self.mpiCVerOK=False
 
         ################################################################
         # Report
@@ -813,6 +815,7 @@ class Installer:
         if self.platform[0:3] == "GAS":
             stat, out = commands.getstatusoutput("./configure "+compileFlags+" --prefix=%s --with-blas=%s --with-lapack=%s %s" % (self.orangeDependenciesDir,os.environ["ATLAS"],os.environ["ATLAS"],mpiFlags))
         else:
+            #print "./configure "+compileFlags+" --prefix="+self.orangeDependenciesDir+" "+mpiFlags
             stat, out = commands.getstatusoutput("./configure "+compileFlags+" --prefix=%s %s" % (self.orangeDependenciesDir,mpiFlags))
             
         checkStatus(stat, out,"Error configuring APPSPack.")

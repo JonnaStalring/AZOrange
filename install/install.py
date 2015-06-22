@@ -1085,6 +1085,7 @@ application/xml=AZOrange.desktop;
         self.addLog("#"+self.trunkDir+" -> "+self.buildDir)
 
         #Export from the Trunk working copy
+        #print "******************** No cp of trunkDir **************"
         self.__logAndExecute("cp -Rf " + os.path.join(self.trunkDir,"*") + " ./ ")
         # Remove all .svn and .git folders
         self.__logAndExecute('find ./ -name ".svn" | xargs rm -Rf')
@@ -1156,7 +1157,7 @@ application/xml=AZOrange.desktop;
 
         #  LD_LIBRARY_PATH  space separated paths in tcsh!!
         #LD_LIBPaths = [localVars["installDir"]+"/orange", localVars["installDir"]+"/orangeDependencies/bin"]
-        LD_LIBPaths = [os.path.join("$AZORANGEHOME", "orange")]
+        LD_LIBPaths = [os.path.join("$AZORANGEHOME", "orange"), os.path.join("$AZORANGEHOME", "orangeDependencies/src/rdkit/lib")]
         if "LD_LIBRARY_PATH" in self.EnvVars:
             for value in self.EnvVars["LD_LIBRARY_PATH"]:
                 if value not in LD_LIBPaths: LD_LIBPaths.insert(0,value)
@@ -1187,7 +1188,9 @@ application/xml=AZOrange.desktop;
                 if value not in PATHPaths: PATHPaths.insert(0,value)
         self.EnvVars["PATH"] = PATHPaths
         #  PYTHONPATH
-        pythonPaths = [".",os.path.join("$AZORANGEHOME", "orange"), os.path.join("$AZORANGEHOME", "azorange"), os.path.join("$AZORANGEHOME", "tests")]
+        pythonPaths = [".",os.path.join("$AZORANGEHOME", "orange"), os.path.join("$AZORANGEHOME", "azorange"), os.path.join("$AZORANGEHOME", "tests"), \
+                       os.path.join("$AZORANGEHOME", "orangeDependencies/cinfony/lib/python2.7/site-packages"), os.path.join("$AZORANGEHOME", "orangeDependencies/fminer"), \
+                       os.path.join("$AZORANGEHOME", "orangeDependencies/src/rdkit"), os.path.join("$AZORANGEHOME", "orangeDependencies/opencv/lib64/python2.7/site-packages/")]
         if "PYTHONPATH" in self.EnvVars:      
             for value in self.EnvVars["PYTHONPATH"]:
                 if value not in pythonPaths: pythonPaths.insert(0,value)
@@ -1221,6 +1224,11 @@ application/xml=AZOrange.desktop;
                 strFile += "export %s=%s\n" % (envVar.upper() ,strValues)
             else:
                 strFile += "setenv %s %s\n" % (envVar.upper() ,strValues)
+        # Hard coded variables
+        strFile += "setenv %s %s\n" % ("FMINER_LAZAR" ,"1")
+        strFile += "setenv %s %s\n" % ("FMINER_SMARTS" ,"1")
+        strFile += "setenv %s %s\n" % ("FMINER_PVALUES" ,"0")
+        strFile += "setenv %s %s\n" % ("RDBASE" ,os.path.join("$AZORANGEHOME", "orangeDependencies/src/rdkit"))
         #Aliases
         strFile += "\n# AZOrange canvas alias\n"
         if shellType == SHELL_TYPE_BASH:

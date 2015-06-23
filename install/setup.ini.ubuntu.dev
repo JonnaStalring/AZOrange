@@ -97,8 +97,8 @@ boost = http://downloads.sourceforge.net/project/boost/boost/1.34.1/boost_1_34_1
 opencv = http://downloads.sourceforge.net/project/opencvlibrary/opencv-unix/2.0/OpenCV-2.0.0.tar.bz2,2.0.0
 ;plearn = svn://svn.berlios.de/plearn/trunk,8124
 cinfony = http://cinfony.googlecode.com/files/cinfony-1.2.tar.gz,1.2
-rdkit = http://downloads.sourceforge.net/project/rdkit/rdkit/Q3_2012/RDKit_2012_09_1.tgz
-cdk = http://heanet.dl.sourceforge.net/project/cdk/cdk/1.4.19/cdk-src+libs-1.4.19.tar.gz
+rdkit = rdkit = http://downloads.sourceforge.net/project/rdkit/rdkit/Q4_2012/RDKit_2012_12_1.tgz
+;cdk = http://heanet.dl.sourceforge.net/project/cdk/cdk/1.4.19/cdk-src+libs-1.4.19.tar.gz
 ftm = http://infosys.informatik.uni-mainz.de/research/azorange/ftm-for-azorange/at_download/file,0.1
 fminer = https://github.com/amaunz/fminer2.git,0.0
 clustering = http://infosys.informatik.uni-mainz.de/research/azorange/structuralclustering-for-azorange/at_download/file,1.1

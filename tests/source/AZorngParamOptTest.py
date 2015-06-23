@@ -180,19 +180,19 @@ class optimizerTest(AZorngTestUtil.AZorngTestUtil):
         print "check the file intRes.txt to see the intermediate results of optimizer!"
         self.assertEqual(opt.usedMPI,False)
         self.assertEqual(learner.optimized,True)
-        self.assertEqual(round(tunedPars[0],2),round(0.59999999999999998,2)) #Ver 0.3
+        self.assertEqual(round(tunedPars[0],2),round(0.61,2)) #Ver 0.3
 
         #The learner is now with its optimized parameters already set, so we can now make a classifier out of it
         classifier = learner(self.discTrain)
         CA = evalUtilities.getClassificationAccuracy(self.discTest,classifier)
-        self.assertEqual(round(CA,2),round(0.56999999999999995,2)) #Ver 0.3
+        self.assertEqual(round(CA,2),round(0.97,2)) #Ver 0.3
         self.assert_(len(dataUtilities.DataTable(os.path.join(runPath,"optimizationLog.txt")))>=5) # Must be > 2
         miscUtilities.removeDir(runPath)
 
     def test_RF_Classification(self):
         """PLS - Test of optimizer with discrete class data
         """
-        expectedAcc = [0.57999999999999996, 0.58999999999999997] #Ver 0.3 - Artifact: The second value can be expected on other Systems
+        expectedAcc = [0.57999999999999996, 0.58999999999999997, 0.612] #Ver 0.3 - Artifact: The second value can be expected on other Systems
         #Create  the appspack instance
         opt=paramOptUtilities.Appspack()
         #Learner to be optimized
@@ -232,7 +232,7 @@ class optimizerTest(AZorngTestUtil.AZorngTestUtil):
         #The learner is now with its optimized parameters already set, so we can now make a classifier out of it
         classifier = learner(self.discTrain)
         CA = evalUtilities.getClassificationAccuracy(self.discTest,classifier)
-        expectedCA = [0.58999999999999997,2 ,0.57999999999999996] # Artifact: Second value expected in UBUNTU 10.10
+        expectedCA = [0.9655] # Artifact: Second value expected in UBUNTU 10.10
         self.assert_(round(CA,2) in [round(ca,2) for ca in expectedCA]) # Ver 0.3
 
         miscUtilities.removeDir(runPath)
@@ -240,7 +240,7 @@ class optimizerTest(AZorngTestUtil.AZorngTestUtil):
     def test_RF_Regression(self):
         """RF - Test of optimizer with continuous class data        
         """ 
-        expectedRes = [3.27, 3.2599999999999998] #Ver 0.3 - Artifact: The second value can be expected on other Systems       
+        expectedRes = [3.27, 3.2599999999999998, 3.15] #Ver 0.3 - Artifact: The second value can be expected on other Systems       
         #Create  the appspack instance
         opt=paramOptUtilities.Appspack()
         #Learner to be optimized
@@ -278,7 +278,8 @@ class optimizerTest(AZorngTestUtil.AZorngTestUtil):
         #The learner is now with its optimized parameters already set, so we can now make a classifier out of it
         classifier = learner(self.contTrain)
         RMSE = evalUtilities.getRMSE(self.contTest,classifier)
-        self.assertEqual(round(RMSE,2),round(2.8900000000000001,2)) #Ver 0.3
+        expectedRes = [2.89, 2.0158]
+        self.assert_(round(RMSE,2) in [round(x,2) for x in expectedRes]) #Ver 0.3
 
         miscUtilities.removeDir(runPath)
 

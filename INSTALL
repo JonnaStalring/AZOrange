@@ -11,14 +11,4 @@
 
 5) In install directory: python install.py
 
-6) The install.py script will fail because changes are needed to the OpenCV source code for it to compile. 
-
-7) To make OpenCV compile: 
-	Edit the file: orangeDependencies/src/opencv/include/opencv/ml.h
-	Line 1434 change to:
-        _inputs_val=cv::Mat()
-        _outputs_val=cv::Mat()
-
-8) Restart install.py without downloading OpenCV (comment out line 78 and 79 in install.py).
-
 

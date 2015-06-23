@@ -754,7 +754,7 @@ application/xml=AZOrange.desktop;
             self.successInstall = False
             return 
         # Names no longer follow the same convention. Hard coded name of tar extract.
-        unpackDir = "rdkit-Release_2015_03_1"
+        #unpackDir = "rdkit-Release_2015_03_1"
         self.__logAndExecute(UnpackCmd + tarFile)
         self.__logAndExecute("mv " + unpackDir + " " + name )
 

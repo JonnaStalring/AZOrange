@@ -13,7 +13,7 @@ class evalUtilitiesTest(unittest.TestCase):
         smiDataPath = os.path.join(AZOC.AZORANGEHOME,"tests/source/data/mol.smi")
         self.smiData = dataUtilities.loadSMI(smiDataPath)
 
-    def test_getCinfonyDesc(self):
+    def hide_test_getCinfonyDesc(self):
         allDescs = getCinfonyDesc.getAvailableDescs()
         print "\nN Retrieved desc: ",len(allDescs)
         self.assert_(len(allDescs) > 200)  # Actualy 220
@@ -22,7 +22,7 @@ class evalUtilitiesTest(unittest.TestCase):
         self.assertEqual(len(resD),len(self.smiData))
 
         
-    def test_webel(self):
+    def hide_test_webel(self):
         from cinfony import webel
         mol = webel.readstring("smi", "CCC")
         desc = mol.calcdesc(webel.getdescs()[5:7])
@@ -34,7 +34,7 @@ class evalUtilitiesTest(unittest.TestCase):
 
 
 
-    def test_cdk(self):
+    def hide_test_cdk(self):
         from cinfony import cdk
         mol = cdk.readstring("smi", "CCC")
         desc = mol.calcdesc(cdk.descs[1:3])
@@ -46,7 +46,7 @@ class evalUtilitiesTest(unittest.TestCase):
 
 
 
-    def test_openbabel(self):
+    def hide_test_openbabel(self):
         from cinfony import obabel
         mol = obabel.readstring("smi", "CCC")
         desc = mol.calcdesc(obabel.descs[0:3])

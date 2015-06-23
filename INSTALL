@@ -5,7 +5,7 @@
 
 2) ./install/prepareCentOS4AZO.sh  (in case these dependencies are not available)
 
-3) In install dir: cp setup.ini.ubuntu.dev  setup.ini 
+3) In install dir: cp setup.ini.ubuntu  setup.ini 
 
 4) Adjust to system environment in setup.ini
 

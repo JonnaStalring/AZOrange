@@ -3,7 +3,7 @@
 
 1) git clone https://github.com/JonnaStalring/AZOrange.git
 
-2) ./install/prepareCentOS4AZO.sh 
+2) ./install/prepareCentOS4AZO.sh  (in case these dependencies are not available)
 
 3) In install dir: cp setup.ini.ubuntu.dev  setup.ini 
 

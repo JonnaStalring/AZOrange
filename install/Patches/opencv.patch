@@ -145,7 +145,7 @@ diff -crBN AZOrange/orangeDependencies/src/opencv-2.0.0/include/opencv/ml.h AZOr
       virtual int train( const cv::Mat& _inputs, const cv::Mat& _outputs,
                         const cv::Mat& _sample_weights, const cv::Mat& _sample_idx=cv::Mat(),
                         CvANN_MLP_TrainParams _params = CvANN_MLP_TrainParams(),
-!                       int flags=0, int seed=0, int nIterStep=0, const cv::Mat& _inputs_val=0, const cv::Mat& _outputs_val=0);    
+!                       int flags=0, int seed=0, int nIterStep=0, const cv::Mat& _inputs_val=cv::Mat(), const cv::Mat& _outputs_val=cv::Mat());    
       
       virtual float predict( const cv::Mat& _inputs, cv::Mat& _outputs ) const;
   #endif

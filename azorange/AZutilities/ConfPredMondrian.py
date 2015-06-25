@@ -888,7 +888,7 @@ def getConfPred(train, work, method, SVMparam, measure = None, resultsFile = "CP
         MondrianFile = resultsFile[0:fileIdx]+"Mondrian"+resultsFile[fileIdx+1:len(resultsFile)] 
         predictionMondrian = printResults(pvaluesMondrian, labels, actualLabel, method, MondrianFile, name)
         idx = idx + 1
-        resDict[idx] = {"actualLabel": actualLabel, "prediction": prediction}
+        resDict[idx] = {"actualLabel": actualLabel, "prediction": predictionMondrian}
 
     if verbose:
         printStat(resDict, labels)

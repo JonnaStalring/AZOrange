@@ -884,8 +884,7 @@ def getConfPred(train, work, method, SVMparam, measure = None, resultsFile = "CP
         actualLabel = predEx.get_class().value
         name = None
         prediction = printResults(pvalues, labels, actualLabel, method, resultsFile, name)
-        fileIdx = string.find(resultsFile, "_")
-        MondrianFile = resultsFile[0:fileIdx]+"Mondrian"+resultsFile[fileIdx+1:len(resultsFile)] 
+        MondrianFile = resultsFile+"_Mondrian.txt"
         predictionMondrian = printResults(pvaluesMondrian, labels, actualLabel, method, MondrianFile, name)
         idx = idx + 1
         resDict[idx] = {"actualLabel": actualLabel, "prediction": predictionMondrian}

@@ -974,8 +974,7 @@ if __name__ == "__main__":
         fid.write("Name\tActualLabel\tLabel1\tLabel2\tPvalue1\tPvalue2\tConf1\tConf2\tPrediction\n")
         fid.close()
 
-        fileIdx = string.find(resultsFile, "_")
-        MondrianFile = resultsFile[0:fileIdx]+"Mondrian"+resultsFile[fileIdx+1:len(resultsFile)]
+        MondrianFile = resultsFile+"_Mondrian"
         fid = open(MondrianFile, "w")
         fid.write("Name\tActualLabel\tLabel1\tLabel2\tPvalue1\tPvalue2\tConf1\tConf2\tPrediction\n")
         fid.close()

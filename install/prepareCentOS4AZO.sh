@@ -29,6 +29,7 @@ yum install -y libtiff-devel
 yum install -y jasper-devel
 yum install -y libdc1394-devel
 yum install -y libv4l-devel
+yum install -y PyQt4-webkit-devel
 # hg clone ssh://hg@bitbucket.org/biolab/orange
 # hg clone https://bitbucket.org/biolab/orange
 

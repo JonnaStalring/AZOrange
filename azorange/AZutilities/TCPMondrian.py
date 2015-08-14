@@ -829,7 +829,7 @@ def getPvalue(model, NCSdict, predEx, label, method = "probPred", measure = None
     return pvalueMondrian
 
 
-def getTCP(train, work, method, SVMparam, measure = None, resultsFile = "CPresults.txt", verbose = False):
+def getTCP(train, work, method, SVMparam, resultsFile = "CPresults.txt", verbose = False):
     """
     method - non-conformity score method
     """
@@ -849,7 +849,7 @@ def getTCP(train, work, method, SVMparam, measure = None, resultsFile = "CPresul
         labels = train.domain.classVar.values
         pvaluesMondrian = []
         for label in labels:
-            pvalueMondrian = getPvalue(model, NCSdict, predEx, label, method, measure)
+            pvalueMondrian = getPvalue(model, NCSdict, predEx, label, method)
             pvaluesMondrian.append(pvalueMondrian)
         print pvaluesMondrian
         actualLabel = predEx.get_class().value
@@ -872,77 +872,37 @@ if __name__ == "__main__":
     This main will test the implemented CP methods in a 10 fold CV
     """
 
-    data = dataUtilities.DataTable("HLMSeries2_rdkPhysChemPrepClass.txt")
-    attrList = ['"Medivir;HLM (XEN025);CLint (uL/min/mg);(Num)"', 'Structure', '"MV Number"', "rdk.MolecularFormula"]
+    data = dataUtilities.DataTable('clusterTrain_bulk.txt')
+    attrList = ['"HLM_XEN025;Mean;CLint (uL/min/mg);(Num)"', 'Structure', 'MV Number', "Class List"]
     data = dataUtilities.attributeDeselectionData(data, attrList)
 
-    print "Select all attributes"
-    descListList = [[]]
-    for attr in data.domain.attributes:
-        descListList[0].append(attr.name)
+    method = "probPred"
 
-    #methods = ["kNNratio", "minNN", "avgNN", "probPred", "combo", "LLOO", "LLOOprob"]   # Non-conformity score method
-    methods = ["probPred"]
-    cpMethod = "transductive"   # inductive or transductive
-
-    #print "Temp position to save comp time!!"
-    # Append to python path /home/kgvf414/dev/AZOrange0.5.5/orangeDependencies/src/orange/orange/Orange/distance/
-    #import instances
-    #measure = instances.MahalanobisConstructor(data)
-    measure = None
-    methodIdx = 1
-    method = methods[0]
-    idx = 0
-    descResultsFile = "CPresults.txt"
-    fid = open(descResultsFile, "w")
+    SVMparam = []
+    resultsFile = "CPresultst.txt"
+    fid = open(resultsFile, "w")
+    fid.write("Name\tActualLabel\tLabel1\tLabel2\tPvalue1\tPvalue2\tConf1\tConf2\tPrediction\n")
     fid.close()
-    for descList in descListList:
-
-        SVMparam = []
-        idx = idx + 1
-        resultsFile = "CPresults_DescSet.txt"
-        fid = open(resultsFile, "w")
-        fid.write("Name\tActualLabel\tLabel1\tLabel2\tPvalue1\tPvalue2\tConf1\tConf2\tPrediction\n")
-        fid.close()
-
-        MondrianFile = resultsFile+"_Mondrian"
-        fid = open(MondrianFile, "w")
-        fid.write("Name\tActualLabel\tLabel1\tLabel2\tPvalue1\tPvalue2\tConf1\tConf2\tPrediction\n")
-        fid.close()
 
 
-        # Run a 10 fold CV
-        nFolds = 10
-        ind = Orange.data.sample.SubsetIndicesCV(data, nFolds)
-        for idx in range(nFolds):
-            work = data.select(ind, idx)
-            train = None
-            for iidx in range(nFolds):
-                if iidx != idx:
-                    if not train:
-                        train = data.select(ind, iidx)
-                    else:
-                        train.extend(data.select(ind, iidx))
+    # Run a 10 fold CV
+    nFolds = 10
+    ind = Orange.data.sample.SubsetIndicesCV(data, nFolds)
+    for idx in range(nFolds):
+        work = data.select(ind, idx)
+        train = None
+        for iidx in range(nFolds):
+            if iidx != idx:
+                if not train:
+                    train = data.select(ind, iidx)
+                else:
+                    train.extend(data.select(ind, iidx))
 
-            print "Length of train ", len(train)
-            print "Length of work ", len(work)
+        print "Length of train ", len(train)
+        print "Length of work ", len(work)
 
-            # Create results file and get the conformal predictions
-            if cpMethod == "transductive":
-                #SVMparam = getConfPred(train, work, method, descList, SVMparam, measure, resultsFile, True)
-                SVMparam, resDict = getTCP(train, work, method, SVMparam, measure, resultsFile, True)
-            elif cpMethod == "inductive":
-                print "Please note, only kNNratio and probPred implemented for ICP!"
-                getIndConfPred(train, work, method, measure, resultsFile, verbose = True)
-            else:
-                print "Valid cpMethod values are 'transductive' and 'inductive'"
-
-        print descList
-        fid = open(descResultsFile, "a")
-        fid.write(str(descList)+"\n")
-        fid.close()
-        print "OBS copy printstatwithname"
-        #printStatWithName.readAndPrint(resultsFile, descResultsFile)
+        # Create results file and get the conformal predictions
+        SVMparam, resDict = getTCP(train, work, method, SVMparam, resultsFile, True)
 
 
 

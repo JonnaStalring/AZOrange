@@ -829,7 +829,7 @@ def getPvalue(model, NCSdict, predEx, label, method = "probPred", measure = None
     return pvalueMondrian
 
 
-def getTCP(train, work, method, SVMparam, resultsFile = "CPresults.txt", verbose = False):
+def getLOOCP(train, work, method, SVMparam, resultsFile = "CPresults.txt", verbose = False):
     """
     method - non-conformity score method
     """
@@ -902,7 +902,7 @@ if __name__ == "__main__":
         print "Length of work ", len(work)
 
         # Create results file and get the conformal predictions
-        SVMparam, resDict = getTCP(train, work, method, SVMparam, resultsFile, True)
+        SVMparam, resDict = getLOOCP(train, work, method, SVMparam, resultsFile, True)
 
 
 

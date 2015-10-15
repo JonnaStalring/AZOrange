@@ -969,7 +969,7 @@ if __name__ == "__main__":
 
         SVMparam = []
         idx = idx + 1
-        resultsFile = "CPresults_DescSet.txt"
+        resultsFile = "CPresults.txt"
         fid = open(resultsFile, "w")
         fid.write("Name\tActualLabel\tLabel1\tLabel2\tPvalue1\tPvalue2\tConf1\tConf2\tPrediction\n")
         fid.close()

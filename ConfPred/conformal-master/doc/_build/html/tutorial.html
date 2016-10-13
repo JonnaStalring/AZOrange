@@ -1,0 +1,267 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Tutorial &mdash; Orange - Conformal Prediction 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Orange - Conformal Prediction 1.0 documentation" href="index.html" />
+    <link rel="next" title="Library reference" href="cp.html" />
+    <link rel="prev" title="Welcome to Orange - Conformal Prediction’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="tutorial">
+<h1>Tutorial<a class="headerlink" href="#tutorial" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="introduction">
+<h2>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h2>
+<p>The Conformal Predictions add-on expands the Orange library with
+implementations of algorithms from the theoretical framework of conformal
+predictions (CP) to obtain error calibration under classification and
+regression settings.</p>
+<p>In contrast with standard supervised machine learning, which for a given new
+data instance typically produces <span class="math">\(\hat{y}\)</span>, called a <em>point prediction</em>, here we are
+interested in making a <em>region prediction</em>. For example, with conformal
+prediction we could produce a 95% prediction region &#8212; a set <span class="math">\(\Gamma^{0.05}\)</span>
+that contains the true label <span class="math">\(y\)</span> with probability at least 95%.  In the case of
+regression, where <span class="math">\(y\)</span> is a number, <span class="math">\(\Gamma^{0.05}\)</span> is typically an interval around <span class="math">\(\hat{y}\)</span>.
+In the case of classification, where <span class="math">\(y\)</span> has a limited number of possible values,
+<span class="math">\(\Gamma^{0.05}\)</span> may consist of a few of these values or, in the ideal case, just one.
+For a more detailed explanation of the conformal predictions theory refer to the paper <a class="reference internal" href="#vovk08" id="id1">[Vovk08]</a>
+or the book <a class="reference internal" href="#shafer05" id="id2">[Shafer05]</a>.</p>
+<p>In this library the final method for conformal predictions is obtained by
+selecting a combination of pre-prepared components.  Starting with the learning
+method (either classification or regression) used to fit predictive models, we
+need to link it with a suitable nonconformity measure and use them together in
+a selected conformal predictions procedure: transductive, inductive or cross.
+These CP procedures differ in the way data is split and used for training the
+predictive model and calibration, which computes the distribution of
+nonconformity scores used to evaluate possible new predicitions. Inductive CP
+requires two disjoint data sets to be provided - one for training, the other
+for calibration. Cross CP uses a single training data set and automatically
+prepares k different splits into training and calibration sets in the same
+manner as k-fold crossvalidation. Transductive CP on the other hand does not
+need a separate calibration set at all, but retrains the model with a new test
+instance included for each of its possible labels and compares the
+nonconformity to those of the labelled instances. This allows it to use the
+complete training set, but makes it computationally more expensive.</p>
+<p>Sections below will explain how to use the implemented methods from this
+library through practical examples and use-cases. For a detailed documentation
+of implemented methods and classes along with their parameters consult the
+<a class="reference internal" href="cp.html#library-reference"><span class="std std-ref">Library reference</span></a>.  For more code examples, take a look at the tests
+module.</p>
+<div class="section" id="references">
+<h3>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h3>
+<table class="docutils citation" frame="void" id="vovk08" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[Vovk08]</a></td><td>Glenn Shafer, Vladimir Vovk. Tutorial on Conformal Predictions. <em>Journal of Machine Learning Research</em> 9 (2008) 371-421</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="shafer05" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[Shafer05]</a></td><td>Vladimir Vovk, Alex Gammerman, and Glenn Shafer. <em>Algorithmic Learning in a Random World</em>. Springer, New York, 2005.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+<div class="section" id="classification">
+<h2>Classification<a class="headerlink" href="#classification" title="Permalink to this headline">¶</a></h2>
+<p>All 3 types of conformal prediction are implemented for classification
+(transductive, inductive and cross), with several different nonconformity
+measures to choose from.</p>
+<p>We will show how to train and use a conformal predictive model in the following
+simple, but fully functional example.</p>
+<p>Let&#8217;s load the iris data set and try to make a prediction for the last
+instance using the rest for learning.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">Orange</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iris</span> <span class="o">=</span> <span class="n">Orange</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span> <span class="o">=</span> <span class="n">iris</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_instance</span> <span class="o">=</span> <span class="n">iris</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We will use a LogisticRegressionLearner from Orange and the inverse probability
+nonconformity score in a 5-fold cross conformal prediction classifier.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lr</span> <span class="o">=</span> <span class="n">Orange</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">LogisticRegressionLearner</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ip</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">nonconformity</span><span class="o">.</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">lr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">CrossClassifier</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Predicting the 90% and 99% prediction regions gives the following results.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Actual class:&#39;</span><span class="p">,</span> <span class="n">test_instance</span><span class="o">.</span><span class="n">get_class</span><span class="p">())</span>
+<span class="go">Actual class: Iris-virginica</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ccp</span><span class="p">(</span><span class="n">test_instance</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+<span class="go">[&#39;Iris-virginica&#39;]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ccp</span><span class="p">(</span><span class="n">test_instance</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
+<span class="go">[&#39;Iris-versicolor&#39;, &#39;Iris-virginica&#39;]</span>
+</pre></div>
+</div>
+<p>We can see that in the first case only the correct class of &#8216;Iris-virginica&#8217;
+was predicted.  In the second case, with a much lower tolerance for errors, the
+model claims only that the instance belongs to one of two possible classes
+&#8216;Iris-versicolor&#8217; or &#8216;Iris-virginica&#8217;, but not the third &#8216;Iris-setosa&#8217;.</p>
+</div>
+<div class="section" id="regression">
+<h2>Regression<a class="headerlink" href="#regression" title="Permalink to this headline">¶</a></h2>
+<p>For regression inductive and cross conformal prediction are implemented along
+with several nonconformity measures.</p>
+<p>Similarly to the classification example, let&#8217;s combine some standard components
+to show how to train and use a conformal prediction model for regression.</p>
+<p>Let&#8217;s load the housing data set and try to make a prediction for the last
+instance using the rest for learning.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">Orange</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">housing</span> <span class="o">=</span> <span class="n">Orange</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span> <span class="o">=</span> <span class="n">housing</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">test_instance</span> <span class="o">=</span> <span class="n">housing</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>We will use a LinearRegressionLearner from Orange and the absolute error
+nonconformity score in a 5-fold cross conformal regressor.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">lr</span> <span class="o">=</span> <span class="n">Orange</span><span class="o">.</span><span class="n">regression</span><span class="o">.</span><span class="n">LinearRegressionLearner</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">abs_err</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">nonconformity</span><span class="o">.</span><span class="n">AbsError</span><span class="p">(</span><span class="n">lr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccr</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">regression</span><span class="o">.</span><span class="n">CrossRegressor</span><span class="p">(</span><span class="n">abs_err</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Predicting the 90% and 99% prediction regions gives the following results.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Actual target value:&#39;</span><span class="p">,</span> <span class="n">test_instance</span><span class="o">.</span><span class="n">get_class</span><span class="p">())</span>
+<span class="go">Actual target value: 11.900</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ccr</span><span class="p">(</span><span class="n">test_instance</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+<span class="go">(13.708550425853684, 31.417230194137165)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ccr</span><span class="p">(</span><span class="n">test_instance</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.01</span><span class="p">))</span>
+<span class="go">(-0.98542733224618217, 46.111207952237031)</span>
+</pre></div>
+</div>
+<p>We can see that in the first case the predicted interval was smaller, but did
+not contain the correct value (this should not happend more than 10% of the
+time). In the second case, with a much lower tolerance for errors, the model
+predicted a larger interval, which did contain the correct value.</p>
+</div>
+<div class="section" id="evaluation">
+<h2>Evaluation<a class="headerlink" href="#evaluation" title="Permalink to this headline">¶</a></h2>
+<p>The evaluation module provides many useful classes and functions for evaluating the performance and validity of conformal predictions.
+The main two classes, which represent the results of a conformal classifier and regressor, are <a class="reference internal" href="cp.evaluation.html#cp.evaluation.ResultsClass" title="cp.evaluation.ResultsClass"><code class="xref py py-class docutils literal"><span class="pre">cp.evaluation.ResultsClass</span></code></a> and <a class="reference internal" href="cp.evaluation.html#cp.evaluation.ResultsRegr" title="cp.evaluation.ResultsRegr"><code class="xref py py-class docutils literal"><span class="pre">cp.evaluation.ResultsRegr</span></code></a>.</p>
+<p>For ease of use, the evaluation results can be obtained using utility functions that evaluate the selected conformal predictor on data defined by the provided sampler (<a class="reference internal" href="cp.evaluation.html#cp.evaluation.run" title="cp.evaluation.run"><code class="xref py py-func docutils literal"><span class="pre">cp.evaluation.run()</span></code></a>) or explicitly provided by the user (<a class="reference internal" href="cp.evaluation.html#cp.evaluation.run_train_test" title="cp.evaluation.run_train_test"><code class="xref py py-func docutils literal"><span class="pre">cp.evaluation.run_train_test()</span></code></a>).</p>
+<p>As an example, let&#8217;s take a look at how to quickly evaluate a conformal classifier on a test data set and compute some of the performance metrics:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">Orange</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">cp</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">iris</span> <span class="o">=</span> <span class="n">Orange</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="n">iris</span><span class="p">[::</span><span class="mi">2</span><span class="p">],</span> <span class="n">iris</span><span class="p">[</span><span class="mi">1</span><span class="p">::</span><span class="mi">2</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">lr</span> <span class="o">=</span> <span class="n">Orange</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">LogisticRegressionLearner</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ip</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">nonconformity</span><span class="o">.</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">lr</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccp</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">classification</span><span class="o">.</span><span class="n">CrossClassifier</span><span class="p">(</span><span class="n">ip</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">res</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">run_train_test</span><span class="p">(</span><span class="n">ccp</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The results are an instance of <a class="reference internal" href="cp.evaluation.html#cp.evaluation.ResultsClass" title="cp.evaluation.ResultsClass"><code class="xref py py-class docutils literal"><span class="pre">cp.evaluation.ResultsClass</span></code></a> mentioned above, and can be used to compute the accuracy of predictions (fraction of predictions including the actual class). For a <em>valid</em> predictor it needs to hold that the error (1 - accuracy) is lower or equal to the specified significance level.
+In addition to <em>validity</em>, we are often interested in the <em>efficiency</em> of a predictor. For classification, this is often measured with the fraction of cases with a single predicted class (<a class="reference internal" href="cp.evaluation.html#cp.evaluation.ResultsClass.singleton_criterion" title="cp.evaluation.ResultsClass.singleton_criterion"><code class="xref py py-func docutils literal"><span class="pre">cp.evaluation.ResultsClass.singleton_criterion()</span></code></a>). For regression, one might measure the widths of predicted intervals and e.g. report the average value (<a class="reference internal" href="cp.evaluation.html#cp.evaluation.ResultsRegr.mean_range" title="cp.evaluation.ResultsRegr.mean_range"><code class="xref py py-func docutils literal"><span class="pre">cp.evaluation.ResultsRegr.mean_range()</span></code></a>).</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Accuracy:&#39;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">accuracy</span><span class="p">())</span>
+<span class="go">Accuracy: 0.946666666667</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Singletons:&#39;</span><span class="p">,</span> <span class="n">res</span><span class="o">.</span><span class="n">singleton_criterion</span><span class="p">())</span>
+<span class="go">Singletons: 0.96</span>
+</pre></div>
+</div>
+<p>Another very useful visual validation approach is to plot the dependency of the actual measured error rate at different levels of the specified significance so the user can quickly see that the error is indeed controlled by the parameter.
+There is a function in the evaluation module that prepares a calibration plot for the specified predictor and data:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span><span class="o">.</span><span class="n">evaluation</span><span class="o">.</span><span class="n">calibration_plot</span><span class="p">(</span><span class="n">ccp</span><span class="p">,</span> <span class="n">iris</span><span class="p">,</span> <span class="n">fname</span><span class="o">=</span><span class="s1">&#39;calibration.png&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Tutorial</a><ul>
+<li><a class="reference internal" href="#introduction">Introduction</a><ul>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#classification">Classification</a></li>
+<li><a class="reference internal" href="#regression">Regression</a></li>
+<li><a class="reference internal" href="#evaluation">Evaluation</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to Orange - Conformal Prediction&#8217;s documentation!</a></li>
+      <li>Next: <a href="cp.html" title="next chapter">Library reference</a></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Biolab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/tutorial.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

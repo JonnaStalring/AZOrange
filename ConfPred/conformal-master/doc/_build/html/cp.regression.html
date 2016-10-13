@@ -1,0 +1,396 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cp.regression &mdash; Orange - Conformal Prediction 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Orange - Conformal Prediction 1.0 documentation" href="index.html" />
+    <link rel="up" title="Library reference" href="cp.html" />
+    <link rel="next" title="cp.utils" href="cp.utils.html" />
+    <link rel="prev" title="cp.nonconformity" href="cp.nonconformity.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-cp.regression">
+<span id="cp-regression"></span><h1>cp.regression<a class="headerlink" href="#module-cp.regression" title="Permalink to this headline">¶</a></h1>
+<p>Regression module contains methods for conformal regression.</p>
+<p>Conformal regressors predict a range of values (not always a single value) under a given
+significance level (error rate). Every regressors works in combination with a nonconformity measure
+and on average predicts the correct value with the given error rate. Lower error rates result in
+narrower ranges of predicted values.</p>
+<p>Structure:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>ConformalRegressor</dt>
+<dd><ul class="first last simple">
+<li>Inductive (<a class="reference internal" href="#cp.regression.InductiveRegressor" title="cp.regression.InductiveRegressor"><code class="xref py py-class docutils literal"><span class="pre">InductiveRegressor</span></code></a>)</li>
+<li>Cross (<a class="reference internal" href="#cp.regression.CrossRegressor" title="cp.regression.CrossRegressor"><code class="xref py py-class docutils literal"><span class="pre">CrossRegressor</span></code></a>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="class">
+<dt id="cp.regression.PredictionRegr">
+<em class="property">class </em><code class="descclassname">cp.regression.</code><code class="descname">PredictionRegr</code><span class="sig-paren">(</span><em>lo</em>, <em>hi</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#PredictionRegr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.PredictionRegr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Conformal regression prediction object,
+which is produced by the <a class="reference internal" href="#cp.regression.ConformalRegressor.predict" title="cp.regression.ConformalRegressor.predict"><code class="xref py py-func docutils literal"><span class="pre">ConformalRegressor.predict()</span></code></a> method.</p>
+<dl class="attribute">
+<dt id="cp.regression.PredictionRegr.lo">
+<code class="descname">lo</code><a class="headerlink" href="#cp.regression.PredictionRegr.lo" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; Lowest value of the predicted range.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cp.regression.PredictionRegr.hi">
+<code class="descname">hi</code><a class="headerlink" href="#cp.regression.PredictionRegr.hi" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; Highest value of the predicted range.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccr</span> <span class="o">=</span> <span class="n">CrossRegressor</span><span class="p">(</span><span class="n">AbsError</span><span class="p">(</span><span class="n">LinearRegressionLearner</span><span class="p">()),</span> <span class="mi">5</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">prediction</span> <span class="o">=</span> <span class="n">ccr</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">width</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.regression.PredictionRegr.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>lo</em>, <em>hi</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#PredictionRegr.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.PredictionRegr.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the prediction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>lo</strong> (<em>float</em>) &#8211; Lowest value of the predicted range.</li>
+<li><strong>hi</strong> (<em>float</em>) &#8211; Highest value of the predicted range.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.regression.PredictionRegr.range">
+<code class="descname">range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#PredictionRegr.range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.PredictionRegr.range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Predicted range: <a class="reference internal" href="#cp.regression.PredictionRegr.lo" title="cp.regression.PredictionRegr.lo"><code class="xref py py-attr docutils literal"><span class="pre">lo</span></code></a>, <a class="reference internal" href="#cp.regression.PredictionRegr.hi" title="cp.regression.PredictionRegr.hi"><code class="xref py py-attr docutils literal"><span class="pre">hi</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.regression.PredictionRegr.verdict">
+<code class="descname">verdict</code><span class="sig-paren">(</span><em>ref</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#PredictionRegr.verdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.PredictionRegr.verdict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conformal regression prediction is correct when the actual value appears
+in the predicted range.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> &#8211; Reference/actual value</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the prediction is correct.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.regression.PredictionRegr.width">
+<code class="descname">width</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#PredictionRegr.width"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.PredictionRegr.width" title="Permalink to this definition">¶</a></dt>
+<dd><p>Width of the predicted range: <a class="reference internal" href="#cp.regression.PredictionRegr.hi" title="cp.regression.PredictionRegr.hi"><code class="xref py py-attr docutils literal"><span class="pre">hi</span></code></a> - <a class="reference internal" href="#cp.regression.PredictionRegr.lo" title="cp.regression.PredictionRegr.lo"><code class="xref py py-attr docutils literal"><span class="pre">lo</span></code></a>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.regression.ConformalRegressor">
+<em class="property">class </em><code class="descclassname">cp.regression.</code><code class="descname">ConformalRegressor</code><span class="sig-paren">(</span><em>nc_measure</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#ConformalRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.ConformalRegressor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="cp.base.html#cp.base.ConformalPredictor" title="cp.base.ConformalPredictor"><code class="xref py py-class docutils literal"><span class="pre">cp.base.ConformalPredictor</span></code></a></p>
+<p>Base class for conformal regression.</p>
+<dl class="method">
+<dt id="cp.regression.ConformalRegressor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nc_measure</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#ConformalRegressor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.ConformalRegressor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the nonconformity measure can be used for regression.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.regression.ConformalRegressor.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>example</em>, <em>eps</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#ConformalRegressor.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.ConformalRegressor.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a regression prediction object for a given example and significance level.</p>
+<p>Function determines what is the <code class="xref py py-attr docutils literal"><span class="pre">eps</span></code>-th lowest nonconformity score and computes
+the range of values that would result in a lower or equal nonconformity. This inverse
+of the nonconformity score is computed by the nonconformity measure&#8217;s
+<a class="reference internal" href="cp.nonconformity.html#cp.nonconformity.RegrNC.predict" title="cp.nonconformity.RegrNC.predict"><code class="xref py py-func docutils literal"><span class="pre">cp.nonconformity.RegrNC.predict()</span></code></a> function.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>example</strong> (<em>ndarray</em>) &#8211; Attributes array.</li>
+<li><strong>eps</strong> (<em>float</em>) &#8211; Default significance level (error rate).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Regression prediction object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#cp.regression.PredictionRegr" title="cp.regression.PredictionRegr">PredictionRegr</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.regression.ConformalRegressor.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>example</em>, <em>eps</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#ConformalRegressor.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.ConformalRegressor.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute predicted range for a given example and significance level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>example</strong> (<em>ndarray</em>) &#8211; Attributes array.</li>
+<li><strong>eps</strong> (<em>float</em>) &#8211; Significance level (error rate).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">Predicted range as a pair (<cite>PredictionRegr.lo</cite>, <cite>PredictionRegr.hi</cite>)</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.regression.TransductiveRegressor">
+<em class="property">class </em><code class="descclassname">cp.regression.</code><code class="descname">TransductiveRegressor</code><span class="sig-paren">(</span><em>nc_measure</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#TransductiveRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.TransductiveRegressor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.regression.ConformalRegressor" title="cp.regression.ConformalRegressor"><code class="xref py py-class docutils literal"><span class="pre">cp.regression.ConformalRegressor</span></code></a></p>
+<p>Transductive regression. TODO</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.regression.InductiveRegressor">
+<em class="property">class </em><code class="descclassname">cp.regression.</code><code class="descname">InductiveRegressor</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em>, <em>calibrate=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#InductiveRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.InductiveRegressor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.regression.ConformalRegressor" title="cp.regression.ConformalRegressor"><code class="xref py py-class docutils literal"><span class="pre">cp.regression.ConformalRegressor</span></code></a></p>
+<p>Inductive regression.</p>
+<dl class="attribute">
+<dt id="cp.regression.InductiveRegressor.alpha">
+<code class="descname">alpha</code><a class="headerlink" href="#cp.regression.InductiveRegressor.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nonconformity scores of the calibration instances. Computed by the <a class="reference internal" href="#cp.regression.InductiveRegressor.fit" title="cp.regression.InductiveRegressor.fit"><code class="xref py py-func docutils literal"><span class="pre">fit()</span></code></a> method.
+Must be <em>sorted</em> in increasing order.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">RandomSampler</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">icr</span> <span class="o">=</span> <span class="n">InductiveRegressor</span><span class="p">(</span><span class="n">AbsError</span><span class="p">(</span><span class="n">LinearRegressionLearner</span><span class="p">()),</span> <span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">icr</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.regression.InductiveRegressor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em>, <em>calibrate=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#InductiveRegressor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.InductiveRegressor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize inductive regressor with a nonconformity measure, training set and calibration set.
+If present, fit the conformal regressor to the training set and compute the nonconformity scores of
+calibration set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nc_measure</strong> (<a class="reference internal" href="cp.nonconformity.html#cp.nonconformity.RegrNC" title="cp.nonconformity.RegrNC"><em>RegrNC</em></a>) &#8211; Regression nonconformity measure.</li>
+<li><strong>train</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a training set.</li>
+<li><strong>calibrate</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a calibration set.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.regression.InductiveRegressor.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>train</em>, <em>calibrate</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#InductiveRegressor.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.InductiveRegressor.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the conformal regressor to the training set, compute and store sorted nonconformity scores (<a class="reference internal" href="#cp.regression.InductiveRegressor.alpha" title="cp.regression.InductiveRegressor.alpha"><code class="xref py py-attr docutils literal"><span class="pre">alpha</span></code></a>)
+on the calibration set and store the domain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>train</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a training set.</li>
+<li><strong>calibrate</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a calibration set.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.regression.CrossRegressor">
+<em class="property">class </em><code class="descclassname">cp.regression.</code><code class="descname">CrossRegressor</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>k</em>, <em>train=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#CrossRegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.CrossRegressor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.regression.InductiveRegressor" title="cp.regression.InductiveRegressor"><code class="xref py py-class docutils literal"><span class="pre">cp.regression.InductiveRegressor</span></code></a></p>
+<p>Cross regression.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccr</span> <span class="o">=</span> <span class="n">CrossRegressor</span><span class="p">(</span><span class="n">AbsError</span><span class="p">(</span><span class="n">LinearRegressionLearner</span><span class="p">()),</span> <span class="mi">4</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ccr</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.regression.CrossRegressor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>k</em>, <em>train=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#CrossRegressor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.CrossRegressor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize cross regressor with a nonconformity measure, number of folds and training set.
+If present, fit the conformal regressor to the training set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nc_measure</strong> (<a class="reference internal" href="cp.nonconformity.html#cp.nonconformity.RegrNC" title="cp.nonconformity.RegrNC"><em>RegrNC</em></a>) &#8211; Regression nonconformity measure.</li>
+<li><strong>k</strong> (<em>int</em>) &#8211; Number of folds.</li>
+<li><strong>train</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a training set.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.regression.CrossRegressor.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>train</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#CrossRegressor.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.CrossRegressor.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the cross regressor to the training set. Split the training set into k folds for use as
+training and calibration set with an inductive regressor. Concatenate the computed nonconformity scores
+and store them (<a class="reference internal" href="#cp.regression.InductiveRegressor.alpha" title="cp.regression.InductiveRegressor.alpha"><code class="xref py py-attr docutils literal"><span class="pre">InductiveRegressor.alpha</span></code></a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>train</strong> (<em>Table</em>) &#8211; Table of examples used as a training set.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.regression.LOORegressor">
+<em class="property">class </em><code class="descclassname">cp.regression.</code><code class="descname">LOORegressor</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#LOORegressor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.LOORegressor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.regression.CrossRegressor" title="cp.regression.CrossRegressor"><code class="xref py py-class docutils literal"><span class="pre">cp.regression.CrossRegressor</span></code></a></p>
+<p>Leave-one-out regressor is a cross conformal regressor with the number of folds equal
+to the size of the training set.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccr</span> <span class="o">=</span> <span class="n">LOORegressor</span><span class="p">(</span><span class="n">AbsError</span><span class="p">(</span><span class="n">LinearRegressionLearner</span><span class="p">()),</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ccr</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.regression.LOORegressor.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#LOORegressor.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.LOORegressor.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.regression.LOORegressor.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>train</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/regression.html#LOORegressor.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.regression.LOORegressor.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="cp.html">Library reference</a><ul>
+      <li>Previous: <a href="cp.nonconformity.html" title="previous chapter">cp.nonconformity</a></li>
+      <li>Next: <a href="cp.utils.html" title="next chapter">cp.utils</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cp.regression.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Biolab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/cp.regression.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

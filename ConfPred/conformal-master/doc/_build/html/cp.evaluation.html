@@ -1,0 +1,496 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cp.evaluation &mdash; Orange - Conformal Prediction 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Orange - Conformal Prediction 1.0 documentation" href="index.html" />
+    <link rel="up" title="Library reference" href="cp.html" />
+    <link rel="next" title="cp.nonconformity" href="cp.nonconformity.html" />
+    <link rel="prev" title="cp.classification" href="cp.classification.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-cp.evaluation">
+<span id="cp-evaluation"></span><h1>cp.evaluation<a class="headerlink" href="#module-cp.evaluation" title="Permalink to this headline">¶</a></h1>
+<p>Evaluation module contains methods for evaluation of conformal predictors.</p>
+<p>Function <a class="reference internal" href="#cp.evaluation.run" title="cp.evaluation.run"><code class="xref py py-func docutils literal"><span class="pre">run()</span></code></a> produces Results of an appropriate type by using a Sampler on a given data set
+to split it into a training and testing set.</p>
+<p>Structure:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>Sampler (sampling methods)</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#cp.evaluation.RandomSampler" title="cp.evaluation.RandomSampler"><code class="xref py py-class docutils literal"><span class="pre">RandomSampler</span></code></a></li>
+<li><a class="reference internal" href="#cp.evaluation.CrossSampler" title="cp.evaluation.CrossSampler"><code class="xref py py-class docutils literal"><span class="pre">CrossSampler</span></code></a></li>
+<li><a class="reference internal" href="#cp.evaluation.LOOSampler" title="cp.evaluation.LOOSampler"><code class="xref py py-class docutils literal"><span class="pre">LOOSampler</span></code></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Results (evaluation results)</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#cp.evaluation.ResultsClass" title="cp.evaluation.ResultsClass"><code class="xref py py-class docutils literal"><span class="pre">ResultsClass</span></code></a></li>
+<li><a class="reference internal" href="#cp.evaluation.ResultsRegr" title="cp.evaluation.ResultsRegr"><code class="xref py py-class docutils literal"><span class="pre">ResultsRegr</span></code></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>Evaluation methods</dt>
+<dd><ul class="first last simple">
+<li><a class="reference internal" href="#cp.evaluation.run" title="cp.evaluation.run"><code class="xref py py-func docutils literal"><span class="pre">run()</span></code></a></li>
+<li><a class="reference internal" href="#cp.evaluation.run_train_test" title="cp.evaluation.run_train_test"><code class="xref py py-func docutils literal"><span class="pre">run_train_test()</span></code></a></li>
+<li><a class="reference internal" href="#cp.evaluation.calibration_plot" title="cp.evaluation.calibration_plot"><code class="xref py py-func docutils literal"><span class="pre">calibration_plot()</span></code></a></li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="class">
+<dt id="cp.evaluation.Sampler">
+<em class="property">class </em><code class="descclassname">cp.evaluation.</code><code class="descname">Sampler</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#Sampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Sampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Base class for various data sampling/splitting methods.</p>
+<dl class="attribute">
+<dt id="cp.evaluation.Sampler.data">
+<code class="descname">data</code><a class="headerlink" href="#cp.evaluation.Sampler.data" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>Table</em> &#8211; Data set for sampling.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cp.evaluation.Sampler.n">
+<code class="descname">n</code><a class="headerlink" href="#cp.evaluation.Sampler.n" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; Size of the data set.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">CrossSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">s</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.evaluation.Sampler.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#Sampler.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Sampler.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the data set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.Sampler.__iter__">
+<code class="descname">__iter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#Sampler.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Sampler.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.Sampler.__next__">
+<code class="descname">__next__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#Sampler.__next__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Sampler.__next__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extending samplers should implement the __next__ method to return the selected
+and remaining part of the data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.Sampler.repeat">
+<code class="descname">repeat</code><span class="sig-paren">(</span><em>rep=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#Sampler.repeat"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Sampler.repeat" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repeat sampling several times.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.evaluation.RandomSampler">
+<em class="property">class </em><code class="descclassname">cp.evaluation.</code><code class="descname">RandomSampler</code><span class="sig-paren">(</span><em>data</em>, <em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#RandomSampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.RandomSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.evaluation.Sampler" title="cp.evaluation.Sampler"><code class="xref py py-class docutils literal"><span class="pre">cp.evaluation.Sampler</span></code></a></p>
+<p>Randomly samples a subset of data in proportion a:b.</p>
+<dl class="attribute">
+<dt id="cp.evaluation.RandomSampler.k">
+<code class="descname">k</code><a class="headerlink" href="#cp.evaluation.RandomSampler.k" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; Size of the selected subset.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">RandomSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">),</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">s</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.evaluation.RandomSampler.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>data</em>, <em>a</em>, <em>b</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#RandomSampler.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.RandomSampler.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the data set and the size of the desired selection.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.RandomSampler.__iter__">
+<code class="descname">__iter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#RandomSampler.__iter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.RandomSampler.__iter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Return a special iterator over a single split of data.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.RandomSampler.__next__">
+<code class="descname">__next__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#RandomSampler.__next__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.RandomSampler.__next__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits the data based on a random permutation.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.evaluation.CrossSampler">
+<em class="property">class </em><code class="descclassname">cp.evaluation.</code><code class="descname">CrossSampler</code><span class="sig-paren">(</span><em>data</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#CrossSampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.CrossSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.evaluation.Sampler" title="cp.evaluation.Sampler"><code class="xref py py-class docutils literal"><span class="pre">cp.evaluation.Sampler</span></code></a></p>
+<p>Sample the data in <a class="reference internal" href="#cp.evaluation.CrossSampler.k" title="cp.evaluation.CrossSampler.k"><code class="xref py py-attr docutils literal"><span class="pre">k</span></code></a> folds. Shuffle the data before determining the folds.</p>
+<dl class="attribute">
+<dt id="cp.evaluation.CrossSampler.k">
+<code class="descname">k</code><a class="headerlink" href="#cp.evaluation.CrossSampler.k" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; Number of folds.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">CrossSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">),</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.evaluation.CrossSampler.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>data</em>, <em>k</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#CrossSampler.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.CrossSampler.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.CrossSampler.__next__">
+<code class="descname">__next__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#CrossSampler.__next__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.CrossSampler.__next__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the next fold. Initializes a new k-fold split on each repetition of the entire
+sampling procedure.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.evaluation.LOOSampler">
+<em class="property">class </em><code class="descclassname">cp.evaluation.</code><code class="descname">LOOSampler</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#LOOSampler"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.LOOSampler" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.evaluation.CrossSampler" title="cp.evaluation.CrossSampler"><code class="xref py py-class docutils literal"><span class="pre">cp.evaluation.CrossSampler</span></code></a></p>
+<p>Leave-One-Out sampler is a cross sampler with the number of folds equal to the size of the data set.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">s</span> <span class="o">=</span> <span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">s</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">test</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.evaluation.LOOSampler.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#LOOSampler.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.LOOSampler.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.evaluation.Results">
+<em class="property">class </em><code class="descclassname">cp.evaluation.</code><code class="descname">Results</code><a class="reference internal" href="_modules/cp/evaluation.html#Results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Contains results of an evaluation of a conformal predictor
+returned by the <a class="reference internal" href="#cp.evaluation.run" title="cp.evaluation.run"><code class="xref py py-func docutils literal"><span class="pre">run()</span></code></a> function.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span> <span class="o">=</span> <span class="n">CrossClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">RandomSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">accuracy</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.evaluation.Results.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#Results.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Results.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.Results.add">
+<code class="descname">add</code><span class="sig-paren">(</span><em>pred</em>, <em>ref</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#Results.add"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Results.add" title="Permalink to this definition">¶</a></dt>
+<dd><p>Add a new predicted and corresponding reference value.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.Results.concatenate">
+<code class="descname">concatenate</code><span class="sig-paren">(</span><em>r</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#Results.concatenate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Results.concatenate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Concatenate another set of results.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.Results.accuracy">
+<code class="descname">accuracy</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#Results.accuracy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.Results.accuracy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the accuracy of the predictor averaging verdicts of individual predictions. This is the fraction
+of instances that contain the actual/reference class among the predicted ones for classification and the fraction of
+instances that contain the actual value within the predicted range for regression.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.evaluation.ResultsClass">
+<em class="property">class </em><code class="descclassname">cp.evaluation.</code><code class="descname">ResultsClass</code><a class="reference internal" href="_modules/cp/evaluation.html#ResultsClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.evaluation.Results" title="cp.evaluation.Results"><code class="xref py py-class docutils literal"><span class="pre">cp.evaluation.Results</span></code></a></p>
+<p>Results of evaluating a conformal classifier. Provides classification specific efficiency measures.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span> <span class="o">=</span> <span class="n">CrossClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">RandomSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">singleton_criterion</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.evaluation.ResultsClass.confidence">
+<code class="descname">confidence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsClass.confidence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsClass.confidence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Average confidence of predictions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsClass.credibility">
+<code class="descname">credibility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsClass.credibility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsClass.credibility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Average credibility of predictions.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsClass.confusion">
+<code class="descname">confusion</code><span class="sig-paren">(</span><em>actual</em>, <em>predicted</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsClass.confusion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsClass.confusion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the number of singleton predictions of class <cite>predicted</cite> when the actual class is <cite>actual</cite>.</p>
+<p class="rubric">Examples</p>
+<p>Drawing a confusion matrix.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">data</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span> <span class="o">=</span> <span class="n">CrossClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">RandomSampler</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">values</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">class_var</span><span class="o">.</span><span class="n">values</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">form</span> <span class="o">=</span> <span class="s1">&#39;</span><span class="si">{: &gt;20}</span><span class="s1">&#39;</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">form</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="s1">&#39;actual\predicted&#39;</span><span class="p">,</span> <span class="o">*</span><span class="n">values</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="k">for</span> <span class="n">a</span> <span class="ow">in</span> <span class="n">values</span><span class="p">:</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="n">c</span> <span class="o">=</span> <span class="p">[</span><span class="n">r</span><span class="o">.</span><span class="n">confusion</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">values</span><span class="p">]</span>
+<span class="gp">&gt;&gt;&gt; </span>    <span class="nb">print</span><span class="p">((</span><span class="s1">&#39;</span><span class="si">{: &gt;20}</span><span class="s1">&#39;</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">c</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="o">*</span><span class="n">c</span><span class="p">))</span>
+<span class="go">    actual\predicted         Iris-setosa     Iris-versicolor      Iris-virginica</span>
+<span class="go">         Iris-setosa                  18                   0                   0</span>
+<span class="go">     Iris-versicolor                   0                  14                   4</span>
+<span class="go">      Iris-virginica                   0                   0                  12</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsClass.multiple_criterion">
+<code class="descname">multiple_criterion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsClass.multiple_criterion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsClass.multiple_criterion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of cases with multiple predicted classes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsClass.singleton_criterion">
+<code class="descname">singleton_criterion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsClass.singleton_criterion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsClass.singleton_criterion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of cases with a single predicted class.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsClass.empty_criterion">
+<code class="descname">empty_criterion</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsClass.empty_criterion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsClass.empty_criterion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of cases with no predicted classes.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsClass.singleton_correct">
+<code class="descname">singleton_correct</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsClass.singleton_correct"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsClass.singleton_correct" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fraction of singleton predictions that are correct.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.evaluation.ResultsRegr">
+<em class="property">class </em><code class="descclassname">cp.evaluation.</code><code class="descname">ResultsRegr</code><a class="reference internal" href="_modules/cp/evaluation.html#ResultsRegr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsRegr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.evaluation.Results" title="cp.evaluation.Results"><code class="xref py py-class docutils literal"><span class="pre">cp.evaluation.Results</span></code></a></p>
+<p>Results of evaluating a conformal regressor. Provides regression specific efficiency measures.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">ir</span> <span class="o">=</span> <span class="n">InductiveRegressor</span><span class="p">(</span><span class="n">AbsErrorKNN</span><span class="p">(</span><span class="n">Euclidean</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">ir</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">RandomSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">interdecile_range</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.evaluation.ResultsRegr.widths">
+<code class="descname">widths</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsRegr.widths"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsRegr.widths" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsRegr.median_range">
+<code class="descname">median_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsRegr.median_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsRegr.median_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Median width of predicted ranges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsRegr.mean_range">
+<code class="descname">mean_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsRegr.mean_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsRegr.mean_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mean width of predicted ranges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsRegr.std_dev">
+<code class="descname">std_dev</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsRegr.std_dev"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsRegr.std_dev" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standard deviation of widths of predicted ranges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsRegr.interdecile_range">
+<code class="descname">interdecile_range</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsRegr.interdecile_range"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsRegr.interdecile_range" title="Permalink to this definition">¶</a></dt>
+<dd><p>Difference between the first and ninth decile of widths of predicted ranges.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.evaluation.ResultsRegr.interdecile_mean">
+<code class="descname">interdecile_mean</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#ResultsRegr.interdecile_mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.ResultsRegr.interdecile_mean" title="Permalink to this definition">¶</a></dt>
+<dd><p>Mean width discarding the smallest and largest 10% of widths of predicted ranges.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="cp.evaluation.run">
+<code class="descclassname">cp.evaluation.</code><code class="descname">run</code><span class="sig-paren">(</span><em>cp</em>, <em>eps</em>, <em>sampler</em>, <em>rep=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run method is used to repeat an experiment one or more times with different splits of the dataset
+into a training and testing set. The splits are defined by the provided sampler. The conformal predictor
+itself might further split the testing set internally for its computations (e.g. inductive or cross predictors).</p>
+<p>Run the conformal predictor <cite>cp</cite> on the datasets defined by the provided sampler and number of repetitions
+and construct the results. Fit the conformal predictor on each training set returned by the sampler and
+evaluate it on the corresponding test set.
+Inductive conformal predictors use one third of the training set (random subset) for calibration.</p>
+<p>For more control over the exact datasets used for training, testing and calibration see <a class="reference internal" href="#cp.evaluation.run_train_test" title="cp.evaluation.run_train_test"><code class="xref py py-func docutils literal"><span class="pre">run_train_test()</span></code></a>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#cp.evaluation.ResultsClass" title="cp.evaluation.ResultsClass"><code class="xref py py-class docutils literal"><span class="pre">ResultsClass</span></code></a> or <a class="reference internal" href="#cp.evaluation.ResultsRegr" title="cp.evaluation.ResultsRegr"><code class="xref py py-class docutils literal"><span class="pre">ResultsRegr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span> <span class="o">=</span> <span class="n">CrossClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">CrossSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">),</span> <span class="mi">4</span><span class="p">),</span> <span class="n">rep</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">empty_criterion</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>The above example uses a <a class="reference internal" href="#cp.evaluation.CrossSampler" title="cp.evaluation.CrossSampler"><code class="xref py py-class docutils literal"><span class="pre">CrossSampler</span></code></a> to define training and testing datasets. Each fold is used as the test
+set and the rest as a training set. The entire process is repeated three times with different fold splits
+and results in 3*n predictions, where n is the size of the dataset.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="cp.evaluation.run_train_test">
+<code class="descclassname">cp.evaluation.</code><code class="descname">run_train_test</code><span class="sig-paren">(</span><em>cp</em>, <em>eps</em>, <em>train</em>, <em>test</em>, <em>calibrate=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#run_train_test"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.run_train_test" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fits the conformal predictor <cite>cp</cite> on the training dataset and evaluates it on the testing set.
+Inductive conformal predictors use the provided calibration set or default to extracting one third
+of the training set (random subset) for calibration.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><a class="reference internal" href="#cp.evaluation.ResultsClass" title="cp.evaluation.ResultsClass"><code class="xref py py-class docutils literal"><span class="pre">ResultsClass</span></code></a> or <a class="reference internal" href="#cp.evaluation.ResultsRegr" title="cp.evaluation.ResultsRegr"><code class="xref py py-class docutils literal"><span class="pre">ResultsRegr</span></code></a></td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">tab</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span> <span class="o">=</span> <span class="n">CrossClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="mi">4</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">run_train_test</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">tab</span><span class="p">[:</span><span class="mi">100</span><span class="p">],</span> <span class="n">tab</span><span class="p">[</span><span class="mi">100</span><span class="p">:])</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">singleton_criterion</span><span class="p">())</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="function">
+<dt id="cp.evaluation.calibration_plot">
+<code class="descclassname">cp.evaluation.</code><code class="descname">calibration_plot</code><span class="sig-paren">(</span><em>cp</em>, <em>data</em>, <em>k=11</em>, <em>rep=1</em>, <em>title='calibration plot'</em>, <em>fname='cplot.png'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/evaluation.html#calibration_plot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.evaluation.calibration_plot" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draw and save a calibration plot by evaluating the conformal predictor (<cite>cp</cite>)
+with different significance values <cite>eps</cite> on random train/test splits.
+Repeat the experiment <cite>rep</cite> times.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span> <span class="o">=</span> <span class="n">CrossClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="mi">5</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">calibration_plot</span><span class="p">(</span><span class="n">cp</span><span class="p">,</span> <span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">))</span>
+</pre></div>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="cp.html">Library reference</a><ul>
+      <li>Previous: <a href="cp.classification.html" title="previous chapter">cp.classification</a></li>
+      <li>Next: <a href="cp.nonconformity.html" title="next chapter">cp.nonconformity</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cp.evaluation.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Biolab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/cp.evaluation.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

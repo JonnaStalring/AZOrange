@@ -1,0 +1,894 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cp.nonconformity &mdash; Orange - Conformal Prediction 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Orange - Conformal Prediction 1.0 documentation" href="index.html" />
+    <link rel="up" title="Library reference" href="cp.html" />
+    <link rel="next" title="cp.regression" href="cp.regression.html" />
+    <link rel="prev" title="cp.evaluation" href="cp.evaluation.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-cp.nonconformity">
+<span id="cp-nonconformity"></span><h1>cp.nonconformity<a class="headerlink" href="#module-cp.nonconformity" title="Permalink to this headline">¶</a></h1>
+<p>Nonconformity module contains nonconformity scores for classification and regression.</p>
+<p>Structure:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>ClassNC (classification scores)</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>ClassModelNC (model based)</dt>
+<dd><p class="first last"><a class="reference internal" href="#cp.nonconformity.InverseProbability" title="cp.nonconformity.InverseProbability"><code class="xref py py-class docutils literal"><span class="pre">InverseProbability</span></code></a>, <a class="reference internal" href="#cp.nonconformity.ProbabilityMargin" title="cp.nonconformity.ProbabilityMargin"><code class="xref py py-class docutils literal"><span class="pre">ProbabilityMargin</span></code></a>, <a class="reference internal" href="#cp.nonconformity.SVMDistance" title="cp.nonconformity.SVMDistance"><code class="xref py py-class docutils literal"><span class="pre">SVMDistance</span></code></a>,
+<a class="reference internal" href="#cp.nonconformity.LOOClassNC" title="cp.nonconformity.LOOClassNC"><code class="xref py py-class docutils literal"><span class="pre">LOOClassNC</span></code></a></p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>ClassNearestNeighboursNC (nearest neighbours based)</dt>
+<dd><p class="first last"><a class="reference internal" href="#cp.nonconformity.KNNDistance" title="cp.nonconformity.KNNDistance"><code class="xref py py-class docutils literal"><span class="pre">KNNDistance</span></code></a>, <a class="reference internal" href="#cp.nonconformity.KNNFraction" title="cp.nonconformity.KNNFraction"><code class="xref py py-class docutils literal"><span class="pre">KNNFraction</span></code></a></p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>RegrNC (regression scores)</dt>
+<dd><ul class="first last">
+<li><dl class="first docutils">
+<dt>RegrModelNC (model based)</dt>
+<dd><p class="first last"><a class="reference internal" href="#cp.nonconformity.AbsError" title="cp.nonconformity.AbsError"><code class="xref py py-class docutils literal"><span class="pre">AbsError</span></code></a>, <a class="reference internal" href="#cp.nonconformity.AbsErrorRF" title="cp.nonconformity.AbsErrorRF"><code class="xref py py-class docutils literal"><span class="pre">AbsErrorRF</span></code></a> <a class="reference internal" href="#cp.nonconformity.AbsErrorNormalized" title="cp.nonconformity.AbsErrorNormalized"><code class="xref py py-class docutils literal"><span class="pre">AbsErrorNormalized</span></code></a>, <a class="reference internal" href="#cp.nonconformity.LOORegrNC" title="cp.nonconformity.LOORegrNC"><code class="xref py py-class docutils literal"><span class="pre">LOORegrNC</span></code></a>,
+<a class="reference internal" href="#cp.nonconformity.ErrorModelNC" title="cp.nonconformity.ErrorModelNC"><code class="xref py py-class docutils literal"><span class="pre">ErrorModelNC</span></code></a></p>
+</dd>
+</dl>
+</li>
+<li><dl class="first docutils">
+<dt>RegrNearestNeighboursNC (nearest neighbours based)</dt>
+<dd><p class="first last"><a class="reference internal" href="#cp.nonconformity.AbsErrorKNN" title="cp.nonconformity.AbsErrorKNN"><code class="xref py py-class docutils literal"><span class="pre">AbsErrorKNN</span></code></a>, <a class="reference internal" href="#cp.nonconformity.AvgErrorKNN" title="cp.nonconformity.AvgErrorKNN"><code class="xref py py-class docutils literal"><span class="pre">AvgErrorKNN</span></code></a></p>
+</dd>
+</dl>
+</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="class">
+<dt id="cp.nonconformity.ClassNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">ClassNC</code><a class="reference internal" href="_modules/cp/nonconformity.html#ClassNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ClassNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Base class for classification nonconformity scores.</p>
+<p>Extending classes should implement <a class="reference internal" href="#cp.nonconformity.ClassNC.fit" title="cp.nonconformity.ClassNC.fit"><code class="xref py py-func docutils literal"><span class="pre">fit()</span></code></a> and <a class="reference internal" href="#cp.nonconformity.ClassNC.nonconformity" title="cp.nonconformity.ClassNC.nonconformity"><code class="xref py py-func docutils literal"><span class="pre">nonconformity()</span></code></a> methods.</p>
+<dl class="method">
+<dt id="cp.nonconformity.ClassNC.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ClassNC.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ClassNC.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the data used for later calculation of nonconformities.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>Table</em>) &#8211; Data set.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ClassNC.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ClassNC.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ClassNC.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the nonconformity score of the given <cite>instance</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.ClassModelNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">ClassModelNC</code><span class="sig-paren">(</span><em>classifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ClassModelNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ClassModelNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.ClassNC" title="cp.nonconformity.ClassNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.ClassNC</span></code></a></p>
+<p>Base class for classification nonconformity scores that are based on an underlying classifier.</p>
+<p>Extending classes should implement <a class="reference internal" href="#cp.nonconformity.ClassNC.nonconformity" title="cp.nonconformity.ClassNC.nonconformity"><code class="xref py py-func docutils literal"><span class="pre">ClassNC.nonconformity()</span></code></a> method.</p>
+<dl class="attribute">
+<dt id="cp.nonconformity.ClassModelNC.learner">
+<code class="descname">learner</code><a class="headerlink" href="#cp.nonconformity.ClassModelNC.learner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Untrained underlying classifier.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cp.nonconformity.ClassModelNC.model">
+<code class="descname">model</code><a class="headerlink" href="#cp.nonconformity.ClassModelNC.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trained underlying classifier.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ClassModelNC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ClassModelNC.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ClassModelNC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store the provided classifier as <a class="reference internal" href="#cp.nonconformity.ClassModelNC.learner" title="cp.nonconformity.ClassModelNC.learner"><code class="xref py py-attr docutils literal"><span class="pre">learner</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ClassModelNC.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ClassModelNC.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ClassModelNC.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the underlying classifier on provided data and store the trained model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.InverseProbability">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">InverseProbability</code><span class="sig-paren">(</span><em>classifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#InverseProbability"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.InverseProbability" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.ClassModelNC" title="cp.nonconformity.ClassModelNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.ClassModelNC</span></code></a></p>
+<p>Inverse probability nonconformity score returns <span class="math">\(1 - p\)</span>, where <span class="math">\(p\)</span> is the probability
+assigned to the actual class by the underlying classification model (<a class="reference internal" href="#cp.nonconformity.ClassModelNC.model" title="cp.nonconformity.ClassModelNC.model"><code class="xref py py-attr docutils literal"><span class="pre">ClassModelNC.model</span></code></a>).</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tp</span> <span class="o">=</span> <span class="n">TransductiveClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">NaiveBayesLearner</span><span class="p">()),</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tp</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.InverseProbability.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#InverseProbability.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.InverseProbability.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.ProbabilityMargin">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">ProbabilityMargin</code><span class="sig-paren">(</span><em>classifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ProbabilityMargin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ProbabilityMargin" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.ClassModelNC" title="cp.nonconformity.ClassModelNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.ClassModelNC</span></code></a></p>
+<p>Probability margin nonconformity score measures the difference <span class="math">\(d_p\)</span> between the predicted probability
+of the actual class and the largest probability corresponding to some other class. To put the values on scale
+from 0 to 1, the nonconformity function returns <span class="math">\((1 - d_p) / 2\)</span>.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tp</span> <span class="o">=</span> <span class="n">TransductiveClassifier</span><span class="p">(</span><span class="n">ProbabilityMargin</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tp</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.ProbabilityMargin.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ProbabilityMargin.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ProbabilityMargin.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.SVMDistance">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">SVMDistance</code><span class="sig-paren">(</span><em>classifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#SVMDistance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.SVMDistance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.ClassNC" title="cp.nonconformity.ClassNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.ClassNC</span></code></a></p>
+<p>SVMDistance nonconformity score measures the distance from the SVM&#8217;s decision boundary. The score depends
+on the distance and the side of the decision boundary that the example lies on.
+Examples that lie on the correct side of the decision boundary and would therefore result in a
+correct prediction using the SVM classifier have a nonconformity score less than 1, while the incorrectly
+predicted examples have a score more than 1.</p>
+<div class="math">
+\[\begin{split}\mathit{nc} =
+\begin{cases}
+\frac{1}{1+d} &amp; \text{correct}\\
+1+d &amp;\text{incorrect}
+\end{cases}\end{split}\]</div>
+<p>The provided SVM classifier must be a sklearn&#8217;s SVM classifier (SVC, LinearSVC, NuSVC)
+providing the decision_function() which computes the distance to decision boundary. This nonconformity works
+only for binary classification problems.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.svm</span> <span class="k">import</span> <span class="n">SVC</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;titanic&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">RandomSampler</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">icp</span> <span class="o">=</span> <span class="n">InductiveClassifier</span><span class="p">(</span><span class="n">SVMDistance</span><span class="p">(</span><span class="n">SVC</span><span class="p">()),</span> <span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">icp</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.SVMDistance.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#SVMDistance.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.SVMDistance.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.SVMDistance.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#SVMDistance.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.SVMDistance.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.SVMDistance.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#SVMDistance.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.SVMDistance.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.NearestNeighbours">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">NearestNeighbours</code><span class="sig-paren">(</span><em>distance</em>, <em>k=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#NearestNeighbours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.NearestNeighbours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Base class for nonconformity measures based on nearest neighbours.</p>
+<dl class="attribute">
+<dt id="cp.nonconformity.NearestNeighbours.distance">
+<code class="descname">distance</code><a class="headerlink" href="#cp.nonconformity.NearestNeighbours.distance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Distance measure.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cp.nonconformity.NearestNeighbours.k">
+<code class="descname">k</code><a class="headerlink" href="#cp.nonconformity.NearestNeighbours.k" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>int</em> &#8211; Number of nearest neighbours.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.NearestNeighbours.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>distance</em>, <em>k=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#NearestNeighbours.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.NearestNeighbours.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store the distance measure and the number of neighbours.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.NearestNeighbours.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#NearestNeighbours.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.NearestNeighbours.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store the data for finding nearest neighbours.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.NearestNeighbours.neighbours">
+<code class="descname">neighbours</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#NearestNeighbours.neighbours"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.NearestNeighbours.neighbours" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute distances to all other data instances using the distance measure (<a class="reference internal" href="#cp.nonconformity.NearestNeighbours.distance" title="cp.nonconformity.NearestNeighbours.distance"><code class="xref py py-attr docutils literal"><span class="pre">distance</span></code></a>).</p>
+<p>Excludes data instances that are equal to the provided <cite>instance</cite>.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">List of pairs (distance, instance) in increasing order of distances.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.ClassNearestNeighboursNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">ClassNearestNeighboursNC</code><span class="sig-paren">(</span><em>distance</em>, <em>k=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ClassNearestNeighboursNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ClassNearestNeighboursNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.NearestNeighbours" title="cp.nonconformity.NearestNeighbours"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.NearestNeighbours</span></code></a>, <a class="reference internal" href="#cp.nonconformity.ClassNC" title="cp.nonconformity.ClassNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.ClassNC</span></code></a></p>
+<p>Base class for nearest neighbrours based classification nonconformity scores.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.KNNDistance">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">KNNDistance</code><span class="sig-paren">(</span><em>distance</em>, <em>k=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#KNNDistance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.KNNDistance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.ClassNearestNeighboursNC" title="cp.nonconformity.ClassNearestNeighboursNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.ClassNearestNeighboursNC</span></code></a></p>
+<p>Computes the sum of distances to k nearest neighbours of the same class as the given instance and
+the sum of distances to k nearest neighbours of other classes. Returns their ratio.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">Orange.distance</span> <span class="k">import</span> <span class="n">Euclidean</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span> <span class="o">=</span> <span class="n">CrossClassifier</span><span class="p">(</span><span class="n">KNNDistance</span><span class="p">(</span><span class="n">Euclidean</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cp</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.KNNDistance.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#KNNDistance.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.KNNDistance.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.KNNFraction">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">KNNFraction</code><span class="sig-paren">(</span><em>distance</em>, <em>k=1</em>, <em>weighted=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#KNNFraction"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.KNNFraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.ClassNearestNeighboursNC" title="cp.nonconformity.ClassNearestNeighboursNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.ClassNearestNeighboursNC</span></code></a></p>
+<p>Computes the k nearest neighbours of the given instance. Returns the fraction of instances of the
+same class as the given instance within its k nearest neighbours.</p>
+<p>Weighted version uses weights <span class="math">\(1/d_i\)</span> based on distances instead of simply counting the instances.
+Non-weighted version is equivalent to using a value 1 for all weights.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cp</span> <span class="o">=</span> <span class="n">CrossClassifier</span><span class="p">(</span><span class="n">KNNFraction</span><span class="p">(</span><span class="n">Euclidean</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">weighted</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cp</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.KNNFraction.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>distance</em>, <em>k=1</em>, <em>weighted=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#KNNFraction.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.KNNFraction.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.KNNFraction.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#KNNFraction.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.KNNFraction.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.LOOClassNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">LOOClassNC</code><span class="sig-paren">(</span><em>classifier</em>, <em>distance</em>, <em>k</em>, <em>relative=True</em>, <em>include=False</em>, <em>neighbourhood='fixed'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOOClassNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOOClassNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.NearestNeighbours" title="cp.nonconformity.NearestNeighbours"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.NearestNeighbours</span></code></a>, <a class="reference internal" href="#cp.nonconformity.ClassNC" title="cp.nonconformity.ClassNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.ClassNC</span></code></a></p>
+<div class="math">
+\[\mathit{nc} = \mathit{error} + (1 - p)
+\quad \text{or} \quad
+\mathit{nc} = \frac{1 - p}{\mathit{error}}\]</div>
+<p><span class="math">\(p\)</span> ... probability of actual class predicted from <span class="math">\(N_k(z^*)\)</span> - k nearest neighbours
+of the instance <span class="math">\(z^*\)</span></p>
+<p>The first nonconformity score is used when the parameter <code class="xref py py-attr docutils literal"><span class="pre">relative</span></code> is set to <em>False</em>
+and the second one when it is set to <em>True</em>.</p>
+<div class="math">
+\[\mathit{error} = \frac {\sum_{z_i \in N_k(z^*)} w_i (1 - p_i)} {\sum_{z_i \in N_k(z^*)} w_i},
+\quad w_i = \frac{1}{d(x^*, x_i)}\]</div>
+<p><span class="math">\(p_i\)</span> ... probability of actual class predicted from <span class="math">\(N_k(z') \setminus z_i\)</span> or
+<span class="math">\(N_k(z') \setminus z_i \cup z^*\)</span> if the parameter <code class="xref py py-attr docutils literal"><span class="pre">include</span></code> is set to <em>True</em>. <span class="math">\(z'\)</span> is
+<span class="math">\(z^*\)</span> if the <code class="xref py py-attr docutils literal"><span class="pre">neighbourhood</span></code> parameter is &#8216;<em>fixed</em>&#8216; and <span class="math">\(z_i\)</span> if it&#8217;s &#8216;<em>variable</em>&#8216;.</p>
+<dl class="method">
+<dt id="cp.nonconformity.LOOClassNC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier</em>, <em>distance</em>, <em>k</em>, <em>relative=True</em>, <em>include=False</em>, <em>neighbourhood='fixed'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOOClassNC.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOOClassNC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.LOOClassNC.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOOClassNC.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOOClassNC.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store the data for finding nearest neighbours and initialize cache.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.LOOClassNC.get_neighbourhood">
+<code class="descname">get_neighbourhood</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOOClassNC.get_neighbourhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOOClassNC.get_neighbourhood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct an Orange data Table consisting of instance&#8217;s k nearest neighbours.
+Cache the results for later calls with the same instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.LOOClassNC.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>inst</em>, <em>neighbours</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOOClassNC.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOOClassNC.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the average weighted probability prediction error for predicting the actual class
+of each neighbour from the other ones. Include the new example among the neighbours
+if the parameter <code class="xref py py-attr docutils literal"><span class="pre">include</span></code> is True.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.LOOClassNC.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOOClassNC.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOOClassNC.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.RegrNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">RegrNC</code><a class="reference internal" href="_modules/cp/nonconformity.html#RegrNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.RegrNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Base class for regression nonconformity scores.</p>
+<p>Extending classes should implement <a class="reference internal" href="#cp.nonconformity.RegrNC.fit" title="cp.nonconformity.RegrNC.fit"><code class="xref py py-func docutils literal"><span class="pre">fit()</span></code></a>, <a class="reference internal" href="#cp.nonconformity.RegrNC.nonconformity" title="cp.nonconformity.RegrNC.nonconformity"><code class="xref py py-func docutils literal"><span class="pre">nonconformity()</span></code></a> and <a class="reference internal" href="#cp.nonconformity.RegrNC.predict" title="cp.nonconformity.RegrNC.predict"><code class="xref py py-func docutils literal"><span class="pre">predict()</span></code></a> methods.</p>
+<dl class="method">
+<dt id="cp.nonconformity.RegrNC.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#RegrNC.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.RegrNC.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Process the data used for later calculation of nonconformities.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data</strong> (<em>Table</em>) &#8211; Data set.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.RegrNC.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#RegrNC.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.RegrNC.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the nonconformity score of the given <cite>instance</cite>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.RegrNC.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inst</em>, <em>nc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#RegrNC.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.RegrNC.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the inverse of the nonconformity score. Determine a range of values for which the
+nonconformity of the given <cite>instance</cite> does not exceed <cite>nc</cite>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.RegrModelNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">RegrModelNC</code><span class="sig-paren">(</span><em>classifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#RegrModelNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.RegrModelNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.RegrNC" title="cp.nonconformity.RegrNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrNC</span></code></a></p>
+<p>Base class for regression nonconformity scores that are based on an underlying classifier.</p>
+<p>Extending classes should implement <a class="reference internal" href="#cp.nonconformity.RegrNC.nonconformity" title="cp.nonconformity.RegrNC.nonconformity"><code class="xref py py-func docutils literal"><span class="pre">RegrNC.nonconformity()</span></code></a> and <a class="reference internal" href="#cp.nonconformity.RegrNC.predict" title="cp.nonconformity.RegrNC.predict"><code class="xref py py-func docutils literal"><span class="pre">RegrNC.predict()</span></code></a> methods.</p>
+<dl class="attribute">
+<dt id="cp.nonconformity.RegrModelNC.learner">
+<code class="descname">learner</code><a class="headerlink" href="#cp.nonconformity.RegrModelNC.learner" title="Permalink to this definition">¶</a></dt>
+<dd><p>Untrained underlying classifier.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cp.nonconformity.RegrModelNC.model">
+<code class="descname">model</code><a class="headerlink" href="#cp.nonconformity.RegrModelNC.model" title="Permalink to this definition">¶</a></dt>
+<dd><p>Trained underlying classifier.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.RegrModelNC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#RegrModelNC.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.RegrModelNC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store the provided classifier as <a class="reference internal" href="#cp.nonconformity.RegrModelNC.learner" title="cp.nonconformity.RegrModelNC.learner"><code class="xref py py-attr docutils literal"><span class="pre">learner</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.RegrModelNC.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#RegrModelNC.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.RegrModelNC.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the underlying classifier on provided data and store the trained model.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.AbsError">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">AbsError</code><span class="sig-paren">(</span><em>classifier</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsError" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.RegrModelNC" title="cp.nonconformity.RegrModelNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrModelNC</span></code></a></p>
+<p>Absolute error nonconformity score returns the absolute difference between
+the predicted value (<span class="math">\(\hat{y}\)</span>) by the underlying <a class="reference internal" href="#cp.nonconformity.RegrModelNC.model" title="cp.nonconformity.RegrModelNC.model"><code class="xref py py-attr docutils literal"><span class="pre">RegrModelNC.model</span></code></a>
+and the actual value (<span class="math">\(y^{*}\)</span>).</p>
+<div class="math">
+\[\mathit{nc} = |\hat{y}-y^{*}|\]</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cr</span> <span class="o">=</span> <span class="n">CrossRegressor</span><span class="p">(</span><span class="n">AbsError</span><span class="p">(</span><span class="n">LinearRegressionLearner</span><span class="p">()),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cr</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.AbsError.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsError.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsError.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsError.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inst</em>, <em>nc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsError.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsError.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.AbsErrorRF">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">AbsErrorRF</code><span class="sig-paren">(</span><em>classifier</em>, <em>rf</em>, <em>beta=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorRF"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorRF" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.RegrModelNC" title="cp.nonconformity.RegrModelNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrModelNC</span></code></a></p>
+<p>AbsErrorRF is based on an underlying regressor and a random forest. The prediction errors of regressor
+are used as nonconformity scores and are normalized by the standard deviation of predictions coming from
+individual trees in the forest.</p>
+<div class="math">
+\[\mathit{nc} = \frac{|\hat{y}-y^{*}|}{\sigma_\mathit{RF} + \beta}\]</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">sklearn.ensemble</span> <span class="k">import</span> <span class="n">RandomForestRegressor</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">icr</span> <span class="o">=</span> <span class="n">InductiveRegressor</span><span class="p">(</span><span class="n">AbsErrorRF</span><span class="p">(</span><span class="n">RandomForestRegressionLearner</span><span class="p">(),</span> <span class="n">RandomForestRegressor</span><span class="p">()))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">icr</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">CrossSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">),</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">median_range</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">interdecile_mean</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorRF.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier</em>, <em>rf</em>, <em>beta=0.5</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorRF.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorRF.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store the classifier and beta parameter.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorRF.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorRF.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorRF.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the underlying classifier on provided data and store the trained model.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorRF.norm">
+<code class="descname">norm</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorRF.norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorRF.norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalization factor is equal to the standard deviation of predictions from trees in a random forest
+plus a constant term <code class="xref py py-attr docutils literal"><span class="pre">beta</span></code>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorRF.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorRF.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorRF.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorRF.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inst</em>, <em>nc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorRF.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorRF.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.ErrorModelNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">ErrorModelNC</code><span class="sig-paren">(</span><em>classifier</em>, <em>error_classifier</em>, <em>beta=0.5</em>, <em>loo=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ErrorModelNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ErrorModelNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.RegrModelNC" title="cp.nonconformity.RegrModelNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrModelNC</span></code></a></p>
+<p>ErrorModelNC is based on two underlying regressors. The first one is trained to predict the value while the
+second one is used for predicting logarithms of the errors made by the first one.</p>
+<p>H. Papadopoulos and H. Haralambous. <em>Reliable prediction intervals with regression neural networks</em>.
+Neural Networks (2011).</p>
+<div class="math">
+\[\mathit{nc} = \frac{|\hat{y}-y^{*}|}{\exp(\mu)-1 + \beta}\]</div>
+<p><span class="math">\(\mu\)</span> ... prediction for the value of <span class="math">\(\log(|\hat{y}-y^{*}|+1)\)</span> returned by the second regressor</p>
+<p>Parameter <code class="xref py py-attr docutils literal"><span class="pre">loo</span></code> determines whether to use a leave-one-out schema for building the training set
+of errors for the second regressor or not.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">nc</span> <span class="o">=</span> <span class="n">ErrorModelNC</span><span class="p">(</span><span class="n">SVRLearner</span><span class="p">(),</span> <span class="n">LinearRegressionLearner</span><span class="p">())</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">icr</span> <span class="o">=</span> <span class="n">InductiveRegressor</span><span class="p">(</span><span class="n">nc</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">r</span> <span class="o">=</span> <span class="n">run</span><span class="p">(</span><span class="n">icr</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">,</span> <span class="n">CrossSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">),</span> <span class="mi">10</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">r</span><span class="o">.</span><span class="n">accuracy</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">median_range</span><span class="p">(),</span> <span class="n">r</span><span class="o">.</span><span class="n">interdecile_mean</span><span class="p">())</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.ErrorModelNC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier</em>, <em>error_classifier</em>, <em>beta=0.5</em>, <em>loo=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ErrorModelNC.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ErrorModelNC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ErrorModelNC.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ErrorModelNC.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ErrorModelNC.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ErrorModelNC.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ErrorModelNC.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ErrorModelNC.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ErrorModelNC.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inst</em>, <em>nc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ErrorModelNC.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ErrorModelNC.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.ExperimentalNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">ExperimentalNC</code><span class="sig-paren">(</span><em>rf</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ExperimentalNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ExperimentalNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.RegrModelNC" title="cp.nonconformity.RegrModelNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrModelNC</span></code></a></p>
+<dl class="method">
+<dt id="cp.nonconformity.ExperimentalNC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>rf</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ExperimentalNC.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ExperimentalNC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ExperimentalNC.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ExperimentalNC.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ExperimentalNC.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ExperimentalNC.norm">
+<code class="descname">norm</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ExperimentalNC.norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ExperimentalNC.norm" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ExperimentalNC.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ExperimentalNC.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ExperimentalNC.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.ExperimentalNC.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inst</em>, <em>nc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#ExperimentalNC.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.ExperimentalNC.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.AbsErrorNormalized">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">AbsErrorNormalized</code><span class="sig-paren">(</span><em>classifier</em>, <em>distance</em>, <em>k</em>, <em>gamma=0.5</em>, <em>rho=0.5</em>, <em>exp=True</em>, <em>rf=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.RegrModelNC" title="cp.nonconformity.RegrModelNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrModelNC</span></code></a>, <a class="reference internal" href="#cp.nonconformity.NearestNeighbours" title="cp.nonconformity.NearestNeighbours"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.NearestNeighbours</span></code></a></p>
+<p>Normalized absolute error prediction uses an underlying regression model to predict the value,
+which is then normalized by the distance and variance of the nearest neighbours.</p>
+<p>H. Papadopoulos, V. Vovk and A. Gammerman. <em>Regression Conformal Prediction with Nearest Neighbours</em>.
+Journal of Artificial Intelligence Research (2011).</p>
+<div class="math">
+\[\mathit{nc} = \frac{|\hat{y}-y^{*}|}{\exp(\gamma \lambda^*) + \exp(\rho \xi^*)}
+\quad \text{or} \quad
+\mathit{nc} = \frac{|\hat{y}-y^{*}|}{\gamma + \lambda^* + \xi^*}\]</div>
+<p>The first nonconformity score is used when the parameter <code class="xref py py-attr docutils literal"><span class="pre">exp</span></code> is set to <em>True</em>
+and the second one when it is set to <em>False</em>.</p>
+<div class="math">
+\[\lambda^* = \frac{d_k(z^*)}{\mathit{median}(\{d_k(z), z \in T\})}, \quad
+d_k(z) = \sum_{z_i \in N_k(z)} distance(x, x_i)\]</div>
+<div class="math">
+\[\xi^* = \frac{\sigma_k(z^*)}{\mathit{median}(\{\sigma_k(z), z \in T\})}, \quad
+\sigma_k(z) = \sqrt{\frac{1}{k} \sum_{z_i \in N_k(z)}(y_i-\bar{y})}\]</div>
+<p>Parameter <code class="xref py py-attr docutils literal"><span class="pre">rf</span></code> enables the use of a random forest for computing the standard deviation
+of predictions instead of the nearest neighbours.</p>
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorNormalized.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier</em>, <em>distance</em>, <em>k</em>, <em>gamma=0.5</em>, <em>rho=0.5</em>, <em>exp=True</em>, <em>rf=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorNormalized.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Train the underlying model and precompute medians for nonconformity scores.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorNormalized._d">
+<code class="descname">_d</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized._d"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized._d" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sum of distances to nearest neighbours.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorNormalized._lambda">
+<code class="descname">_lambda</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized._lambda"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized._lambda" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalized distance measure.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorNormalized._sigma">
+<code class="descname">_sigma</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized._sigma"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized._sigma" title="Permalink to this definition">¶</a></dt>
+<dd><p>Standard deviation of y values. This comes either from the nearest neighbours or from the
+predictions of individual trees in a random forest if the <code class="xref py py-attr docutils literal"><span class="pre">rf</span></code> is provided.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorNormalized._xi">
+<code class="descname">_xi</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized._xi"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized._xi" title="Permalink to this definition">¶</a></dt>
+<dd><p>Normalized variance measure.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorNormalized.norm">
+<code class="descname">norm</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized.norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized.norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the normalization factor.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorNormalized.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorNormalized.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inst</em>, <em>nc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorNormalized.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorNormalized.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.LOORegrNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">LOORegrNC</code><span class="sig-paren">(</span><em>classifier</em>, <em>distance</em>, <em>k</em>, <em>relative=True</em>, <em>include=False</em>, <em>neighbourhood='fixed'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOORegrNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOORegrNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.NearestNeighbours" title="cp.nonconformity.NearestNeighbours"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.NearestNeighbours</span></code></a>, <a class="reference internal" href="#cp.nonconformity.RegrNC" title="cp.nonconformity.RegrNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrNC</span></code></a></p>
+<div class="math">
+\[\mathit{nc} = \mathit{error} + |\hat{y}-y^{*}|
+\quad \text{or} \quad
+\mathit{nc} = \frac{|\hat{y}-y^{*}|}{\mathit{error}}\]</div>
+<p><span class="math">\(\hat{y}\)</span> ... value predicted from <span class="math">\(N_k(z^*)\)</span></p>
+<p>The first nonconformity score is used when the parameter <code class="xref py py-attr docutils literal"><span class="pre">relative</span></code> is set to <em>False</em>
+and the second one when it is set to <em>True</em>.</p>
+<div class="math">
+\[\mathit{error} = \frac {\sum_{z_i \in N_k(z^*)} w_i |\hat{y_i}-y_i|} {\sum_{z_i \in N_k(z^*)} w_i},
+\quad w_i = \frac{1}{d(x^*, x_i)}\]</div>
+<p><span class="math">\(\hat{y_i}\)</span> ... value predicted from <span class="math">\(N_k(z') \setminus z_i\)</span> or
+<span class="math">\(N_k(z') \setminus z_i \cup z^*\)</span> if the parameter <code class="xref py py-attr docutils literal"><span class="pre">include</span></code> is set to <em>True</em>. <span class="math">\(z'\)</span> is
+<span class="math">\(z^*\)</span> if the <code class="xref py py-attr docutils literal"><span class="pre">neighbourhood</span></code> parameter is &#8216;<em>fixed</em>&#8216; and <span class="math">\(z_i\)</span> if it&#8217;s &#8216;<em>variable</em>&#8216;.</p>
+<dl class="method">
+<dt id="cp.nonconformity.LOORegrNC.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>classifier</em>, <em>distance</em>, <em>k</em>, <em>relative=True</em>, <em>include=False</em>, <em>neighbourhood='fixed'</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOORegrNC.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOORegrNC.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the parameters.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.LOORegrNC.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>data</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOORegrNC.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOORegrNC.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Store the data for finding nearest neighbours and initialize cache.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.LOORegrNC.get_neighbourhood">
+<code class="descname">get_neighbourhood</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOORegrNC.get_neighbourhood"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOORegrNC.get_neighbourhood" title="Permalink to this definition">¶</a></dt>
+<dd><p>Construct an Orange data Table consisting of instance&#8217;s k nearest neighbours.
+Cache the results for later calls with the same instance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.LOORegrNC.error">
+<code class="descname">error</code><span class="sig-paren">(</span><em>inst</em>, <em>neighbours</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOORegrNC.error"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOORegrNC.error" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the average weighted error for predicting the value of each neighbour from the other ones.
+Include the new example among the neighbours if the parameter <code class="xref py py-attr docutils literal"><span class="pre">include</span></code> is True.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.LOORegrNC.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>inst</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOORegrNC.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOORegrNC.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.LOORegrNC.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inst</em>, <em>nc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#LOORegrNC.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.LOORegrNC.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.RegrNearestNeighboursNC">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">RegrNearestNeighboursNC</code><span class="sig-paren">(</span><em>distance</em>, <em>k=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#RegrNearestNeighboursNC"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.RegrNearestNeighboursNC" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.NearestNeighbours" title="cp.nonconformity.NearestNeighbours"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.NearestNeighbours</span></code></a>, <a class="reference internal" href="#cp.nonconformity.RegrNC" title="cp.nonconformity.RegrNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrNC</span></code></a></p>
+<p>Base class for nearest neighbours based regression nonconformity scores.</p>
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.AbsErrorKNN">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">AbsErrorKNN</code><span class="sig-paren">(</span><em>distance</em>, <em>k</em>, <em>average=False</em>, <em>variance=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorKNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorKNN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.RegrNearestNeighboursNC" title="cp.nonconformity.RegrNearestNeighboursNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrNearestNeighboursNC</span></code></a></p>
+<p>Absolute error of k nearest neighbours computes the average value of the k nearest neighbours and
+returns an absolute difference between this average (<span class="math">\(y_k\)</span>) and the actual value (<span class="math">\(y^{*}\)</span>).</p>
+<div class="math">
+\[\begin{split}\bar{y} &amp;= 1/k \sum_{N_k(x^{*})} y_i \\
+\mathit{nc} &amp;= |\bar{y} - y^{*}|\end{split}\]</div>
+<p>Weighted version can normalize by average and/or variance.</p>
+<div class="math">
+\[\mathit{nc} = \frac{ |\bar{y}-y^{*}| } { \bar{y} \cdot y_{\sigma} }\]</div>
+<dl class="attribute">
+<dt id="cp.nonconformity.AbsErrorKNN.average">
+<code class="descname">average</code><a class="headerlink" href="#cp.nonconformity.AbsErrorKNN.average" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool</em> &#8211; Normalize by average.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cp.nonconformity.AbsErrorKNN.variance">
+<code class="descname">variance</code><a class="headerlink" href="#cp.nonconformity.AbsErrorKNN.variance" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>bool</em> &#8211; Normalize by variance.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cr</span> <span class="o">=</span> <span class="n">CrossRegressor</span><span class="p">(</span><span class="n">AbsErrorKNN</span><span class="p">(</span><span class="n">Euclidean</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="n">average</span><span class="o">=</span><span class="kc">True</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cr</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorKNN.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>distance</em>, <em>k</em>, <em>average=False</em>, <em>variance=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorKNN.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorKNN.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the distance measure, number of nearest neighbours to consider and
+whether to normalize by average and by variance.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorKNN.stats">
+<code class="descname">stats</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorKNN.stats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorKNN.stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Computes mean and standard deviation of values within the k nearest neighbours.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorKNN.norm">
+<code class="descname">norm</code><span class="sig-paren">(</span><em>avg</em>, <em>std</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorKNN.norm"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorKNN.norm" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the normalization factor according to the chosen properties.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorKNN.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorKNN.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorKNN.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AbsErrorKNN.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inst</em>, <em>nc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AbsErrorKNN.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AbsErrorKNN.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.nonconformity.AvgErrorKNN">
+<em class="property">class </em><code class="descclassname">cp.nonconformity.</code><code class="descname">AvgErrorKNN</code><span class="sig-paren">(</span><em>distance</em>, <em>k=1</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AvgErrorKNN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AvgErrorKNN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.nonconformity.RegrNearestNeighboursNC" title="cp.nonconformity.RegrNearestNeighboursNC"><code class="xref py py-class docutils literal"><span class="pre">cp.nonconformity.RegrNearestNeighboursNC</span></code></a></p>
+<p>Average error of k nearest neighbours computes the average absolute error of the actual value (<span class="math">\(y^{*}\)</span>)
+compared to the k nearest neighbours (<span class="math">\(y_i\)</span>).</p>
+<div class="math">
+\[\mathit{nc} = 1/k \sum_{N_k(x^{*})} |y^{*} - y_i|\]</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">There might be no suitable <cite>y</cite> values for the required significance level at the time of prediction.
+In such cases, the predicted range is [nan, nan].</p>
+</div>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;housing&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">cr</span> <span class="o">=</span> <span class="n">CrossRegressor</span><span class="p">(</span><span class="n">AvgErrorKNN</span><span class="p">(</span><span class="n">Euclidean</span><span class="p">,</span> <span class="mi">10</span><span class="p">),</span> <span class="mi">2</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">cr</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.nonconformity.AvgErrorKNN.avg_abs">
+<code class="descname">avg_abs</code><span class="sig-paren">(</span><em>y</em>, <em>ys</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AvgErrorKNN.avg_abs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AvgErrorKNN.avg_abs" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AvgErrorKNN.avg_abs_inv">
+<code class="descname">avg_abs_inv</code><span class="sig-paren">(</span><em>nc</em>, <em>ys</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AvgErrorKNN.avg_abs_inv"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AvgErrorKNN.avg_abs_inv" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AvgErrorKNN.nonconformity">
+<code class="descname">nonconformity</code><span class="sig-paren">(</span><em>instance</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AvgErrorKNN.nonconformity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AvgErrorKNN.nonconformity" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.nonconformity.AvgErrorKNN.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>inst</em>, <em>nc</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/nonconformity.html#AvgErrorKNN.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.nonconformity.AvgErrorKNN.predict" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="cp.html">Library reference</a><ul>
+      <li>Previous: <a href="cp.evaluation.html" title="previous chapter">cp.evaluation</a></li>
+      <li>Next: <a href="cp.regression.html" title="next chapter">cp.regression</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cp.nonconformity.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Biolab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/cp.nonconformity.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

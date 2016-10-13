@@ -1,0 +1,310 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cp.regression &mdash; Orange - Conformal Prediction 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Orange - Conformal Prediction 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for cp.regression</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Regression module contains methods for conformal regression.</span>
+
+<span class="sd">Conformal regressors predict a range of values (not always a single value) under a given</span>
+<span class="sd">significance level (error rate). Every regressors works in combination with a nonconformity measure</span>
+<span class="sd">and on average predicts the correct value with the given error rate. Lower error rates result in</span>
+<span class="sd">narrower ranges of predicted values.</span>
+
+<span class="sd">Structure:</span>
+
+<span class="sd">- ConformalRegressor</span>
+<span class="sd">    - Inductive (:py:class:`InductiveRegressor`)</span>
+<span class="sd">    - Cross (:py:class:`CrossRegressor`)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">KFold</span>
+
+<span class="kn">from</span> <span class="nn">Orange.data</span> <span class="kn">import</span> <span class="n">Instance</span><span class="p">,</span> <span class="n">Unknown</span>
+
+<span class="kn">from</span> <span class="nn">cp.base</span> <span class="kn">import</span> <span class="n">ConformalPredictor</span>
+<span class="kn">from</span> <span class="nn">cp.nonconformity</span> <span class="kn">import</span> <span class="n">RegrNC</span>
+
+
+<div class="viewcode-block" id="PredictionRegr"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.PredictionRegr">[docs]</a><span class="k">class</span> <span class="nc">PredictionRegr</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Conformal regression prediction object,</span>
+<span class="sd">    which is produced by the :py:func:`ConformalRegressor.predict` method.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        lo (float): Lowest value of the predicted range.</span>
+<span class="sd">        hi (float): Highest value of the predicted range.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; train, test = next(LOOSampler(Table(&#39;housing&#39;)))</span>
+<span class="sd">        &gt;&gt;&gt; ccr = CrossRegressor(AbsError(LinearRegressionLearner()), 5, train)</span>
+<span class="sd">        &gt;&gt;&gt; prediction = ccr.predict(test[0].x, 0.1)</span>
+<span class="sd">        &gt;&gt;&gt; print(prediction.width())</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PredictionRegr.__init__"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.PredictionRegr.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the prediction.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            lo (float): Lowest value of the predicted range.</span>
+<span class="sd">            hi (float): Highest value of the predicted range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lo</span> <span class="o">=</span> <span class="n">lo</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hi</span> <span class="o">=</span> <span class="n">hi</span></div>
+
+<div class="viewcode-block" id="PredictionRegr.range"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.PredictionRegr.range">[docs]</a>    <span class="k">def</span> <span class="nf">range</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Predicted range: :py:attr:`lo`, :py:attr:`hi`.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lo</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hi</span></div>
+
+<div class="viewcode-block" id="PredictionRegr.verdict"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.PredictionRegr.verdict">[docs]</a>    <span class="k">def</span> <span class="nf">verdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Conformal regression prediction is correct when the actual value appears</span>
+<span class="sd">        in the predicted range.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ref: Reference/actual value</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if the prediction is correct.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">lo</span> <span class="o">&lt;=</span> <span class="n">ref</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hi</span></div>
+
+<div class="viewcode-block" id="PredictionRegr.width"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.PredictionRegr.width">[docs]</a>    <span class="k">def</span> <span class="nf">width</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Width of the predicted range: :py:attr:`hi` - :py:attr:`lo`.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lo</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hi</span><span class="p">):</span>
+            <span class="k">return</span> <span class="mi">0</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">hi</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">lo</span></div></div>
+
+
+<div class="viewcode-block" id="ConformalRegressor"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.ConformalRegressor">[docs]</a><span class="k">class</span> <span class="nc">ConformalRegressor</span><span class="p">(</span><span class="n">ConformalPredictor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for conformal regression.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ConformalRegressor.__init__"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.ConformalRegressor.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc_measure</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verify that the nonconformity measure can be used for regression.&quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nc_measure</span><span class="p">,</span> <span class="n">RegrNC</span><span class="p">),</span> <span class="s2">&quot;Inappropriate nonconformity measure for regression&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span> <span class="o">=</span> <span class="n">nc_measure</span></div>
+
+<div class="viewcode-block" id="ConformalRegressor.predict"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.ConformalRegressor.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute a regression prediction object for a given example and significance level.</span>
+
+<span class="sd">        Function determines what is the :py:attr:`eps`-th lowest nonconformity score and computes</span>
+<span class="sd">        the range of values that would result in a lower or equal nonconformity. This inverse</span>
+<span class="sd">        of the nonconformity score is computed by the nonconformity measure&#39;s</span>
+<span class="sd">        :py:func:`cp.nonconformity.RegrNC.predict` function.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            example (ndarray): Attributes array.</span>
+<span class="sd">            eps (float): Default significance level (error rate).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PredictionRegr: Regression prediction object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">eps</span><span class="o">*</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="n">s</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="nb">max</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">)</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">nc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">[</span><span class="n">s</span><span class="p">]</span>
+        <span class="n">inst</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">example</span><span class="p">,</span> <span class="p">[</span><span class="n">Unknown</span><span class="p">])))</span>
+        <span class="n">lo</span><span class="p">,</span> <span class="n">hi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">inst</span><span class="p">,</span> <span class="n">nc</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PredictionRegr</span><span class="p">(</span><span class="n">lo</span><span class="p">,</span> <span class="n">hi</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConformalRegressor.__call__"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.ConformalRegressor.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute predicted range for a given example and significance level.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            example (ndarray): Attributes array.</span>
+<span class="sd">            eps (float): Significance level (error rate).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Predicted range as a pair (`PredictionRegr.lo`, `PredictionRegr.hi`)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">example</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pred</span><span class="o">.</span><span class="n">range</span><span class="p">()</span></div></div>
+
+
+<div class="viewcode-block" id="TransductiveRegressor"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.TransductiveRegressor">[docs]</a><span class="k">class</span> <span class="nc">TransductiveRegressor</span><span class="p">(</span><span class="n">ConformalRegressor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transductive regression. TODO</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="InductiveRegressor"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.InductiveRegressor">[docs]</a><span class="k">class</span> <span class="nc">InductiveRegressor</span><span class="p">(</span><span class="n">ConformalRegressor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Inductive regression.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        alpha: Nonconformity scores of the calibration instances. Computed by the :py:func:`fit` method.</span>
+<span class="sd">            Must be *sorted* in increasing order.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; train, test = next(LOOSampler(Table(&#39;housing&#39;)))</span>
+<span class="sd">        &gt;&gt;&gt; train, calibrate = next(RandomSampler(train, 2, 1))</span>
+<span class="sd">        &gt;&gt;&gt; icr = InductiveRegressor(AbsError(LinearRegressionLearner()), train, calibrate)</span>
+<span class="sd">        &gt;&gt;&gt; print(icr(test[0].x, 0.1))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="InductiveRegressor.__init__"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.InductiveRegressor.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc_measure</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">calibrate</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize inductive regressor with a nonconformity measure, training set and calibration set.</span>
+<span class="sd">        If present, fit the conformal regressor to the training set and compute the nonconformity scores of</span>
+<span class="sd">        calibration set.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nc_measure (RegrNC): Regression nonconformity measure.</span>
+<span class="sd">            train (Optional[Table]): Table of examples used as a training set.</span>
+<span class="sd">            calibrate (Optional[Table]): Table of examples used as a calibration set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">nc_measure</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">calibrate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InductiveRegressor.fit"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.InductiveRegressor.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit the conformal regressor to the training set, compute and store sorted nonconformity scores (:py:attr:`alpha`)</span>
+<span class="sd">        on the calibration set and store the domain.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            train (Optional[Table]): Table of examples used as a training set.</span>
+<span class="sd">            calibrate (Optional[Table]): Table of examples used as a calibration set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">nonconformity</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span> <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">calibrate</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="CrossRegressor"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.CrossRegressor">[docs]</a><span class="k">class</span> <span class="nc">CrossRegressor</span><span class="p">(</span><span class="n">InductiveRegressor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Cross regression.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; train, test = next(LOOSampler(Table(&#39;housing&#39;)))</span>
+<span class="sd">        &gt;&gt;&gt; ccr = CrossRegressor(AbsError(LinearRegressionLearner()), 4, train)</span>
+<span class="sd">        &gt;&gt;&gt; print(ccr(test[0].x, 0.1))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CrossRegressor.__init__"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.CrossRegressor.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc_measure</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize cross regressor with a nonconformity measure, number of folds and training set.</span>
+<span class="sd">        If present, fit the conformal regressor to the training set.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nc_measure (RegrNC): Regression nonconformity measure.</span>
+<span class="sd">            k (int): Number of folds.</span>
+<span class="sd">            train (Optional[Table]): Table of examples used as a training set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># store the unfitted nonconformity measure for making copies to fit on individual folds</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">nc_measure</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure_base</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="k">if</span> <span class="n">train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CrossRegressor.fit"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.CrossRegressor.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit the cross regressor to the training set. Split the training set into k folds for use as</span>
+<span class="sd">        training and calibration set with an inductive regressor. Concatenate the computed nonconformity scores</span>
+<span class="sd">        and store them (:py:attr:`InductiveRegressor.alpha`).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            train (Table): Table of examples used as a training set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">calibrate_index</span> <span class="ow">in</span> <span class="n">KFold</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+            <span class="n">icr</span> <span class="o">=</span> <span class="n">InductiveRegressor</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nc_measure_base</span><span class="p">),</span> <span class="n">train</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="n">calibrate_index</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">icr</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="LOORegressor"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.LOORegressor">[docs]</a><span class="k">class</span> <span class="nc">LOORegressor</span><span class="p">(</span><span class="n">CrossRegressor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Leave-one-out regressor is a cross conformal regressor with the number of folds equal</span>
+<span class="sd">    to the size of the training set.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; train, test = next(LOOSampler(Table(&#39;housing&#39;)))</span>
+<span class="sd">        &gt;&gt;&gt; ccr = LOORegressor(AbsError(LinearRegressionLearner()), train)</span>
+<span class="sd">        &gt;&gt;&gt; print(ccr(test[0].x, 0.1))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LOORegressor.__init__"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.LOORegressor.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc_measure</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">nc_measure</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LOORegressor.fit"><a class="viewcode-back" href="../../cp.regression.html#cp.regression.LOORegressor.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Biolab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

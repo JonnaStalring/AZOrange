@@ -1,0 +1,419 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cp.classification &mdash; Orange - Conformal Prediction 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Orange - Conformal Prediction 1.0 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" />
+   
+  <link rel="stylesheet" href="../../_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for cp.classification</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Classification module contains methods for conformal classification.</span>
+
+<span class="sd">Conformal classifiers predict a set of classes (not always a single class) under a given</span>
+<span class="sd">significance level (error rate). Every classifier works in combination with a nonconformity measure</span>
+<span class="sd">and on average predicts the correct class with the given error rate. Lower error rates result in</span>
+<span class="sd">smaller sets of predicted classes.</span>
+
+<span class="sd">Structure:</span>
+
+<span class="sd">- ConformalClassifier</span>
+<span class="sd">    - Transductive (:py:class:`TransductiveClassifier`)</span>
+<span class="sd">    - Inductive (:py:class:`InductiveClassifier`)</span>
+<span class="sd">    - Cross (:py:class:`CrossClassifier`)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="kn">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">sklearn.cross_validation</span> <span class="kn">import</span> <span class="n">KFold</span>
+
+<span class="kn">from</span> <span class="nn">Orange.data</span> <span class="kn">import</span> <span class="n">Table</span><span class="p">,</span> <span class="n">Instance</span>
+
+<span class="kn">from</span> <span class="nn">cp.base</span> <span class="kn">import</span> <span class="n">ConformalPredictor</span>
+<span class="kn">from</span> <span class="nn">cp.nonconformity</span> <span class="kn">import</span> <span class="n">ClassNC</span>
+
+
+<div class="viewcode-block" id="PredictionClass"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.PredictionClass">[docs]</a><span class="k">class</span> <span class="nc">PredictionClass</span><span class="p">:</span>
+    <span class="sd">&quot;&quot;&quot;Conformal classification prediction object,</span>
+<span class="sd">    which is produced by the :py:func:`ConformalClassifier.predict` method.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        p (List): List of pairs (p-value, class)</span>
+<span class="sd">        eps (float): Default significance level (error rate).</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; train, test = next(LOOSampler(Table(&#39;iris&#39;)))</span>
+<span class="sd">        &gt;&gt;&gt; tcp = TransductiveClassifier(InverseProbability(NaiveBayesLearner()), train)</span>
+
+<span class="sd">        &gt;&gt;&gt; prediction = tcp.predict(test[0].x, 0.1)</span>
+<span class="sd">        &gt;&gt;&gt; print(prediction.confidence(), prediction.credibility())</span>
+
+<span class="sd">        &gt;&gt;&gt; prediction = tcp.predict(test[0].x)</span>
+<span class="sd">        &gt;&gt;&gt; print(prediction.classes(0.1), prediction.classes(0.9))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="PredictionClass.__init__"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.PredictionClass.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">p</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the prediction.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            p (List): List of pairs (p-value, class)</span>
+<span class="sd">            eps (float): Default significance level (error rate).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="o">=</span> <span class="n">p</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eps</span> <span class="o">=</span> <span class="n">eps</span></div>
+
+<div class="viewcode-block" id="PredictionClass.classes"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.PredictionClass.classes">[docs]</a>    <span class="k">def</span> <span class="nf">classes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot; Compute the set of classes under the default or given `eps` value.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            eps (float): Significance level (error rate).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of predicted classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">eps</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="n">eps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">eps</span>
+            <span class="k">assert</span><span class="p">(</span><span class="n">eps</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">y</span> <span class="k">for</span> <span class="n">p_y</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span> <span class="k">if</span> <span class="n">p_y</span> <span class="o">&gt;</span> <span class="n">eps</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PredictionClass.verdict"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.PredictionClass.verdict">[docs]</a>    <span class="k">def</span> <span class="nf">verdict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">ref</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Conformal classification prediction is correct when the actual class appears</span>
+<span class="sd">        among the predicted classes.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            ref: Reference/actual class</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if the prediction with default `eps` is correct.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">ref</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">classes</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="PredictionClass.confidence"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.PredictionClass.confidence">[docs]</a>    <span class="k">def</span> <span class="nf">confidence</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Confidence is an efficiency measure of a single prediction.</span>
+
+<span class="sd">        Computes minimum :math:`\\mathit{eps}` that would still result in a prediction of a single label.</span>
+<span class="sd">        :math:`\\mathit{eps} = \\text{second_largest}(p_i)`</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: Confidence :math:`1-\\mathit{eps}`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="mi">1</span><span class="o">-</span><span class="nb">sorted</span><span class="p">([</span><span class="n">p_y</span> <span class="k">for</span> <span class="n">p_y</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">],</span> <span class="n">reverse</span><span class="o">=</span><span class="bp">True</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="PredictionClass.credibility"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.PredictionClass.credibility">[docs]</a>    <span class="k">def</span> <span class="nf">credibility</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Credibility is an efficiency measure of a single prediction.</span>
+<span class="sd">        Small credibility indicates an unusual example.</span>
+
+<span class="sd">        Computes minimum :math:`\\mathit{eps}` that would result in an empty prediction set.</span>
+<span class="sd">        :math:`\\mathit{eps} = \\text{max}(p_i)`</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            float: Credibility :math:`\\mathit{eps}`.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="n">p_y</span> <span class="k">for</span> <span class="n">p_y</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">p</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="ConformalClassifier"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.ConformalClassifier">[docs]</a><span class="k">class</span> <span class="nc">ConformalClassifier</span><span class="p">(</span><span class="n">ConformalPredictor</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Base class for conformal classifiers.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="ConformalClassifier.__init__"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.ConformalClassifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc_measure</span><span class="p">,</span> <span class="n">mondrian</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Verify that the nonconformity measure can be used for classification.&quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">nc_measure</span><span class="p">,</span> <span class="n">ClassNC</span><span class="p">),</span> <span class="s2">&quot;Inappropriate nonconformity measure for classification&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span> <span class="o">=</span> <span class="n">nc_measure</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mondrian</span> <span class="o">=</span> <span class="n">mondrian</span></div>
+
+<div class="viewcode-block" id="ConformalClassifier.p_values"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.ConformalClassifier.p_values">[docs]</a>    <span class="k">def</span> <span class="nf">p_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Extending classes should implement this method to return a list of pairs (p-value, class)</span>
+<span class="sd">        for a given example.</span>
+
+<span class="sd">        Conformal classifier assigns an assumed class value to the given example and computes its nonconformity.</span>
+<span class="sd">        P-value is the ratio of more nonconformal (stranger) instances that the given example.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span></div>
+
+<div class="viewcode-block" id="ConformalClassifier.predict"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.ConformalClassifier.predict">[docs]</a>    <span class="k">def</span> <span class="nf">predict</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">,</span> <span class="n">eps</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute a classification prediction object from p-values for a given example and significance level.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            example (ndarray): Attributes array.</span>
+<span class="sd">            eps (float): Default significance level (error rate).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            PredictionClass: Classification prediction object.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">p_values</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">PredictionClass</span><span class="p">(</span><span class="n">ps</span><span class="p">,</span> <span class="n">eps</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="ConformalClassifier.__call__"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.ConformalClassifier.__call__">[docs]</a>    <span class="k">def</span> <span class="nf">__call__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">,</span> <span class="n">eps</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute predicted classes for a given example and significance level.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            example (ndarray): Attributes array.</span>
+<span class="sd">            eps (float): Significance level (error rate).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of predicted classes.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">example</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">pred</span><span class="o">.</span><span class="n">classes</span><span class="p">(</span><span class="n">eps</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="TransductiveClassifier"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.TransductiveClassifier">[docs]</a><span class="k">class</span> <span class="nc">TransductiveClassifier</span><span class="p">(</span><span class="n">ConformalClassifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Transductive classification.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; train, test = next(LOOSampler(Table(&#39;iris&#39;)))</span>
+<span class="sd">        &gt;&gt;&gt; tcp = TransductiveClassifier(ProbabilityMargin(NaiveBayesLearner()), train)</span>
+<span class="sd">        &gt;&gt;&gt; print(tcp(test[0].x, 0.1))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="TransductiveClassifier.__init__"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.TransductiveClassifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc_measure</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mondrian</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize transductive classifier with a nonconformity measure and a training set.</span>
+
+<span class="sd">        Fit the conformal classifier to the training set if present.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nc_measure (ClassNC): Classification nonconformity measure.</span>
+<span class="sd">            train (Optional[Table]): Table of examples used as a training set.</span>
+<span class="sd">            mondrian (bool): Use a mondrian setting for computing p-values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">nc_measure</span><span class="p">,</span> <span class="n">mondrian</span><span class="o">=</span><span class="n">mondrian</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="TransductiveClassifier.fit"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.TransductiveClassifier.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit the conformal classifier to the training set and store the domain.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            train (Optional[Table]): Table of examples used as a training set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train</span> <span class="o">=</span> <span class="n">train</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="o">.</span><span class="n">domain</span></div>
+
+<div class="viewcode-block" id="TransductiveClassifier.p_values"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.TransductiveClassifier.p_values">[docs]</a>    <span class="k">def</span> <span class="nf">p_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute p-values for every possible class.</span>
+
+<span class="sd">        Transductive classifier appends the given example with an assumed class value to the training set</span>
+<span class="sd">        and compares its nonconformity against all other instances.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            example (ndarray): Attributes array.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of pairs (p-value, class)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">ps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">yi</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">class_var</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="n">inst</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">example</span><span class="p">,</span> <span class="p">[</span><span class="n">yi</span><span class="p">])))</span>
+            <span class="n">data</span> <span class="o">=</span> <span class="n">Table</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">,</span> <span class="n">inst</span><span class="p">)))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+            <span class="n">scores</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">nonconformity</span><span class="p">(</span><span class="n">row</span><span class="p">)</span> <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="n">data</span>
+                               <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mondrian</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">mondrian</span> <span class="ow">and</span> <span class="n">row</span><span class="o">.</span><span class="n">get_class</span><span class="p">()</span> <span class="o">==</span> <span class="n">y</span><span class="p">])</span>
+            <span class="n">alpha</span><span class="p">,</span> <span class="n">alpha_n</span> <span class="o">=</span> <span class="n">scores</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">scores</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">p_y</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">scores</span> <span class="o">&gt;=</span> <span class="n">alpha_n</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">scores</span><span class="p">)</span>
+            <span class="n">ps</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p_y</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">ps</span></div></div>
+
+
+<div class="viewcode-block" id="InductiveClassifier"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.InductiveClassifier">[docs]</a><span class="k">class</span> <span class="nc">InductiveClassifier</span><span class="p">(</span><span class="n">ConformalClassifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Inductive classification.</span>
+
+<span class="sd">    Attributes:</span>
+<span class="sd">        alpha: Nonconformity scores of the calibration instances. Computed by the :py:func:`fit` method.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; train, test = next(LOOSampler(Table(&#39;iris&#39;)))</span>
+<span class="sd">        &gt;&gt;&gt; train, calibrate = next(RandomSampler(train, 2, 1))</span>
+<span class="sd">        &gt;&gt;&gt; icp = InductiveClassifier(InverseProbability(LogisticRegressionLearner()), train, calibrate)</span>
+<span class="sd">        &gt;&gt;&gt; print(icp(test[0].x, 0.1))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="InductiveClassifier.__init__"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.InductiveClassifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc_measure</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">calibrate</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mondrian</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize inductive classifier with a nonconformity measure, training set and calibration set.</span>
+<span class="sd">        If present, fit the conformal classifier to the training set and compute the nonconformity scores of</span>
+<span class="sd">        calibration set.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nc_measure (ClassNC): Classification nonconformity measure.</span>
+<span class="sd">            train (Optional[Table]): Table of examples used as a training set.</span>
+<span class="sd">            calibrate (Optional[Table]): Table of examples used as a calibration set.</span>
+<span class="sd">            mondrian (bool): Use a mondrian setting for computing p-values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">nc_measure</span><span class="p">,</span> <span class="n">mondrian</span><span class="o">=</span><span class="n">mondrian</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="ow">and</span> <span class="n">calibrate</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="InductiveClassifier.fit"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.InductiveClassifier.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit the conformal classifier to the training set, compute and store nonconformity scores (:py:attr:`alpha`)</span>
+<span class="sd">        on the calibration set and store the domain.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            train (Optional[Table]): Table of examples used as a training set.</span>
+<span class="sd">            calibrate (Optional[Table]): Table of examples used as a calibration set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibrate</span> <span class="o">=</span> <span class="n">calibrate</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">nonconformity</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span> <span class="k">for</span> <span class="n">inst</span> <span class="ow">in</span> <span class="n">calibrate</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="InductiveClassifier.p_values"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.InductiveClassifier.p_values">[docs]</a>    <span class="k">def</span> <span class="nf">p_values</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">example</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Compute p-values for every possible class.</span>
+
+<span class="sd">        Inductive classifier assigns an assumed class value to the given example and compares its nonconformity</span>
+<span class="sd">        against all other instances in the calibration set.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            example (ndarray): Attributes array.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of pairs (p-value, class)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">classes</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">ps</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">yi</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="o">.</span><span class="n">class_var</span><span class="o">.</span><span class="n">values</span><span class="p">):</span>
+            <span class="n">inst</span> <span class="o">=</span> <span class="n">Instance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">domain</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="n">example</span><span class="p">,</span> <span class="p">[</span><span class="n">yi</span><span class="p">])))</span>
+            <span class="n">alpha_n</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">nonconformity</span><span class="p">(</span><span class="n">inst</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mondrian</span><span class="p">:</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">a</span> <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">cal</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">calibrate</span><span class="p">)</span> <span class="k">if</span> <span class="n">cal</span><span class="o">.</span><span class="n">get_class</span><span class="p">()</span> <span class="o">==</span> <span class="n">y</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">alpha</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span>
+            <span class="n">p_y</span> <span class="o">=</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">alpha</span> <span class="o">&gt;=</span> <span class="n">alpha_n</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">alpha</span><span class="p">)</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">ps</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">p_y</span><span class="p">,</span> <span class="n">y</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">ps</span></div></div>
+
+
+<div class="viewcode-block" id="CrossClassifier"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.CrossClassifier">[docs]</a><span class="k">class</span> <span class="nc">CrossClassifier</span><span class="p">(</span><span class="n">InductiveClassifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Cross classification.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; train, test = next(LOOSampler(Table(&#39;iris&#39;)))</span>
+<span class="sd">        &gt;&gt;&gt; ccp = CrossClassifier(InverseProbability(LogisticRegressionLearner()), 3, train)</span>
+<span class="sd">        &gt;&gt;&gt; print(ccp(test[0].x, 0.1))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="CrossClassifier.__init__"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.CrossClassifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc_measure</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mondrian</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize cross classifier with a nonconformity measure, number of folds and training set.</span>
+<span class="sd">        If present, fit the conformal classifier to the training set.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            nc_measure (ClassNC): Classification nonconformity measure.</span>
+<span class="sd">            k (int): Number of folds.</span>
+<span class="sd">            train (Optional[Table]): Table of examples used as a training set.</span>
+<span class="sd">            mondrian (bool): Use a mondrian setting for computing p-values.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># store the unfitted nonconformity measure for making copies to fit on individual folds</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">nc_measure</span><span class="p">,</span> <span class="n">mondrian</span><span class="o">=</span><span class="n">mondrian</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure_base</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">k</span>
+        <span class="k">if</span> <span class="n">train</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="CrossClassifier.fit"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.CrossClassifier.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fit the cross classifier to the training set. Split the training set into k folds for use as</span>
+<span class="sd">        training and calibration set with an inductive classifier. Concatenate the computed nonconformity scores</span>
+<span class="sd">        and store them (:py:attr:`InductiveClassifier.alpha`).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            train (Table): Table of examples used as a training set.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">domain</span> <span class="o">=</span> <span class="n">train</span><span class="o">.</span><span class="n">domain</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">calibrate</span> <span class="o">=</span> <span class="n">train</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nc_measure</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
+        <span class="k">for</span> <span class="n">train_index</span><span class="p">,</span> <span class="n">calibrate_index</span> <span class="ow">in</span> <span class="n">KFold</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">,</span> <span class="n">shuffle</span><span class="o">=</span><span class="bp">True</span><span class="p">):</span>
+            <span class="n">icp</span> <span class="o">=</span> <span class="n">InductiveClassifier</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nc_measure_base</span><span class="p">),</span> <span class="n">train</span><span class="p">[</span><span class="n">train_index</span><span class="p">],</span> <span class="n">train</span><span class="p">[</span><span class="n">calibrate_index</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">alpha</span><span class="p">,</span> <span class="n">icp</span><span class="o">.</span><span class="n">alpha</span><span class="p">))</span></div></div>
+
+
+<div class="viewcode-block" id="LOOClassifier"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.LOOClassifier">[docs]</a><span class="k">class</span> <span class="nc">LOOClassifier</span><span class="p">(</span><span class="n">CrossClassifier</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Leave-one-out classifier is a cross conformal classifier with the number of folds equal</span>
+<span class="sd">    to the size of the training set.</span>
+
+<span class="sd">    Examples:</span>
+<span class="sd">        &gt;&gt;&gt; train, test = next(LOOSampler(Table(&#39;iris&#39;)))</span>
+<span class="sd">        &gt;&gt;&gt; loocp = LOOClassifier(InverseProbability(LogisticRegressionLearner()), train)</span>
+<span class="sd">        &gt;&gt;&gt; print(loocp(test[0].x, 0.1))</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="LOOClassifier.__init__"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.LOOClassifier.__init__">[docs]</a>    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nc_measure</span><span class="p">,</span> <span class="n">train</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">mondrian</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="n">nc_measure</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">train</span><span class="p">,</span> <span class="n">mondrian</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="LOOClassifier.fit"><a class="viewcode-back" href="../../cp.classification.html#cp.classification.LOOClassifier.fit">[docs]</a>    <span class="k">def</span> <span class="nf">fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">train</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">train</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">train</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="../../index.html">Documentation overview</a><ul>
+  <li><a href="../index.html">Module code</a><ul>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Biolab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+    </div>
+
+    
+
+    
+  </body>
+</html>

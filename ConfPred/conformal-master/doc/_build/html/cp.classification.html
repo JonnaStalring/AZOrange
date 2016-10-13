@@ -1,0 +1,526 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>cp.classification &mdash; Orange - Conformal Prediction 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Orange - Conformal Prediction 1.0 documentation" href="index.html" />
+    <link rel="up" title="Library reference" href="cp.html" />
+    <link rel="next" title="cp.evaluation" href="cp.evaluation.html" />
+    <link rel="prev" title="cp.base" href="cp.base.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-cp.classification">
+<span id="cp-classification"></span><h1>cp.classification<a class="headerlink" href="#module-cp.classification" title="Permalink to this headline">¶</a></h1>
+<p>Classification module contains methods for conformal classification.</p>
+<p>Conformal classifiers predict a set of classes (not always a single class) under a given
+significance level (error rate). Every classifier works in combination with a nonconformity measure
+and on average predicts the correct class with the given error rate. Lower error rates result in
+smaller sets of predicted classes.</p>
+<p>Structure:</p>
+<ul>
+<li><dl class="first docutils">
+<dt>ConformalClassifier</dt>
+<dd><ul class="first last simple">
+<li>Transductive (<a class="reference internal" href="#cp.classification.TransductiveClassifier" title="cp.classification.TransductiveClassifier"><code class="xref py py-class docutils literal"><span class="pre">TransductiveClassifier</span></code></a>)</li>
+<li>Inductive (<a class="reference internal" href="#cp.classification.InductiveClassifier" title="cp.classification.InductiveClassifier"><code class="xref py py-class docutils literal"><span class="pre">InductiveClassifier</span></code></a>)</li>
+<li>Cross (<a class="reference internal" href="#cp.classification.CrossClassifier" title="cp.classification.CrossClassifier"><code class="xref py py-class docutils literal"><span class="pre">CrossClassifier</span></code></a>)</li>
+</ul>
+</dd>
+</dl>
+</li>
+</ul>
+<dl class="class">
+<dt id="cp.classification.PredictionClass">
+<em class="property">class </em><code class="descclassname">cp.classification.</code><code class="descname">PredictionClass</code><span class="sig-paren">(</span><em>p</em>, <em>eps</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#PredictionClass"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.PredictionClass" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
+<p>Conformal classification prediction object,
+which is produced by the <a class="reference internal" href="#cp.classification.ConformalClassifier.predict" title="cp.classification.ConformalClassifier.predict"><code class="xref py py-func docutils literal"><span class="pre">ConformalClassifier.predict()</span></code></a> method.</p>
+<dl class="attribute">
+<dt id="cp.classification.PredictionClass.p">
+<code class="descname">p</code><a class="headerlink" href="#cp.classification.PredictionClass.p" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>List</em> &#8211; List of pairs (p-value, class)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="cp.classification.PredictionClass.eps">
+<code class="descname">eps</code><a class="headerlink" href="#cp.classification.PredictionClass.eps" title="Permalink to this definition">¶</a></dt>
+<dd><p><em>float</em> &#8211; Default significance level (error rate).</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tcp</span> <span class="o">=</span> <span class="n">TransductiveClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">NaiveBayesLearner</span><span class="p">()),</span> <span class="n">train</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prediction</span> <span class="o">=</span> <span class="n">tcp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">confidence</span><span class="p">(),</span> <span class="n">prediction</span><span class="o">.</span><span class="n">credibility</span><span class="p">())</span>
+</pre></div>
+</div>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">prediction</span> <span class="o">=</span> <span class="n">tcp</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">prediction</span><span class="o">.</span><span class="n">classes</span><span class="p">(</span><span class="mf">0.1</span><span class="p">),</span> <span class="n">prediction</span><span class="o">.</span><span class="n">classes</span><span class="p">(</span><span class="mf">0.9</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.classification.PredictionClass.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>p</em>, <em>eps</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#PredictionClass.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.PredictionClass.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize the prediction.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>p</strong> (<em>List</em>) &#8211; List of pairs (p-value, class)</li>
+<li><strong>eps</strong> (<em>float</em>) &#8211; Default significance level (error rate).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.PredictionClass.classes">
+<code class="descname">classes</code><span class="sig-paren">(</span><em>eps=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#PredictionClass.classes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.PredictionClass.classes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute the set of classes under the default or given <cite>eps</cite> value.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>eps</strong> (<em>float</em>) &#8211; Significance level (error rate).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of predicted classes.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.PredictionClass.verdict">
+<code class="descname">verdict</code><span class="sig-paren">(</span><em>ref</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#PredictionClass.verdict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.PredictionClass.verdict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Conformal classification prediction is correct when the actual class appears
+among the predicted classes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>ref</strong> &#8211; Reference/actual class</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True if the prediction with default <cite>eps</cite> is correct.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.PredictionClass.confidence">
+<code class="descname">confidence</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#PredictionClass.confidence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.PredictionClass.confidence" title="Permalink to this definition">¶</a></dt>
+<dd><p>Confidence is an efficiency measure of a single prediction.</p>
+<p>Computes minimum <span class="math">\(\mathit{eps}\)</span> that would still result in a prediction of a single label.
+<span class="math">\(\mathit{eps} = \text{second_largest}(p_i)\)</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Confidence <span class="math">\(1-\mathit{eps}\)</span>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.PredictionClass.credibility">
+<code class="descname">credibility</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#PredictionClass.credibility"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.PredictionClass.credibility" title="Permalink to this definition">¶</a></dt>
+<dd><p>Credibility is an efficiency measure of a single prediction.
+Small credibility indicates an unusual example.</p>
+<p>Computes minimum <span class="math">\(\mathit{eps}\)</span> that would result in an empty prediction set.
+<span class="math">\(\mathit{eps} = \text{max}(p_i)\)</span></p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Credibility <span class="math">\(\mathit{eps}\)</span>.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">float</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.classification.ConformalClassifier">
+<em class="property">class </em><code class="descclassname">cp.classification.</code><code class="descname">ConformalClassifier</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#ConformalClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.ConformalClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="cp.base.html#cp.base.ConformalPredictor" title="cp.base.ConformalPredictor"><code class="xref py py-class docutils literal"><span class="pre">cp.base.ConformalPredictor</span></code></a></p>
+<p>Base class for conformal classifiers.</p>
+<dl class="method">
+<dt id="cp.classification.ConformalClassifier.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#ConformalClassifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.ConformalClassifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that the nonconformity measure can be used for classification.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.ConformalClassifier.p_values">
+<code class="descname">p_values</code><span class="sig-paren">(</span><em>example</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#ConformalClassifier.p_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.ConformalClassifier.p_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Extending classes should implement this method to return a list of pairs (p-value, class)
+for a given example.</p>
+<p>Conformal classifier assigns an assumed class value to the given example and computes its nonconformity.
+P-value is the ratio of more nonconformal (stranger) instances that the given example.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.ConformalClassifier.predict">
+<code class="descname">predict</code><span class="sig-paren">(</span><em>example</em>, <em>eps=None</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#ConformalClassifier.predict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.ConformalClassifier.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute a classification prediction object from p-values for a given example and significance level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>example</strong> (<em>ndarray</em>) &#8211; Attributes array.</li>
+<li><strong>eps</strong> (<em>float</em>) &#8211; Default significance level (error rate).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Classification prediction object.</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last"><a class="reference internal" href="#cp.classification.PredictionClass" title="cp.classification.PredictionClass">PredictionClass</a></p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.ConformalClassifier.__call__">
+<code class="descname">__call__</code><span class="sig-paren">(</span><em>example</em>, <em>eps</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#ConformalClassifier.__call__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.ConformalClassifier.__call__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute predicted classes for a given example and significance level.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>example</strong> (<em>ndarray</em>) &#8211; Attributes array.</li>
+<li><strong>eps</strong> (<em>float</em>) &#8211; Significance level (error rate).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">List of predicted classes.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.classification.TransductiveClassifier">
+<em class="property">class </em><code class="descclassname">cp.classification.</code><code class="descname">TransductiveClassifier</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#TransductiveClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.TransductiveClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.classification.ConformalClassifier" title="cp.classification.ConformalClassifier"><code class="xref py py-class docutils literal"><span class="pre">cp.classification.ConformalClassifier</span></code></a></p>
+<p>Transductive classification.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">tcp</span> <span class="o">=</span> <span class="n">TransductiveClassifier</span><span class="p">(</span><span class="n">ProbabilityMargin</span><span class="p">(</span><span class="n">NaiveBayesLearner</span><span class="p">()),</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">tcp</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.classification.TransductiveClassifier.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#TransductiveClassifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.TransductiveClassifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize transductive classifier with a nonconformity measure and a training set.</p>
+<p>Fit the conformal classifier to the training set if present.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nc_measure</strong> (<a class="reference internal" href="cp.nonconformity.html#cp.nonconformity.ClassNC" title="cp.nonconformity.ClassNC"><em>ClassNC</em></a>) &#8211; Classification nonconformity measure.</li>
+<li><strong>train</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a training set.</li>
+<li><strong>mondrian</strong> (<em>bool</em>) &#8211; Use a mondrian setting for computing p-values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.TransductiveClassifier.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>train</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#TransductiveClassifier.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.TransductiveClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the conformal classifier to the training set and store the domain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>train</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a training set.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.TransductiveClassifier.p_values">
+<code class="descname">p_values</code><span class="sig-paren">(</span><em>example</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#TransductiveClassifier.p_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.TransductiveClassifier.p_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute p-values for every possible class.</p>
+<p>Transductive classifier appends the given example with an assumed class value to the training set
+and compares its nonconformity against all other instances.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>example</strong> (<em>ndarray</em>) &#8211; Attributes array.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of pairs (p-value, class)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.classification.InductiveClassifier">
+<em class="property">class </em><code class="descclassname">cp.classification.</code><code class="descname">InductiveClassifier</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em>, <em>calibrate=None</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#InductiveClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.InductiveClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.classification.ConformalClassifier" title="cp.classification.ConformalClassifier"><code class="xref py py-class docutils literal"><span class="pre">cp.classification.ConformalClassifier</span></code></a></p>
+<p>Inductive classification.</p>
+<dl class="attribute">
+<dt id="cp.classification.InductiveClassifier.alpha">
+<code class="descname">alpha</code><a class="headerlink" href="#cp.classification.InductiveClassifier.alpha" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nonconformity scores of the calibration instances. Computed by the <a class="reference internal" href="#cp.classification.InductiveClassifier.fit" title="cp.classification.InductiveClassifier.fit"><code class="xref py py-func docutils literal"><span class="pre">fit()</span></code></a> method.</p>
+</dd></dl>
+
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">RandomSampler</span><span class="p">(</span><span class="n">train</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">icp</span> <span class="o">=</span> <span class="n">InductiveClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="n">train</span><span class="p">,</span> <span class="n">calibrate</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">icp</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.classification.InductiveClassifier.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em>, <em>calibrate=None</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#InductiveClassifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.InductiveClassifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize inductive classifier with a nonconformity measure, training set and calibration set.
+If present, fit the conformal classifier to the training set and compute the nonconformity scores of
+calibration set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nc_measure</strong> (<a class="reference internal" href="cp.nonconformity.html#cp.nonconformity.ClassNC" title="cp.nonconformity.ClassNC"><em>ClassNC</em></a>) &#8211; Classification nonconformity measure.</li>
+<li><strong>train</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a training set.</li>
+<li><strong>calibrate</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a calibration set.</li>
+<li><strong>mondrian</strong> (<em>bool</em>) &#8211; Use a mondrian setting for computing p-values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.InductiveClassifier.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>train</em>, <em>calibrate</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#InductiveClassifier.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.InductiveClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the conformal classifier to the training set, compute and store nonconformity scores (<a class="reference internal" href="#cp.classification.InductiveClassifier.alpha" title="cp.classification.InductiveClassifier.alpha"><code class="xref py py-attr docutils literal"><span class="pre">alpha</span></code></a>)
+on the calibration set and store the domain.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>train</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a training set.</li>
+<li><strong>calibrate</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a calibration set.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.InductiveClassifier.p_values">
+<code class="descname">p_values</code><span class="sig-paren">(</span><em>example</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#InductiveClassifier.p_values"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.InductiveClassifier.p_values" title="Permalink to this definition">¶</a></dt>
+<dd><p>Compute p-values for every possible class.</p>
+<p>Inductive classifier assigns an assumed class value to the given example and compares its nonconformity
+against all other instances in the calibration set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>example</strong> (<em>ndarray</em>) &#8211; Attributes array.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">List of pairs (p-value, class)</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.classification.CrossClassifier">
+<em class="property">class </em><code class="descclassname">cp.classification.</code><code class="descname">CrossClassifier</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>k</em>, <em>train=None</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#CrossClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.CrossClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.classification.InductiveClassifier" title="cp.classification.InductiveClassifier"><code class="xref py py-class docutils literal"><span class="pre">cp.classification.InductiveClassifier</span></code></a></p>
+<p>Cross classification.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">ccp</span> <span class="o">=</span> <span class="n">CrossClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="mi">3</span><span class="p">,</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">ccp</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.classification.CrossClassifier.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>k</em>, <em>train=None</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#CrossClassifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.CrossClassifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Initialize cross classifier with a nonconformity measure, number of folds and training set.
+If present, fit the conformal classifier to the training set.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>nc_measure</strong> (<a class="reference internal" href="cp.nonconformity.html#cp.nonconformity.ClassNC" title="cp.nonconformity.ClassNC"><em>ClassNC</em></a>) &#8211; Classification nonconformity measure.</li>
+<li><strong>k</strong> (<em>int</em>) &#8211; Number of folds.</li>
+<li><strong>train</strong> (<em>Optional[Table]</em>) &#8211; Table of examples used as a training set.</li>
+<li><strong>mondrian</strong> (<em>bool</em>) &#8211; Use a mondrian setting for computing p-values.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.CrossClassifier.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>train</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#CrossClassifier.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.CrossClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fit the cross classifier to the training set. Split the training set into k folds for use as
+training and calibration set with an inductive classifier. Concatenate the computed nonconformity scores
+and store them (<a class="reference internal" href="#cp.classification.InductiveClassifier.alpha" title="cp.classification.InductiveClassifier.alpha"><code class="xref py py-attr docutils literal"><span class="pre">InductiveClassifier.alpha</span></code></a>).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>train</strong> (<em>Table</em>) &#8211; Table of examples used as a training set.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="cp.classification.LOOClassifier">
+<em class="property">class </em><code class="descclassname">cp.classification.</code><code class="descname">LOOClassifier</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#LOOClassifier"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.LOOClassifier" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <a class="reference internal" href="#cp.classification.CrossClassifier" title="cp.classification.CrossClassifier"><code class="xref py py-class docutils literal"><span class="pre">cp.classification.CrossClassifier</span></code></a></p>
+<p>Leave-one-out classifier is a cross conformal classifier with the number of folds equal
+to the size of the training set.</p>
+<p class="rubric">Examples</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="n">train</span><span class="p">,</span> <span class="n">test</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">LOOSampler</span><span class="p">(</span><span class="n">Table</span><span class="p">(</span><span class="s1">&#39;iris&#39;</span><span class="p">)))</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">loocp</span> <span class="o">=</span> <span class="n">LOOClassifier</span><span class="p">(</span><span class="n">InverseProbability</span><span class="p">(</span><span class="n">LogisticRegressionLearner</span><span class="p">()),</span> <span class="n">train</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="nb">print</span><span class="p">(</span><span class="n">loocp</span><span class="p">(</span><span class="n">test</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="mf">0.1</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="cp.classification.LOOClassifier.__init__">
+<code class="descname">__init__</code><span class="sig-paren">(</span><em>nc_measure</em>, <em>train=None</em>, <em>mondrian=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#LOOClassifier.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.LOOClassifier.__init__" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="cp.classification.LOOClassifier.fit">
+<code class="descname">fit</code><span class="sig-paren">(</span><em>train</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/cp/classification.html#LOOClassifier.fit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#cp.classification.LOOClassifier.fit" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper"><div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  <li><a href="cp.html">Library reference</a><ul>
+      <li>Previous: <a href="cp.base.html" title="previous chapter">cp.base</a></li>
+      <li>Next: <a href="cp.evaluation.html" title="next chapter">cp.evaluation</a></li>
+  </ul></li>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/cp.classification.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Biolab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/cp.classification.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

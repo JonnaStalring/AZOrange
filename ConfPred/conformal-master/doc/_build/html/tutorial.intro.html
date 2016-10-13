@@ -1,0 +1,153 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Introduction &mdash; Orange - Conformal Prediction 1.0 documentation</title>
+    
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    './',
+        VERSION:     '1.0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="top" title="Orange - Conformal Prediction 1.0 documentation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head>
+  <body role="document">
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="introduction">
+<h1>Introduction<a class="headerlink" href="#introduction" title="Permalink to this headline">¶</a></h1>
+<p>The Conformal Predictions add-on expands the Orange library with
+implementations of algorithms from the theoretical framework of conformal
+predictions (CP) to obtain error calibration under classification and
+regression settings.</p>
+<p>In contrast with standard supervised machine learning, which for a given new
+data instance typically produces <span class="math">\(\hat{y}\)</span>, called a <em>point prediction</em>, here we are
+interested in making a <em>region prediction</em>. For example, with conformal
+prediction we could produce a 95% prediction region &#8212; a set <span class="math">\(\Gamma^{0.05}\)</span>
+that contains the true label <span class="math">\(y\)</span> with probability at least 95%.  In the case of
+regression, where <span class="math">\(y\)</span> is a number, <span class="math">\(\Gamma^{0.05}\)</span> is typically an interval around <span class="math">\(\hat{y}\)</span>.
+In the case of classification, where <span class="math">\(y\)</span> has a limited number of possible values,
+<span class="math">\(\Gamma^{0.05}\)</span> may consist of a few of these values or, in the ideal case, just one.
+For a more detailed explanation of the conformal predictions theory refer to the paper <a class="reference internal" href="#vovk08" id="id1">[Vovk08]</a>
+or the book <a class="reference internal" href="#shafer05" id="id2">[Shafer05]</a>.</p>
+<p>In this library the final method for conformal predictions is obtained by
+selecting a combination of pre-prepared components.  Starting with the learning
+method (either classification or regression) used to fit predictive models, we
+need to link it with a suitable nonconformity measure and use them together in
+a selected conformal predictions procedure: transductive, inductive or cross.
+These CP procedures differ in the way data is split and used for training the
+predictive model and calibration, which computes the distribution of
+nonconformity scores used to evaluate possible new predicitions. Inductive CP
+requires two disjoint data sets to be provided - one for training, the other
+for calibration. Cross CP uses a single training data set and automatically
+prepares k different splits into training and calibration sets in the same
+manner as k-fold crossvalidation. Transductive CP on the other hand does not
+need a separate calibration set at all, but retrains the model with a new test
+instance included for each of its possible labels and compares the
+nonconformity to those of the labelled instances. This allows it to use the
+complete training set, but makes it computationally more expensive.</p>
+<p>Sections below will explain how to use the implemented methods from this
+library through practical examples and use-cases. For a detailed documentation
+of implemented methods and classes along with their parameters consult the
+<a class="reference internal" href="cp.html#library-reference"><span class="std std-ref">Library reference</span></a>.  For more code examples, take a look at the tests
+module.</p>
+<div class="section" id="references">
+<h2>References<a class="headerlink" href="#references" title="Permalink to this headline">¶</a></h2>
+<table class="docutils citation" frame="void" id="vovk08" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id1">[Vovk08]</a></td><td>Glenn Shafer, Vladimir Vovk. Tutorial on Conformal Predictions. <em>Journal of Machine Learning Research</em> 9 (2008) 371-421</td></tr>
+</tbody>
+</table>
+<table class="docutils citation" frame="void" id="shafer05" rules="none">
+<colgroup><col class="label" /><col /></colgroup>
+<tbody valign="top">
+<tr><td class="label"><a class="fn-backref" href="#id2">[Shafer05]</a></td><td>Vladimir Vovk, Alex Gammerman, and Glenn Shafer. <em>Algorithmic Learning in a Random World</em>. Springer, New York, 2005.</td></tr>
+</tbody>
+</table>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Introduction</a><ul>
+<li><a class="reference internal" href="#references">References</a></li>
+</ul>
+</li>
+</ul>
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+  </ul></li>
+</ul>
+</div>
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="_sources/tutorial.intro.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2016, Biolab.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 1.4.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.8</a>
+      
+      |
+      <a href="_sources/tutorial.intro.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

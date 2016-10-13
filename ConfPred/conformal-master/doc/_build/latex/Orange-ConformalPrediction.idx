@@ -1,0 +1,199 @@
+\indexentry{cp.base (module)|hyperpage}{5}
+\indexentry{ConformalPredictor (class in cp.base)|hyperpage}{5}
+\indexentry{\_\_call\_\_() (cp.base.ConformalPredictor method)|hyperpage}{5}
+\indexentry{predict() (cp.base.ConformalPredictor method)|hyperpage}{5}
+\indexentry{cp.classification (module)|hyperpage}{5}
+\indexentry{PredictionClass (class in cp.classification)|hyperpage}{5}
+\indexentry{p (cp.classification.PredictionClass attribute)|hyperpage}{5}
+\indexentry{eps (cp.classification.PredictionClass attribute)|hyperpage}{5}
+\indexentry{\_\_init\_\_() (cp.classification.PredictionClass method)|hyperpage}{6}
+\indexentry{classes() (cp.classification.PredictionClass method)|hyperpage}{6}
+\indexentry{verdict() (cp.classification.PredictionClass method)|hyperpage}{6}
+\indexentry{confidence() (cp.classification.PredictionClass method)|hyperpage}{6}
+\indexentry{credibility() (cp.classification.PredictionClass method)|hyperpage}{6}
+\indexentry{ConformalClassifier (class in cp.classification)|hyperpage}{6}
+\indexentry{\_\_init\_\_() (cp.classification.ConformalClassifier method)|hyperpage}{6}
+\indexentry{p\_values() (cp.classification.ConformalClassifier method)|hyperpage}{6}
+\indexentry{predict() (cp.classification.ConformalClassifier method)|hyperpage}{7}
+\indexentry{\_\_call\_\_() (cp.classification.ConformalClassifier method)|hyperpage}{7}
+\indexentry{TransductiveClassifier (class in cp.classification)|hyperpage}{7}
+\indexentry{\_\_init\_\_() (cp.classification.TransductiveClassifier method)|hyperpage}{7}
+\indexentry{fit() (cp.classification.TransductiveClassifier method)|hyperpage}{7}
+\indexentry{p\_values() (cp.classification.TransductiveClassifier method)|hyperpage}{7}
+\indexentry{InductiveClassifier (class in cp.classification)|hyperpage}{8}
+\indexentry{alpha (cp.classification.InductiveClassifier attribute)|hyperpage}{8}
+\indexentry{\_\_init\_\_() (cp.classification.InductiveClassifier method)|hyperpage}{8}
+\indexentry{fit() (cp.classification.InductiveClassifier method)|hyperpage}{8}
+\indexentry{p\_values() (cp.classification.InductiveClassifier method)|hyperpage}{8}
+\indexentry{CrossClassifier (class in cp.classification)|hyperpage}{8}
+\indexentry{\_\_init\_\_() (cp.classification.CrossClassifier method)|hyperpage}{9}
+\indexentry{fit() (cp.classification.CrossClassifier method)|hyperpage}{9}
+\indexentry{LOOClassifier (class in cp.classification)|hyperpage}{9}
+\indexentry{\_\_init\_\_() (cp.classification.LOOClassifier method)|hyperpage}{9}
+\indexentry{fit() (cp.classification.LOOClassifier method)|hyperpage}{9}
+\indexentry{cp.evaluation (module)|hyperpage}{9}
+\indexentry{Sampler (class in cp.evaluation)|hyperpage}{10}
+\indexentry{data (cp.evaluation.Sampler attribute)|hyperpage}{10}
+\indexentry{n (cp.evaluation.Sampler attribute)|hyperpage}{10}
+\indexentry{\_\_init\_\_() (cp.evaluation.Sampler method)|hyperpage}{10}
+\indexentry{\_\_iter\_\_() (cp.evaluation.Sampler method)|hyperpage}{10}
+\indexentry{\_\_next\_\_() (cp.evaluation.Sampler method)|hyperpage}{10}
+\indexentry{repeat() (cp.evaluation.Sampler method)|hyperpage}{10}
+\indexentry{RandomSampler (class in cp.evaluation)|hyperpage}{10}
+\indexentry{k (cp.evaluation.RandomSampler attribute)|hyperpage}{10}
+\indexentry{\_\_init\_\_() (cp.evaluation.RandomSampler method)|hyperpage}{10}
+\indexentry{\_\_iter\_\_() (cp.evaluation.RandomSampler method)|hyperpage}{10}
+\indexentry{\_\_next\_\_() (cp.evaluation.RandomSampler method)|hyperpage}{11}
+\indexentry{CrossSampler (class in cp.evaluation)|hyperpage}{11}
+\indexentry{k (cp.evaluation.CrossSampler attribute)|hyperpage}{11}
+\indexentry{\_\_init\_\_() (cp.evaluation.CrossSampler method)|hyperpage}{11}
+\indexentry{\_\_next\_\_() (cp.evaluation.CrossSampler method)|hyperpage}{11}
+\indexentry{LOOSampler (class in cp.evaluation)|hyperpage}{11}
+\indexentry{\_\_init\_\_() (cp.evaluation.LOOSampler method)|hyperpage}{11}
+\indexentry{Results (class in cp.evaluation)|hyperpage}{11}
+\indexentry{\_\_init\_\_() (cp.evaluation.Results method)|hyperpage}{11}
+\indexentry{add() (cp.evaluation.Results method)|hyperpage}{11}
+\indexentry{concatenate() (cp.evaluation.Results method)|hyperpage}{11}
+\indexentry{accuracy() (cp.evaluation.Results method)|hyperpage}{11}
+\indexentry{time() (cp.evaluation.Results method)|hyperpage}{12}
+\indexentry{ResultsClass (class in cp.evaluation)|hyperpage}{12}
+\indexentry{accuracy() (cp.evaluation.ResultsClass method)|hyperpage}{12}
+\indexentry{confidence() (cp.evaluation.ResultsClass method)|hyperpage}{12}
+\indexentry{credibility() (cp.evaluation.ResultsClass method)|hyperpage}{12}
+\indexentry{confusion() (cp.evaluation.ResultsClass method)|hyperpage}{12}
+\indexentry{multiple\_criterion() (cp.evaluation.ResultsClass method)|hyperpage}{12}
+\indexentry{singleton\_criterion() (cp.evaluation.ResultsClass method)|hyperpage}{12}
+\indexentry{empty\_criterion() (cp.evaluation.ResultsClass method)|hyperpage}{13}
+\indexentry{singleton\_correct() (cp.evaluation.ResultsClass method)|hyperpage}{13}
+\indexentry{ResultsRegr (class in cp.evaluation)|hyperpage}{13}
+\indexentry{widths() (cp.evaluation.ResultsRegr method)|hyperpage}{13}
+\indexentry{median\_range() (cp.evaluation.ResultsRegr method)|hyperpage}{13}
+\indexentry{mean\_range() (cp.evaluation.ResultsRegr method)|hyperpage}{13}
+\indexentry{std\_dev() (cp.evaluation.ResultsRegr method)|hyperpage}{13}
+\indexentry{interdecile\_range() (cp.evaluation.ResultsRegr method)|hyperpage}{13}
+\indexentry{interdecile\_mean() (cp.evaluation.ResultsRegr method)|hyperpage}{13}
+\indexentry{run() (in module cp.evaluation)|hyperpage}{13}
+\indexentry{run\_train\_test() (in module cp.evaluation)|hyperpage}{14}
+\indexentry{calibration\_plot() (in module cp.evaluation)|hyperpage}{14}
+\indexentry{cp.nonconformity (module)|hyperpage}{14}
+\indexentry{ClassNC (class in cp.nonconformity)|hyperpage}{14}
+\indexentry{fit() (cp.nonconformity.ClassNC method)|hyperpage}{14}
+\indexentry{nonconformity() (cp.nonconformity.ClassNC method)|hyperpage}{15}
+\indexentry{ClassModelNC (class in cp.nonconformity)|hyperpage}{15}
+\indexentry{learner (cp.nonconformity.ClassModelNC attribute)|hyperpage}{15}
+\indexentry{model (cp.nonconformity.ClassModelNC attribute)|hyperpage}{15}
+\indexentry{\_\_init\_\_() (cp.nonconformity.ClassModelNC method)|hyperpage}{15}
+\indexentry{fit() (cp.nonconformity.ClassModelNC method)|hyperpage}{15}
+\indexentry{InverseProbability (class in cp.nonconformity)|hyperpage}{15}
+\indexentry{nonconformity() (cp.nonconformity.InverseProbability method)|hyperpage}{15}
+\indexentry{ProbabilityMargin (class in cp.nonconformity)|hyperpage}{15}
+\indexentry{nonconformity() (cp.nonconformity.ProbabilityMargin method)|hyperpage}{15}
+\indexentry{SVMDistance (class in cp.nonconformity)|hyperpage}{15}
+\indexentry{\_\_init\_\_() (cp.nonconformity.SVMDistance method)|hyperpage}{16}
+\indexentry{fit() (cp.nonconformity.SVMDistance method)|hyperpage}{16}
+\indexentry{nonconformity() (cp.nonconformity.SVMDistance method)|hyperpage}{16}
+\indexentry{NearestNeighbours (class in cp.nonconformity)|hyperpage}{16}
+\indexentry{distance (cp.nonconformity.NearestNeighbours attribute)|hyperpage}{16}
+\indexentry{k (cp.nonconformity.NearestNeighbours attribute)|hyperpage}{16}
+\indexentry{\_\_init\_\_() (cp.nonconformity.NearestNeighbours method)|hyperpage}{16}
+\indexentry{fit() (cp.nonconformity.NearestNeighbours method)|hyperpage}{16}
+\indexentry{neighbours() (cp.nonconformity.NearestNeighbours method)|hyperpage}{16}
+\indexentry{ClassNearestNeighboursNC (class in cp.nonconformity)|hyperpage}{16}
+\indexentry{KNNDistance (class in cp.nonconformity)|hyperpage}{16}
+\indexentry{nonconformity() (cp.nonconformity.KNNDistance method)|hyperpage}{17}
+\indexentry{KNNFraction (class in cp.nonconformity)|hyperpage}{17}
+\indexentry{\_\_init\_\_() (cp.nonconformity.KNNFraction method)|hyperpage}{17}
+\indexentry{nonconformity() (cp.nonconformity.KNNFraction method)|hyperpage}{17}
+\indexentry{LOOClassNC (class in cp.nonconformity)|hyperpage}{17}
+\indexentry{\_\_init\_\_() (cp.nonconformity.LOOClassNC method)|hyperpage}{17}
+\indexentry{fit() (cp.nonconformity.LOOClassNC method)|hyperpage}{17}
+\indexentry{get\_neighbourhood() (cp.nonconformity.LOOClassNC method)|hyperpage}{17}
+\indexentry{error() (cp.nonconformity.LOOClassNC method)|hyperpage}{17}
+\indexentry{nonconformity() (cp.nonconformity.LOOClassNC method)|hyperpage}{18}
+\indexentry{RegrNC (class in cp.nonconformity)|hyperpage}{18}
+\indexentry{fit() (cp.nonconformity.RegrNC method)|hyperpage}{18}
+\indexentry{nonconformity() (cp.nonconformity.RegrNC method)|hyperpage}{18}
+\indexentry{predict() (cp.nonconformity.RegrNC method)|hyperpage}{18}
+\indexentry{RegrModelNC (class in cp.nonconformity)|hyperpage}{18}
+\indexentry{learner (cp.nonconformity.RegrModelNC attribute)|hyperpage}{18}
+\indexentry{model (cp.nonconformity.RegrModelNC attribute)|hyperpage}{18}
+\indexentry{\_\_init\_\_() (cp.nonconformity.RegrModelNC method)|hyperpage}{18}
+\indexentry{fit() (cp.nonconformity.RegrModelNC method)|hyperpage}{18}
+\indexentry{AbsError (class in cp.nonconformity)|hyperpage}{18}
+\indexentry{nonconformity() (cp.nonconformity.AbsError method)|hyperpage}{18}
+\indexentry{predict() (cp.nonconformity.AbsError method)|hyperpage}{18}
+\indexentry{AbsErrorRF (class in cp.nonconformity)|hyperpage}{18}
+\indexentry{\_\_init\_\_() (cp.nonconformity.AbsErrorRF method)|hyperpage}{19}
+\indexentry{fit() (cp.nonconformity.AbsErrorRF method)|hyperpage}{19}
+\indexentry{norm() (cp.nonconformity.AbsErrorRF method)|hyperpage}{19}
+\indexentry{nonconformity() (cp.nonconformity.AbsErrorRF method)|hyperpage}{19}
+\indexentry{predict() (cp.nonconformity.AbsErrorRF method)|hyperpage}{19}
+\indexentry{ErrorModelNC (class in cp.nonconformity)|hyperpage}{19}
+\indexentry{\_\_init\_\_() (cp.nonconformity.ErrorModelNC method)|hyperpage}{19}
+\indexentry{fit() (cp.nonconformity.ErrorModelNC method)|hyperpage}{19}
+\indexentry{nonconformity() (cp.nonconformity.ErrorModelNC method)|hyperpage}{20}
+\indexentry{predict() (cp.nonconformity.ErrorModelNC method)|hyperpage}{20}
+\indexentry{ExperimentalNC (class in cp.nonconformity)|hyperpage}{20}
+\indexentry{\_\_init\_\_() (cp.nonconformity.ExperimentalNC method)|hyperpage}{20}
+\indexentry{fit() (cp.nonconformity.ExperimentalNC method)|hyperpage}{20}
+\indexentry{norm() (cp.nonconformity.ExperimentalNC method)|hyperpage}{20}
+\indexentry{nonconformity() (cp.nonconformity.ExperimentalNC method)|hyperpage}{20}
+\indexentry{predict() (cp.nonconformity.ExperimentalNC method)|hyperpage}{20}
+\indexentry{AbsErrorNormalized (class in cp.nonconformity)|hyperpage}{20}
+\indexentry{\_\_init\_\_() (cp.nonconformity.AbsErrorNormalized method)|hyperpage}{20}
+\indexentry{fit() (cp.nonconformity.AbsErrorNormalized method)|hyperpage}{20}
+\indexentry{\_d() (cp.nonconformity.AbsErrorNormalized method)|hyperpage}{20}
+\indexentry{\_lambda() (cp.nonconformity.AbsErrorNormalized method)|hyperpage}{20}
+\indexentry{\_sigma() (cp.nonconformity.AbsErrorNormalized method)|hyperpage}{20}
+\indexentry{\_xi() (cp.nonconformity.AbsErrorNormalized method)|hyperpage}{20}
+\indexentry{norm() (cp.nonconformity.AbsErrorNormalized method)|hyperpage}{20}
+\indexentry{nonconformity() (cp.nonconformity.AbsErrorNormalized method)|hyperpage}{21}
+\indexentry{predict() (cp.nonconformity.AbsErrorNormalized method)|hyperpage}{21}
+\indexentry{LOORegrNC (class in cp.nonconformity)|hyperpage}{21}
+\indexentry{\_\_init\_\_() (cp.nonconformity.LOORegrNC method)|hyperpage}{21}
+\indexentry{fit() (cp.nonconformity.LOORegrNC method)|hyperpage}{21}
+\indexentry{get\_neighbourhood() (cp.nonconformity.LOORegrNC method)|hyperpage}{21}
+\indexentry{error() (cp.nonconformity.LOORegrNC method)|hyperpage}{21}
+\indexentry{nonconformity() (cp.nonconformity.LOORegrNC method)|hyperpage}{21}
+\indexentry{predict() (cp.nonconformity.LOORegrNC method)|hyperpage}{21}
+\indexentry{RegrNearestNeighboursNC (class in cp.nonconformity)|hyperpage}{21}
+\indexentry{AbsErrorKNN (class in cp.nonconformity)|hyperpage}{21}
+\indexentry{average (cp.nonconformity.AbsErrorKNN attribute)|hyperpage}{21}
+\indexentry{variance (cp.nonconformity.AbsErrorKNN attribute)|hyperpage}{22}
+\indexentry{\_\_init\_\_() (cp.nonconformity.AbsErrorKNN method)|hyperpage}{22}
+\indexentry{stats() (cp.nonconformity.AbsErrorKNN method)|hyperpage}{22}
+\indexentry{norm() (cp.nonconformity.AbsErrorKNN method)|hyperpage}{22}
+\indexentry{nonconformity() (cp.nonconformity.AbsErrorKNN method)|hyperpage}{22}
+\indexentry{predict() (cp.nonconformity.AbsErrorKNN method)|hyperpage}{22}
+\indexentry{AvgErrorKNN (class in cp.nonconformity)|hyperpage}{22}
+\indexentry{avg\_abs() (cp.nonconformity.AvgErrorKNN method)|hyperpage}{22}
+\indexentry{avg\_abs\_inv() (cp.nonconformity.AvgErrorKNN method)|hyperpage}{22}
+\indexentry{nonconformity() (cp.nonconformity.AvgErrorKNN method)|hyperpage}{22}
+\indexentry{predict() (cp.nonconformity.AvgErrorKNN method)|hyperpage}{22}
+\indexentry{cp.regression (module)|hyperpage}{23}
+\indexentry{PredictionRegr (class in cp.regression)|hyperpage}{23}
+\indexentry{lo (cp.regression.PredictionRegr attribute)|hyperpage}{23}
+\indexentry{hi (cp.regression.PredictionRegr attribute)|hyperpage}{23}
+\indexentry{\_\_init\_\_() (cp.regression.PredictionRegr method)|hyperpage}{23}
+\indexentry{range() (cp.regression.PredictionRegr method)|hyperpage}{23}
+\indexentry{verdict() (cp.regression.PredictionRegr method)|hyperpage}{23}
+\indexentry{width() (cp.regression.PredictionRegr method)|hyperpage}{23}
+\indexentry{ConformalRegressor (class in cp.regression)|hyperpage}{23}
+\indexentry{\_\_init\_\_() (cp.regression.ConformalRegressor method)|hyperpage}{23}
+\indexentry{predict() (cp.regression.ConformalRegressor method)|hyperpage}{24}
+\indexentry{\_\_call\_\_() (cp.regression.ConformalRegressor method)|hyperpage}{24}
+\indexentry{TransductiveRegressor (class in cp.regression)|hyperpage}{24}
+\indexentry{InductiveRegressor (class in cp.regression)|hyperpage}{24}
+\indexentry{alpha (cp.regression.InductiveRegressor attribute)|hyperpage}{24}
+\indexentry{\_\_init\_\_() (cp.regression.InductiveRegressor method)|hyperpage}{24}
+\indexentry{fit() (cp.regression.InductiveRegressor method)|hyperpage}{25}
+\indexentry{CrossRegressor (class in cp.regression)|hyperpage}{25}
+\indexentry{\_\_init\_\_() (cp.regression.CrossRegressor method)|hyperpage}{25}
+\indexentry{fit() (cp.regression.CrossRegressor method)|hyperpage}{25}
+\indexentry{LOORegressor (class in cp.regression)|hyperpage}{25}
+\indexentry{\_\_init\_\_() (cp.regression.LOORegressor method)|hyperpage}{25}
+\indexentry{fit() (cp.regression.LOORegressor method)|hyperpage}{25}
+\indexentry{cp.utils (module)|hyperpage}{26}
+\indexentry{get\_instance() (in module cp.utils)|hyperpage}{26}
+\indexentry{split\_data() (in module cp.utils)|hyperpage}{26}
+\indexentry{shuffle\_data() (in module cp.utils)|hyperpage}{26}

@@ -1,0 +1,259 @@
+\begin{theindex}
+\def\bigletter#1{{\Large\sffamily#1}\nopagebreak\vspace{1mm}}
+
+  \bigletter {Symbols}
+  \item \_\_call\_\_() (cp.base.ConformalPredictor method), \hyperpage{5}
+  \item \_\_call\_\_() (cp.classification.ConformalClassifier method), \hyperpage{7}
+  \item \_\_call\_\_() (cp.regression.ConformalRegressor method), \hyperpage{24}
+  \item \_\_init\_\_() (cp.classification.ConformalClassifier method), \hyperpage{6}
+  \item \_\_init\_\_() (cp.classification.CrossClassifier method), \hyperpage{9}
+  \item \_\_init\_\_() (cp.classification.InductiveClassifier method), \hyperpage{8}
+  \item \_\_init\_\_() (cp.classification.LOOClassifier method), \hyperpage{9}
+  \item \_\_init\_\_() (cp.classification.PredictionClass method), \hyperpage{6}
+  \item \_\_init\_\_() (cp.classification.TransductiveClassifier method), \hyperpage{7}
+  \item \_\_init\_\_() (cp.evaluation.CrossSampler method), \hyperpage{11}
+  \item \_\_init\_\_() (cp.evaluation.LOOSampler method), \hyperpage{11}
+  \item \_\_init\_\_() (cp.evaluation.RandomSampler method), \hyperpage{10}
+  \item \_\_init\_\_() (cp.evaluation.Results method), \hyperpage{11}
+  \item \_\_init\_\_() (cp.evaluation.Sampler method), \hyperpage{10}
+  \item \_\_init\_\_() (cp.nonconformity.AbsErrorKNN method), \hyperpage{22}
+  \item \_\_init\_\_() (cp.nonconformity.AbsErrorNormalized method), \hyperpage{20}
+  \item \_\_init\_\_() (cp.nonconformity.AbsErrorRF method), \hyperpage{19}
+  \item \_\_init\_\_() (cp.nonconformity.ClassModelNC method), \hyperpage{15}
+  \item \_\_init\_\_() (cp.nonconformity.ErrorModelNC method), \hyperpage{19}
+  \item \_\_init\_\_() (cp.nonconformity.ExperimentalNC method), \hyperpage{20}
+  \item \_\_init\_\_() (cp.nonconformity.KNNFraction method), \hyperpage{17}
+  \item \_\_init\_\_() (cp.nonconformity.LOOClassNC method), \hyperpage{17}
+  \item \_\_init\_\_() (cp.nonconformity.LOORegrNC method), \hyperpage{21}
+  \item \_\_init\_\_() (cp.nonconformity.NearestNeighbours method), \hyperpage{16}
+  \item \_\_init\_\_() (cp.nonconformity.RegrModelNC method), \hyperpage{18}
+  \item \_\_init\_\_() (cp.nonconformity.SVMDistance method), \hyperpage{16}
+  \item \_\_init\_\_() (cp.regression.ConformalRegressor method), \hyperpage{23}
+  \item \_\_init\_\_() (cp.regression.CrossRegressor method), \hyperpage{25}
+  \item \_\_init\_\_() (cp.regression.InductiveRegressor method), \hyperpage{24}
+  \item \_\_init\_\_() (cp.regression.LOORegressor method), \hyperpage{25}
+  \item \_\_init\_\_() (cp.regression.PredictionRegr method), \hyperpage{23}
+  \item \_\_iter\_\_() (cp.evaluation.RandomSampler method), \hyperpage{10}
+  \item \_\_iter\_\_() (cp.evaluation.Sampler method), \hyperpage{10}
+  \item \_\_next\_\_() (cp.evaluation.CrossSampler method), \hyperpage{11}
+  \item \_\_next\_\_() (cp.evaluation.RandomSampler method), \hyperpage{11}
+  \item \_\_next\_\_() (cp.evaluation.Sampler method), \hyperpage{10}
+  \item \_d() (cp.nonconformity.AbsErrorNormalized method), \hyperpage{20}
+  \item \_lambda() (cp.nonconformity.AbsErrorNormalized method), \hyperpage{20}
+  \item \_sigma() (cp.nonconformity.AbsErrorNormalized method), \hyperpage{20}
+  \item \_xi() (cp.nonconformity.AbsErrorNormalized method), \hyperpage{20}
+
+  \indexspace
+  \bigletter A
+  \item AbsError (class in cp.nonconformity), \hyperpage{18}
+  \item AbsErrorKNN (class in cp.nonconformity), \hyperpage{21}
+  \item AbsErrorNormalized (class in cp.nonconformity), \hyperpage{20}
+  \item AbsErrorRF (class in cp.nonconformity), \hyperpage{18}
+  \item accuracy() (cp.evaluation.Results method), \hyperpage{11}
+  \item accuracy() (cp.evaluation.ResultsClass method), \hyperpage{12}
+  \item add() (cp.evaluation.Results method), \hyperpage{11}
+  \item alpha (cp.classification.InductiveClassifier attribute), \hyperpage{8}
+  \item alpha (cp.regression.InductiveRegressor attribute), \hyperpage{24}
+  \item average (cp.nonconformity.AbsErrorKNN attribute), \hyperpage{21}
+  \item avg\_abs() (cp.nonconformity.AvgErrorKNN method), \hyperpage{22}
+  \item avg\_abs\_inv() (cp.nonconformity.AvgErrorKNN method), \hyperpage{22}
+  \item AvgErrorKNN (class in cp.nonconformity), \hyperpage{22}
+
+  \indexspace
+  \bigletter C
+  \item calibration\_plot() (in module cp.evaluation), \hyperpage{14}
+  \item classes() (cp.classification.PredictionClass method), \hyperpage{6}
+  \item ClassModelNC (class in cp.nonconformity), \hyperpage{15}
+  \item ClassNC (class in cp.nonconformity), \hyperpage{14}
+  \item ClassNearestNeighboursNC (class in cp.nonconformity), \hyperpage{16}
+  \item concatenate() (cp.evaluation.Results method), \hyperpage{11}
+  \item confidence() (cp.classification.PredictionClass method), \hyperpage{6}
+  \item confidence() (cp.evaluation.ResultsClass method), \hyperpage{12}
+  \item ConformalClassifier (class in cp.classification), \hyperpage{6}
+  \item ConformalPredictor (class in cp.base), \hyperpage{5}
+  \item ConformalRegressor (class in cp.regression), \hyperpage{23}
+  \item confusion() (cp.evaluation.ResultsClass method), \hyperpage{12}
+  \item cp.base (module), \hyperpage{5}
+  \item cp.classification (module), \hyperpage{5}
+  \item cp.evaluation (module), \hyperpage{9}
+  \item cp.nonconformity (module), \hyperpage{14}
+  \item cp.regression (module), \hyperpage{23}
+  \item cp.utils (module), \hyperpage{26}
+  \item credibility() (cp.classification.PredictionClass method), \hyperpage{6}
+  \item credibility() (cp.evaluation.ResultsClass method), \hyperpage{12}
+  \item CrossClassifier (class in cp.classification), \hyperpage{8}
+  \item CrossRegressor (class in cp.regression), \hyperpage{25}
+  \item CrossSampler (class in cp.evaluation), \hyperpage{11}
+
+  \indexspace
+  \bigletter D
+  \item data (cp.evaluation.Sampler attribute), \hyperpage{10}
+  \item distance (cp.nonconformity.NearestNeighbours attribute), \hyperpage{16}
+
+  \indexspace
+  \bigletter E
+  \item empty\_criterion() (cp.evaluation.ResultsClass method), \hyperpage{13}
+  \item eps (cp.classification.PredictionClass attribute), \hyperpage{5}
+  \item error() (cp.nonconformity.LOOClassNC method), \hyperpage{17}
+  \item error() (cp.nonconformity.LOORegrNC method), \hyperpage{21}
+  \item ErrorModelNC (class in cp.nonconformity), \hyperpage{19}
+  \item ExperimentalNC (class in cp.nonconformity), \hyperpage{20}
+
+  \indexspace
+  \bigletter F
+  \item fit() (cp.classification.CrossClassifier method), \hyperpage{9}
+  \item fit() (cp.classification.InductiveClassifier method), \hyperpage{8}
+  \item fit() (cp.classification.LOOClassifier method), \hyperpage{9}
+  \item fit() (cp.classification.TransductiveClassifier method), \hyperpage{7}
+  \item fit() (cp.nonconformity.AbsErrorNormalized method), \hyperpage{20}
+  \item fit() (cp.nonconformity.AbsErrorRF method), \hyperpage{19}
+  \item fit() (cp.nonconformity.ClassModelNC method), \hyperpage{15}
+  \item fit() (cp.nonconformity.ClassNC method), \hyperpage{14}
+  \item fit() (cp.nonconformity.ErrorModelNC method), \hyperpage{19}
+  \item fit() (cp.nonconformity.ExperimentalNC method), \hyperpage{20}
+  \item fit() (cp.nonconformity.LOOClassNC method), \hyperpage{17}
+  \item fit() (cp.nonconformity.LOORegrNC method), \hyperpage{21}
+  \item fit() (cp.nonconformity.NearestNeighbours method), \hyperpage{16}
+  \item fit() (cp.nonconformity.RegrModelNC method), \hyperpage{18}
+  \item fit() (cp.nonconformity.RegrNC method), \hyperpage{18}
+  \item fit() (cp.nonconformity.SVMDistance method), \hyperpage{16}
+  \item fit() (cp.regression.CrossRegressor method), \hyperpage{25}
+  \item fit() (cp.regression.InductiveRegressor method), \hyperpage{25}
+  \item fit() (cp.regression.LOORegressor method), \hyperpage{25}
+
+  \indexspace
+  \bigletter G
+  \item get\_instance() (in module cp.utils), \hyperpage{26}
+  \item get\_neighbourhood() (cp.nonconformity.LOOClassNC method), \hyperpage{17}
+  \item get\_neighbourhood() (cp.nonconformity.LOORegrNC method), \hyperpage{21}
+
+  \indexspace
+  \bigletter H
+  \item hi (cp.regression.PredictionRegr attribute), \hyperpage{23}
+
+  \indexspace
+  \bigletter I
+  \item InductiveClassifier (class in cp.classification), \hyperpage{8}
+  \item InductiveRegressor (class in cp.regression), \hyperpage{24}
+  \item interdecile\_mean() (cp.evaluation.ResultsRegr method), \hyperpage{13}
+  \item interdecile\_range() (cp.evaluation.ResultsRegr method), \hyperpage{13}
+  \item InverseProbability (class in cp.nonconformity), \hyperpage{15}
+
+  \indexspace
+  \bigletter K
+  \item k (cp.evaluation.CrossSampler attribute), \hyperpage{11}
+  \item k (cp.evaluation.RandomSampler attribute), \hyperpage{10}
+  \item k (cp.nonconformity.NearestNeighbours attribute), \hyperpage{16}
+  \item KNNDistance (class in cp.nonconformity), \hyperpage{16}
+  \item KNNFraction (class in cp.nonconformity), \hyperpage{17}
+
+  \indexspace
+  \bigletter L
+  \item learner (cp.nonconformity.ClassModelNC attribute), \hyperpage{15}
+  \item learner (cp.nonconformity.RegrModelNC attribute), \hyperpage{18}
+  \item lo (cp.regression.PredictionRegr attribute), \hyperpage{23}
+  \item LOOClassifier (class in cp.classification), \hyperpage{9}
+  \item LOOClassNC (class in cp.nonconformity), \hyperpage{17}
+  \item LOORegressor (class in cp.regression), \hyperpage{25}
+  \item LOORegrNC (class in cp.nonconformity), \hyperpage{21}
+  \item LOOSampler (class in cp.evaluation), \hyperpage{11}
+
+  \indexspace
+  \bigletter M
+  \item mean\_range() (cp.evaluation.ResultsRegr method), \hyperpage{13}
+  \item median\_range() (cp.evaluation.ResultsRegr method), \hyperpage{13}
+  \item model (cp.nonconformity.ClassModelNC attribute), \hyperpage{15}
+  \item model (cp.nonconformity.RegrModelNC attribute), \hyperpage{18}
+  \item multiple\_criterion() (cp.evaluation.ResultsClass method), \hyperpage{12}
+
+  \indexspace
+  \bigletter N
+  \item n (cp.evaluation.Sampler attribute), \hyperpage{10}
+  \item NearestNeighbours (class in cp.nonconformity), \hyperpage{16}
+  \item neighbours() (cp.nonconformity.NearestNeighbours method), \hyperpage{16}
+  \item nonconformity() (cp.nonconformity.AbsError method), \hyperpage{18}
+  \item nonconformity() (cp.nonconformity.AbsErrorKNN method), \hyperpage{22}
+  \item nonconformity() (cp.nonconformity.AbsErrorNormalized method), \hyperpage{21}
+  \item nonconformity() (cp.nonconformity.AbsErrorRF method), \hyperpage{19}
+  \item nonconformity() (cp.nonconformity.AvgErrorKNN method), \hyperpage{22}
+  \item nonconformity() (cp.nonconformity.ClassNC method), \hyperpage{15}
+  \item nonconformity() (cp.nonconformity.ErrorModelNC method), \hyperpage{20}
+  \item nonconformity() (cp.nonconformity.ExperimentalNC method), \hyperpage{20}
+  \item nonconformity() (cp.nonconformity.InverseProbability method), \hyperpage{15}
+  \item nonconformity() (cp.nonconformity.KNNDistance method), \hyperpage{17}
+  \item nonconformity() (cp.nonconformity.KNNFraction method), \hyperpage{17}
+  \item nonconformity() (cp.nonconformity.LOOClassNC method), \hyperpage{18}
+  \item nonconformity() (cp.nonconformity.LOORegrNC method), \hyperpage{21}
+  \item nonconformity() (cp.nonconformity.ProbabilityMargin method), \hyperpage{15}
+  \item nonconformity() (cp.nonconformity.RegrNC method), \hyperpage{18}
+  \item nonconformity() (cp.nonconformity.SVMDistance method), \hyperpage{16}
+  \item norm() (cp.nonconformity.AbsErrorKNN method), \hyperpage{22}
+  \item norm() (cp.nonconformity.AbsErrorNormalized method), \hyperpage{20}
+  \item norm() (cp.nonconformity.AbsErrorRF method), \hyperpage{19}
+  \item norm() (cp.nonconformity.ExperimentalNC method), \hyperpage{20}
+
+  \indexspace
+  \bigletter P
+  \item p (cp.classification.PredictionClass attribute), \hyperpage{5}
+  \item p\_values() (cp.classification.ConformalClassifier method), \hyperpage{6}
+  \item p\_values() (cp.classification.InductiveClassifier method), \hyperpage{8}
+  \item p\_values() (cp.classification.TransductiveClassifier method), \hyperpage{7}
+  \item predict() (cp.base.ConformalPredictor method), \hyperpage{5}
+  \item predict() (cp.classification.ConformalClassifier method), \hyperpage{7}
+  \item predict() (cp.nonconformity.AbsError method), \hyperpage{18}
+  \item predict() (cp.nonconformity.AbsErrorKNN method), \hyperpage{22}
+  \item predict() (cp.nonconformity.AbsErrorNormalized method), \hyperpage{21}
+  \item predict() (cp.nonconformity.AbsErrorRF method), \hyperpage{19}
+  \item predict() (cp.nonconformity.AvgErrorKNN method), \hyperpage{22}
+  \item predict() (cp.nonconformity.ErrorModelNC method), \hyperpage{20}
+  \item predict() (cp.nonconformity.ExperimentalNC method), \hyperpage{20}
+  \item predict() (cp.nonconformity.LOORegrNC method), \hyperpage{21}
+  \item predict() (cp.nonconformity.RegrNC method), \hyperpage{18}
+  \item predict() (cp.regression.ConformalRegressor method), \hyperpage{24}
+  \item PredictionClass (class in cp.classification), \hyperpage{5}
+  \item PredictionRegr (class in cp.regression), \hyperpage{23}
+  \item ProbabilityMargin (class in cp.nonconformity), \hyperpage{15}
+
+  \indexspace
+  \bigletter R
+  \item RandomSampler (class in cp.evaluation), \hyperpage{10}
+  \item range() (cp.regression.PredictionRegr method), \hyperpage{23}
+  \item RegrModelNC (class in cp.nonconformity), \hyperpage{18}
+  \item RegrNC (class in cp.nonconformity), \hyperpage{18}
+  \item RegrNearestNeighboursNC (class in cp.nonconformity), \hyperpage{21}
+  \item repeat() (cp.evaluation.Sampler method), \hyperpage{10}
+  \item Results (class in cp.evaluation), \hyperpage{11}
+  \item ResultsClass (class in cp.evaluation), \hyperpage{12}
+  \item ResultsRegr (class in cp.evaluation), \hyperpage{13}
+  \item run() (in module cp.evaluation), \hyperpage{13}
+  \item run\_train\_test() (in module cp.evaluation), \hyperpage{14}
+
+  \indexspace
+  \bigletter S
+  \item Sampler (class in cp.evaluation), \hyperpage{10}
+  \item shuffle\_data() (in module cp.utils), \hyperpage{26}
+  \item singleton\_correct() (cp.evaluation.ResultsClass method), \hyperpage{13}
+  \item singleton\_criterion() (cp.evaluation.ResultsClass method), \hyperpage{12}
+  \item split\_data() (in module cp.utils), \hyperpage{26}
+  \item stats() (cp.nonconformity.AbsErrorKNN method), \hyperpage{22}
+  \item std\_dev() (cp.evaluation.ResultsRegr method), \hyperpage{13}
+  \item SVMDistance (class in cp.nonconformity), \hyperpage{15}
+
+  \indexspace
+  \bigletter T
+  \item time() (cp.evaluation.Results method), \hyperpage{12}
+  \item TransductiveClassifier (class in cp.classification), \hyperpage{7}
+  \item TransductiveRegressor (class in cp.regression), \hyperpage{24}
+
+  \indexspace
+  \bigletter V
+  \item variance (cp.nonconformity.AbsErrorKNN attribute), \hyperpage{22}
+  \item verdict() (cp.classification.PredictionClass method), \hyperpage{6}
+  \item verdict() (cp.regression.PredictionRegr method), \hyperpage{23}
+
+  \indexspace
+  \bigletter W
+  \item width() (cp.regression.PredictionRegr method), \hyperpage{23}
+  \item widths() (cp.evaluation.ResultsRegr method), \hyperpage{13}
+
+\end{theindex}

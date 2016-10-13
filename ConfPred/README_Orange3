@@ -1,0 +1,7 @@
+Orange3 virtual environment:
+source /disk1/jonsta/projects/ConfPred/dev/orange3env/bin/activate.csh
+setenv PYTHONPATH /disk1/jonsta/projects/ConfPred/dev/conformal-master
+
+To install Orange3:
+/disk1/jonsta/projects/ConfPred/dev/setupOrange3-centos.sh
+

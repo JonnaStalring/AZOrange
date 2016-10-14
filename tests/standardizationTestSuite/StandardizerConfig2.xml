@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<StandardizerConfiguration Version="0.1">
+  <Actions>
+    <RemoveSolvents ID="Remove Solvents" usedefaultsolvents="true"/>
+    <StripSalts ID="Strip Salts" dontremovelastcomponent="true" usedefaultsalts="true"/>
+    <RemoveFragment ID="Remove Fragment" Measure="atomCount" Method="keepLargest"/>
+    <Tautomerize ID="Tautomerize"/>
+    <Mesomerize ID="Mesomerize"/>
+    <Neutralize ID="Neutralize"/>
+    <Transformation Exact="false" ID="Transform Aromatic N-Oxide" SearchOptions="" Structure="[#7;a:1]=[O:2]&gt;&gt;[#7+:1]-[#8-:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Azide" SearchOptions="" Structure="[#7;A;X2-:1][N;X2+:2]#[N;X1:3]&gt;&gt;[#7:1]=[N+:2]=[#7-:3]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Diazo" SearchOptions="" Structure="[#6;X3-:1][N;X2+:2]#[N;X1:3]&gt;&gt;[#6;A:1]=[N+:2]=[#7-:3]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Diazonium" SearchOptions="" Structure="[#6]-[#7:1]=[#7+:2]&gt;&gt;[#6][N+:1]#[N:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Iminium" SearchOptions="" Structure="[#6;X3+:1]-[#7;X3:2]&gt;&gt;[#6;A:1]=[#7+:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Isocyanate" SearchOptions="" Structure="[#7+:1][#6;A-:2]=[O:3]&gt;&gt;[#7:1]=[C:2]=[O:3]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Nitrilium" SearchOptions="" Structure="[#6;A;X2+:1]=[#7;X2:2]&gt;&gt;[C:1]#[N+:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Nitro" SearchOptions="" Structure="[O:3]=[N:1]=[O:2]&gt;&gt;[#8-:2]-[#7+:1]=[O:3]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Nitrone Nitronate" SearchOptions="" Structure="[#6;A]=[N:1]=[O:2]&gt;&gt;[#8-:2]-[#7+:1]=[#6;A]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Nitroso" SearchOptions="" Structure="[#6]-[#7H2+:1]-[#8;X1-:2]&gt;&gt;[#6]-[#7:1]=[O:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Phosphonic" SearchOptions="" Structure="[#6][P+:1]([#8;X2])([#8;X2])[#8-:2]&gt;&gt;[#6][P:1]([#8])([#8])=[O:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Phosphonium Ylide" SearchOptions="" Structure="[#6][P-:1]([#6])([#6])[#6+:2]&gt;&gt;[#6][P:1]([#6])([#6])=[#6;A:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Selenite" SearchOptions="" Structure="[#8;X2][Se+:1]([#8;X2])[#8-:2]&gt;&gt;[#8][Se:1]([#8])=[O:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Silicate" SearchOptions="" Structure="[#8;X2]-[#14+:1](-[#8;X2])-[#8-:2]&gt;&gt;[#8]-[#14:1](-[#8])=[O:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Sulfine" SearchOptions="" Structure="[#6]-[#6](-[#6])=[S+:1][#8-:2]&gt;&gt;[#6]-[#6](-[#6])=[S:1]=[O:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Sulfon" SearchOptions="" Structure="[#6][S;X3+:1]([#6])[#8-:2]&gt;&gt;[#6][S:1]([#6])=[O:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Sulfonium Ylide" SearchOptions="" Structure="[#6][S-:1]([#6])[#6+:2]&gt;&gt;[#6][S:1]([#6])=[#6;A:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Sulfoxide" SearchOptions="" Structure="[#6][S+:1]([#6])([#8-:2])=O&gt;&gt;[#6][S:1]([#6])(=[O:2])=O" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Sulfoxonium Ylide" SearchOptions="" Structure="[#6][S+:1]([#6])([#8-:2])=[#6;A]&gt;&gt;[#6][S:1]([#6])(=[#6;A])=[O:2]" format="cxsmarts"/>
+    <Transformation Exact="false" ID="Transform Tertiary N-Oxide" SearchOptions="" Structure="[#6]-[#7;X4:1]=[O:2]&gt;&gt;[#6]-[#7+:1]-[#8-:2]" format="cxsmarts"/>
+  </Actions>
+</StandardizerConfiguration>

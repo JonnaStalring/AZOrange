@@ -1,0 +1,2 @@
+Nc1ccncc1	AminopyrimidineTau1	Tautomer
+N=c1cc[nH]cc1	AminopyrimidineTau2	Tautomer

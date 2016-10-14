@@ -1,0 +1,768 @@
+This is pdfTeX, Version 3.1415926-2.5-1.40.14 (TeX Live 2013) (format=pdflatex 2016.1.27)  14 JUN 2016 16:44
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**results
+(./results.tex
+LaTeX2e <2011/06/27>
+Babel <v3.8m> and hyphenation patterns for english, dumylang, nohyphenation, lo
+aded.
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2007/10/19 v1.4h Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2007/10/19 v1.4h Standard LaTeX file (size option)
+)
+\c@part=\count79
+\c@section=\count80
+\c@subsection=\count81
+\c@subsubsection=\count82
+\c@paragraph=\count83
+\c@subparagraph=\count84
+\c@figure=\count85
+\c@table=\count86
+\abovecaptionskip=\skip41
+\belowcaptionskip=\skip42
+\bibindent=\dimen102
+)
+(/usr/share/texlive/texmf-dist/tex/latex/setspace/setspace.sty
+Package: setspace 2011/12/19 v6.7a set line spacing
+)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty
+Package: longtable 2004/02/01 v4.11 Multi-page Table package (DPC)
+\LTleft=\skip43
+\LTright=\skip44
+\LTpre=\skip45
+\LTpost=\skip46
+\LTchunksize=\count87
+\LTcapwidth=\dimen103
+\LT@head=\box26
+\LT@firsthead=\box27
+\LT@foot=\box28
+\LT@lastfoot=\box29
+\LT@cols=\count88
+\LT@rows=\count89
+\c@LT@tables=\count90
+\c@LT@chunks=\count91
+\LT@p@ftn=\toks14
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 1999/02/16 v1.0f Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 1999/03/16 v1.13 key=value parser (DPC)
+\KV@toks@=\toks15
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2009/02/05 v1.0o Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 1999/03/16 v1.09 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/graphics.cfg
+File: graphics.cfg 2010/04/23 v1.9 graphics configuration of TeX Live
+)
+Package graphics Info: Driver file: pdftex.def on input line 91.
+
+(/usr/share/texlive/texmf-dist/tex/latex/pdftex-def/pdftex.def
+File: pdftex.def 2011/05/27 v0.06d Graphics/color for pdfTeX
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/infwarerr.sty
+Package: infwarerr 2010/04/08 v1.3 Providing info/warning/error messages (HO)
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ltxcmds.sty
+Package: ltxcmds 2011/11/09 v1.22 LaTeX kernel commands for general use (HO)
+)
+\Gread@gobject=\count92
+))
+\Gin@req@height=\dimen104
+\Gin@req@width=\dimen105
+)
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+Package: geometry 2010/09/12 v5.6 Page Geometry
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifpdf.sty
+Package: ifpdf 2011/01/30 v2.3 Provides the ifpdf switch (HO)
+Package ifpdf Info: pdfTeX in PDF mode is detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifvtex.sty
+Package: ifvtex 2010/03/01 v1.5 Detect VTeX and its facilities (HO)
+Package ifvtex Info: VTeX not detected.
+)
+(/usr/share/texlive/texmf-dist/tex/generic/ifxetex/ifxetex.sty
+Package: ifxetex 2010/09/12 v0.6 Provides ifxetex conditional
+)
+\Gm@cnth=\count93
+\Gm@cntv=\count94
+\c@Gm@tempcnt=\count95
+\Gm@bindingoffset=\dimen106
+\Gm@wd@mp=\dimen107
+\Gm@odd@mp=\dimen108
+\Gm@even@mp=\dimen109
+\Gm@layoutwidth=\dimen110
+\Gm@layoutheight=\dimen111
+\Gm@layouthoffset=\dimen112
+\Gm@layoutvoffset=\dimen113
+\Gm@dimlist=\toks16
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/pdflscape.sty
+Package: pdflscape 2008/08/11 v0.10 Display of landscape pages in PDF (HO)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/lscape.sty
+Package: lscape 2000/10/22 v3.01 Landscape Pages (DPC)
+)
+Package pdflscape Info: Auto-detected driver: pdftex on input line 80.
+) (./results.aux
+(./tableCA.aux) (./tableVS.aux))
+\openout1 = `results.aux'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 20.
+LaTeX Font Info:    ... okay on input line 20.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count96
+\scratchdimen=\dimen114
+\scratchbox=\box30
+\nofMPsegments=\count97
+\nofMParguments=\count98
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count99
+\MPscratchDim=\dimen115
+\MPnumerator=\count100
+\makeMPintoPDFobject=\count101
+\everyMPtoPDFconversion=\toks18
+) (/usr/share/texlive/texmf-dist/tex/generic/oberdiek/pdftexcmds.sty
+Package: pdftexcmds 2011/11/29 v0.20 Utility functions of pdfTeX for LuaTeX (HO
+)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/ifluatex.sty
+Package: ifluatex 2010/03/01 v1.3 Provides the ifluatex switch (HO)
+Package ifluatex Info: LuaTeX not detected.
+)
+Package pdftexcmds Info: LuaTeX not detected.
+Package pdftexcmds Info: \pdf@primitive is available.
+Package pdftexcmds Info: \pdf@ifprimitive is available.
+Package pdftexcmds Info: \pdfdraftmode found.
+)
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/epstopdf-base.sty
+Package: epstopdf-base 2010/02/09 v2.5 Base part for package epstopdf
+
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/grfext.sty
+Package: grfext 2010/08/19 v1.1 Manage graphics extensions (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvdefinekeys.sty
+Package: kvdefinekeys 2011/04/07 v1.3 Define keys (HO)
+))
+(/usr/share/texlive/texmf-dist/tex/latex/oberdiek/kvoptions.sty
+Package: kvoptions 2011/06/30 v3.11 Key value format for package options (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/kvsetkeys.sty
+Package: kvsetkeys 2012/04/25 v1.16 Key value parser (HO)
+
+(/usr/share/texlive/texmf-dist/tex/generic/oberdiek/etexcmds.sty
+Package: etexcmds 2011/02/16 v1.5 Avoid name clashes with e-TeX commands (HO)
+Package etexcmds Info: Could not find \expanded.
+(etexcmds)             That can mean that you are not using pdfTeX 1.50 or
+(etexcmds)             that some package has redefined \expanded.
+(etexcmds)             In the latter case, load this package earlier.
+)))
+Package grfext Info: Graphics extension search list:
+(grfext)             [.png,.pdf,.jpg,.mps,.jpeg,.jbig2,.jb2,.PNG,.PDF,.JPG,.JPE
+G,.JBIG2,.JB2,.eps]
+(grfext)             \AppendGraphicsExtensions on input line 452.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+*geometry* verbose mode - [ preamble ] result:
+* driver: pdftex
+* paper: a4paper
+* layout: <same size as paper>
+* layoutoffset:(h,v)=(0.0pt,0.0pt)
+* modes: 
+* h-part:(L,W,R)=(72.26999pt, 452.9679pt, 72.26999pt)
+* v-part:(T,H,B)=(72.26999pt, 700.50687pt, 72.26999pt)
+* \paperwidth=597.50787pt
+* \paperheight=845.04684pt
+* \textwidth=452.9679pt
+* \textheight=700.50687pt
+* \oddsidemargin=0.0pt
+* \evensidemargin=0.0pt
+* \topmargin=-37.0pt
+* \headheight=12.0pt
+* \headsep=25.0pt
+* \topskip=10.0pt
+* \footskip=30.0pt
+* \marginparwidth=57.0pt
+* \marginparsep=11.0pt
+* \columnsep=10.0pt
+* \skip\footins=9.0pt plus 4.0pt minus 2.0pt
+* \hoffset=0.0pt
+* \voffset=0.0pt
+* \mag=1000
+* \@twocolumnfalse
+* \@twosidefalse
+* \@mparswitchfalse
+* \@reversemarginfalse
+* (1in=72.27pt=25.4mm, 1cm=28.453pt)
+
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 22.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 22.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 22.
+
+LaTeX Warning: No \author given.
+
+LaTeX Font Info:    Try loading font information for OMS+cmr on input line 52.
+(/usr/share/texlive/texmf-dist/tex/latex/base/omscmr.fd
+File: omscmr.fd 1999/05/25 v2.5h Standard LaTeX font definitions
+)
+LaTeX Font Info:    Font shape `OMS/cmr/m/n' in size <10> not available
+(Font)              Font shape `OMS/cmsy/m/n' tried instead on input line 52.
+ [1
+
+{/usr/share/texlive/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+\openout2 = `tableCA.aux'.
+
+ (./tableCA.tex
+<clopidolCA.png, id=14, 401.5pt x 401.5pt>
+File: clopidolCA.png Graphic file (type png)
+ <use clopidolCA.png>
+Package pdftex.def Info: clopidolCA.png used on input line 5.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<phthalimideCA.png, id=16, 401.5pt x 401.5pt>
+File: phthalimideCA.png Graphic file (type png)
+ <use phthalimideCA.png>
+Package pdftex.def Info: phthalimideCA.png used on input line 7.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<ViagraCA.png, id=17, 401.5pt x 602.25pt>
+File: ViagraCA.png Graphic file (type png)
+ <use ViagraCA.png>
+Package pdftex.def Info: ViagraCA.png used on input line 9.
+(pdftex.def)             Requested size: 240.90184pt x 361.35278pt.
+
+<quatAmMesomerCA.png, id=18, 401.5pt x 401.5pt>
+File: quatAmMesomerCA.png Graphic file (type png)
+ <use quatAmMesomerCA.png>
+Package pdftex.def Info: quatAmMesomerCA.png used on input line 11.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<pyridinolCA.png, id=19, 401.5pt x 401.5pt>
+File: pyridinolCA.png Graphic file (type png)
+ <use pyridinolCA.png>
+Package pdftex.def Info: pyridinolCA.png used on input line 13.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<quatAmMesomer4CA.png, id=20, 401.5pt x 401.5pt>
+File: quatAmMesomer4CA.png Graphic file (type png)
+ <use quatAmMesomer4CA.png>
+Package pdftex.def Info: quatAmMesomer4CA.png used on input line 15.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<azideCA.png, id=21, 401.5pt x 401.5pt>
+File: azideCA.png Graphic file (type png)
+ <use azideCA.png>
+Package pdftex.def Info: azideCA.png used on input line 17.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<triazinolCA.png, id=22, 401.5pt x 401.5pt>
+File: triazinolCA.png Graphic file (type png)
+ <use triazinolCA.png>
+Package pdftex.def Info: triazinolCA.png used on input line 19.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<phosphateCA.png, id=23, 401.5pt x 401.5pt>
+File: phosphateCA.png Graphic file (type png)
+ <use phosphateCA.png>
+Package pdftex.def Info: phosphateCA.png used on input line 21.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<PropenolCA.png, id=24, 401.5pt x 401.5pt>
+File: PropenolCA.png Graphic file (type png)
+ <use PropenolCA.png>
+Package pdftex.def Info: PropenolCA.png used on input line 23.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<phosphineCA.png, id=25, 401.5pt x 401.5pt>
+File: phosphineCA.png Graphic file (type png)
+ <use phosphineCA.png>
+Package pdftex.def Info: phosphineCA.png used on input line 25.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<cicletanineCA.png, id=26, 401.5pt x 401.5pt>
+File: cicletanineCA.png Graphic file (type png)
+ <use cicletanineCA.png>
+Package pdftex.def Info: cicletanineCA.png used on input line 27.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<propaneAcidCA.png, id=27, 401.5pt x 401.5pt>
+File: propaneAcidCA.png Graphic file (type png)
+ <use propaneAcidCA.png>
+Package pdftex.def Info: propaneAcidCA.png used on input line 29.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<imidazoleCA.png, id=28, 401.5pt x 401.5pt>
+File: imidazoleCA.png Graphic file (type png)
+ <use imidazoleCA.png>
+Package pdftex.def Info: imidazoleCA.png used on input line 31.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<enamineCA.png, id=29, 401.5pt x 401.5pt>
+File: enamineCA.png Graphic file (type png)
+ <use enamineCA.png>
+Package pdftex.def Info: enamineCA.png used on input line 33.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<sulfoxideCA.png, id=30, 401.5pt x 401.5pt>
+File: sulfoxideCA.png Graphic file (type png)
+ <use sulfoxideCA.png>
+Package pdftex.def Info: sulfoxideCA.png used on input line 35.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<sulfonamideCA.png, id=31, 401.5pt x 401.5pt>
+File: sulfonamideCA.png Graphic file (type png)
+ <use sulfonamideCA.png>
+Package pdftex.def Info: sulfonamideCA.png used on input line 37.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<tiouracilCA.png, id=32, 401.5pt x 803.0pt>
+File: tiouracilCA.png Graphic file (type png)
+ <use tiouracilCA.png>
+Package pdftex.def Info: tiouracilCA.png used on input line 39.
+(pdftex.def)             Requested size: 240.90184pt x 481.80373pt.
+
+<quatAmMesomer2CA.png, id=33, 401.5pt x 401.5pt>
+File: quatAmMesomer2CA.png Graphic file (type png)
+ <use quatAmMesomer2CA.png>
+Package pdftex.def Info: quatAmMesomer2CA.png used on input line 41.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+Overfull \hbox (92.81284pt too wide) in alignment at lines 1--42
+ [] [] [] [] [] [] [] 
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 42
+ []
+
+<nitroCA.png, id=34, 401.5pt x 602.25pt>
+File: nitroCA.png Graphic file (type png)
+ <use nitroCA.png>
+Package pdftex.def Info: nitroCA.png used on input line 43.
+(pdftex.def)             Requested size: 240.90184pt x 361.35278pt.
+
+<107and108and109CA.png, id=35, 401.5pt x 602.25pt>
+File: 107and108and109CA.png Graphic file (type png)
+ <use 107and108and109CA.png>
+Package pdftex.def Info: 107and108and109CA.png used on input line 45.
+(pdftex.def)             Requested size: 240.90184pt x 361.35278pt.
+
+<aminopyrimidineCA.png, id=36, 401.5pt x 401.5pt>
+File: aminopyrimidineCA.png Graphic file (type png)
+ <use aminopyrimidineCA.png>
+Package pdftex.def Info: aminopyrimidineCA.png used on input line 47.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<105and106CA.png, id=37, 401.5pt x 401.5pt>
+File: 105and106CA.png Graphic file (type png)
+ <use 105and106CA.png>
+Package pdftex.def Info: 105and106CA.png used on input line 49.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<RhodamineCA.png, id=38, 401.5pt x 401.5pt>
+File: RhodamineCA.png Graphic file (type png)
+ <use RhodamineCA.png>
+Package pdftex.def Info: RhodamineCA.png used on input line 51.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<sulfonCA.png, id=39, 401.5pt x 401.5pt>
+File: sulfonCA.png Graphic file (type png)
+ <use sulfonCA.png>
+Package pdftex.def Info: sulfonCA.png used on input line 53.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<triazineCA.png, id=40, 401.5pt x 401.5pt>
+File: triazineCA.png Graphic file (type png)
+ <use triazineCA.png>
+Package pdftex.def Info: triazineCA.png used on input line 55.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<tetrazoleCA.png, id=41, 401.5pt x 401.5pt>
+File: tetrazoleCA.png Graphic file (type png)
+ <use tetrazoleCA.png>
+Package pdftex.def Info: tetrazoleCA.png used on input line 57.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<phenolCA.png, id=42, 401.5pt x 401.5pt>
+File: phenolCA.png Graphic file (type png)
+ <use phenolCA.png>
+Package pdftex.def Info: phenolCA.png used on input line 59.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<phosphorCA.png, id=43, 401.5pt x 401.5pt>
+File: phosphorCA.png Graphic file (type png)
+ <use phosphorCA.png>
+Package pdftex.def Info: phosphorCA.png used on input line 61.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<112and113CA.png, id=44, 401.5pt x 401.5pt>
+File: 112and113CA.png Graphic file (type png)
+ <use 112and113CA.png>
+Package pdftex.def Info: 112and113CA.png used on input line 63.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<NOCA.png, id=45, 401.5pt x 401.5pt>
+File: NOCA.png Graphic file (type png)
+ <use NOCA.png>
+Package pdftex.def Info: NOCA.png used on input line 65.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<diazoCA.png, id=46, 401.5pt x 401.5pt>
+File: diazoCA.png Graphic file (type png)
+ <use diazoCA.png>
+Package pdftex.def Info: diazoCA.png used on input line 67.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<benzaldoximeCA.png, id=47, 401.5pt x 401.5pt>
+File: benzaldoximeCA.png Graphic file (type png)
+ <use benzaldoximeCA.png>
+Package pdftex.def Info: benzaldoximeCA.png used on input line 69.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<quatAmMesomer3CA.png, id=48, 401.5pt x 401.5pt>
+File: quatAmMesomer3CA.png Graphic file (type png)
+ <use quatAmMesomer3CA.png>
+Package pdftex.def Info: quatAmMesomer3CA.png used on input line 71.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<NNOCA.png, id=49, 401.5pt x 401.5pt>
+File: NNOCA.png Graphic file (type png)
+ <use NNOCA.png>
+Package pdftex.def Info: NNOCA.png used on input line 73.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<amideCA.png, id=50, 401.5pt x 401.5pt>
+File: amideCA.png Graphic file (type png)
+ <use amideCA.png>
+Package pdftex.def Info: amideCA.png used on input line 75.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<thiopurineCA.png, id=51, 401.5pt x 401.5pt>
+File: thiopurineCA.png Graphic file (type png)
+ <use thiopurineCA.png>
+Package pdftex.def Info: thiopurineCA.png used on input line 77.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+Overfull \hbox (92.81284pt too wide) in alignment at lines 42--79
+ [] [] [] [] [] [] [] 
+ []
+
+[3
+
+
+ <./clopidolCA.png>] [4 <./phthalimideCA.png>] [5 <./ViagraCA.png>] [6 <./quatA
+mMesomerCA.png>] [7 <./pyridinolCA.png>] [8 <./quatAmMesomer4CA.png>]
+[9 <./azideCA.png>] [10 <./triazinolCA.png>] [11 <./phosphateCA.png>] [12 <./Pr
+openolCA.png>] [13 <./phosphineCA.png>] [14 <./cicletanineCA.png>] [15 <./propa
+neAcidCA.png>] [16 <./imidazoleCA.png>] [17 <./enamineCA.png>] [18 <./sulfoxide
+CA.png>] [19 <./sulfonamideCA.png>] [20 <./tiouracilCA.png>] [21 <./quatAmMesom
+er2CA.png>] [22 <./nitroCA.png>] [23 <./107and108and109CA.png>] [24 <./aminopyr
+imidineCA.png>] [25 <./105and106CA.png>] [26 <./RhodamineCA.png>] [27 <./sulfon
+CA.png>] [28 <./triazineCA.png>] [29 <./tetrazoleCA.png>] [30 <./phenolCA.png>]
+[31 <./phosphorCA.png>] [32 <./112and113CA.png>] [33 <./NOCA.png>] [34 <./diazo
+CA.png>] [35 <./benzaldoximeCA.png>] [36 <./quatAmMesomer3CA.png>] [37 <./NNOCA
+.png>] [38 <./amideCA.png>]) [39 <./thiopurineCA.png>] [40
+
+
+]
+\openout2 = `tableVS.aux'.
+
+ (./tableVS.tex
+<clopidolMV.png, id=209, 401.5pt x 401.5pt>
+File: clopidolMV.png Graphic file (type png)
+ <use clopidolMV.png>
+Package pdftex.def Info: clopidolMV.png used on input line 5.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<phthalimideMV.png, id=210, 401.5pt x 401.5pt>
+File: phthalimideMV.png Graphic file (type png)
+ <use phthalimideMV.png>
+Package pdftex.def Info: phthalimideMV.png used on input line 7.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<ViagraMV.png, id=211, 401.5pt x 602.25pt>
+File: ViagraMV.png Graphic file (type png)
+ <use ViagraMV.png>
+Package pdftex.def Info: ViagraMV.png used on input line 9.
+(pdftex.def)             Requested size: 240.90184pt x 361.35278pt.
+
+<quatAmMesomerMV.png, id=212, 401.5pt x 401.5pt>
+File: quatAmMesomerMV.png Graphic file (type png)
+ <use quatAmMesomerMV.png>
+Package pdftex.def Info: quatAmMesomerMV.png used on input line 11.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<pyridinolMV.png, id=213, 401.5pt x 401.5pt>
+File: pyridinolMV.png Graphic file (type png)
+ <use pyridinolMV.png>
+Package pdftex.def Info: pyridinolMV.png used on input line 13.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<quatAmMesomer4MV.png, id=214, 401.5pt x 401.5pt>
+File: quatAmMesomer4MV.png Graphic file (type png)
+ <use quatAmMesomer4MV.png>
+Package pdftex.def Info: quatAmMesomer4MV.png used on input line 15.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<azideMV.png, id=215, 401.5pt x 401.5pt>
+File: azideMV.png Graphic file (type png)
+ <use azideMV.png>
+Package pdftex.def Info: azideMV.png used on input line 17.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<triazinolMV.png, id=216, 401.5pt x 401.5pt>
+File: triazinolMV.png Graphic file (type png)
+ <use triazinolMV.png>
+Package pdftex.def Info: triazinolMV.png used on input line 19.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<phosphateMV.png, id=217, 401.5pt x 401.5pt>
+File: phosphateMV.png Graphic file (type png)
+ <use phosphateMV.png>
+Package pdftex.def Info: phosphateMV.png used on input line 21.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<PropenolMV.png, id=218, 401.5pt x 401.5pt>
+File: PropenolMV.png Graphic file (type png)
+ <use PropenolMV.png>
+Package pdftex.def Info: PropenolMV.png used on input line 23.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<phosphineMV.png, id=219, 401.5pt x 401.5pt>
+File: phosphineMV.png Graphic file (type png)
+ <use phosphineMV.png>
+Package pdftex.def Info: phosphineMV.png used on input line 25.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<cicletanineMV.png, id=220, 401.5pt x 401.5pt>
+File: cicletanineMV.png Graphic file (type png)
+ <use cicletanineMV.png>
+Package pdftex.def Info: cicletanineMV.png used on input line 27.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<propaneAcidMV.png, id=221, 401.5pt x 401.5pt>
+File: propaneAcidMV.png Graphic file (type png)
+ <use propaneAcidMV.png>
+Package pdftex.def Info: propaneAcidMV.png used on input line 29.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<imidazoleMV.png, id=222, 401.5pt x 401.5pt>
+File: imidazoleMV.png Graphic file (type png)
+ <use imidazoleMV.png>
+Package pdftex.def Info: imidazoleMV.png used on input line 31.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<enamineMV.png, id=223, 401.5pt x 401.5pt>
+File: enamineMV.png Graphic file (type png)
+ <use enamineMV.png>
+Package pdftex.def Info: enamineMV.png used on input line 33.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<sulfoxideMV.png, id=224, 401.5pt x 401.5pt>
+File: sulfoxideMV.png Graphic file (type png)
+ <use sulfoxideMV.png>
+Package pdftex.def Info: sulfoxideMV.png used on input line 35.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<sulfonamideMV.png, id=225, 401.5pt x 401.5pt>
+File: sulfonamideMV.png Graphic file (type png)
+ <use sulfonamideMV.png>
+Package pdftex.def Info: sulfonamideMV.png used on input line 37.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<tiouracilMV.png, id=226, 401.5pt x 803.0pt>
+File: tiouracilMV.png Graphic file (type png)
+ <use tiouracilMV.png>
+Package pdftex.def Info: tiouracilMV.png used on input line 39.
+(pdftex.def)             Requested size: 240.90184pt x 481.80373pt.
+
+<quatAmMesomer2MV.png, id=227, 401.5pt x 401.5pt>
+File: quatAmMesomer2MV.png Graphic file (type png)
+ <use quatAmMesomer2MV.png>
+Package pdftex.def Info: quatAmMesomer2MV.png used on input line 41.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+Overfull \hbox (54.53493pt too wide) in alignment at lines 1--42
+ [] [] [] [] [] [] [] 
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 42
+ []
+
+<nitroMV.png, id=228, 401.5pt x 602.25pt>
+File: nitroMV.png Graphic file (type png)
+ <use nitroMV.png>
+Package pdftex.def Info: nitroMV.png used on input line 43.
+(pdftex.def)             Requested size: 240.90184pt x 361.35278pt.
+
+<107and108and109MV.png, id=229, 401.5pt x 602.25pt>
+File: 107and108and109MV.png Graphic file (type png)
+
+<use 107and108and109MV.png>
+Package pdftex.def Info: 107and108and109MV.png used on input line 45.
+(pdftex.def)             Requested size: 240.90184pt x 361.35278pt.
+ <aminopyrimidineMV.png, id=230, 401.5pt x 401.5pt>
+File: aminopyrimidineMV.png Graphic file (type png)
+
+<use aminopyrimidineMV.png>
+Package pdftex.def Info: aminopyrimidineMV.png used on input line 47.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+ <105and106MV.png, id=231, 401.5pt x 401.5pt>
+File: 105and106MV.png Graphic file (type png)
+
+<use 105and106MV.png>
+Package pdftex.def Info: 105and106MV.png used on input line 49.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+ <RhodamineMV.png, id=232, 401.5pt x 401.5pt>
+File: RhodamineMV.png Graphic file (type png)
+
+<use RhodamineMV.png>
+Package pdftex.def Info: RhodamineMV.png used on input line 51.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+ <sulfonMV.png, id=233, 401.5pt x 401.5pt>
+File: sulfonMV.png Graphic file (type png)
+
+<use sulfonMV.png>
+Package pdftex.def Info: sulfonMV.png used on input line 53.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+ <triazineMV.png, id=234, 401.5pt x 401.5pt>
+File: triazineMV.png Graphic file (type png)
+
+<use triazineMV.png>
+Package pdftex.def Info: triazineMV.png used on input line 55.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+ <tetrazoleMV.png, id=235, 401.5pt x 401.5pt>
+File: tetrazoleMV.png Graphic file (type png)
+
+<use tetrazoleMV.png>
+Package pdftex.def Info: tetrazoleMV.png used on input line 57.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+ <phenolMV.png, id=236, 401.5pt x 401.5pt>
+File: phenolMV.png Graphic file (type png)
+
+<use phenolMV.png>
+Package pdftex.def Info: phenolMV.png used on input line 59.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+ <phosphorMV.png, id=237, 401.5pt x 401.5pt>
+File: phosphorMV.png Graphic file (type png)
+
+<use phosphorMV.png>
+Package pdftex.def Info: phosphorMV.png used on input line 61.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+ <112and113MV.png, id=238, 401.5pt x 401.5pt>
+File: 112and113MV.png Graphic file (type png)
+
+<use 112and113MV.png>
+Package pdftex.def Info: 112and113MV.png used on input line 63.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+ <NOMV.png, id=239, 401.5pt x 401.5pt>
+File: NOMV.png Graphic file (type png)
+ <use NOMV.png>
+Package pdftex.def Info: NOMV.png used on input line 65.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<diazoMV.png, id=240, 401.5pt x 401.5pt>
+File: diazoMV.png Graphic file (type png)
+ <use diazoMV.png>
+Package pdftex.def Info: diazoMV.png used on input line 67.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<benzaldoximeMV.png, id=241, 401.5pt x 401.5pt>
+File: benzaldoximeMV.png Graphic file (type png)
+ <use benzaldoximeMV.png>
+Package pdftex.def Info: benzaldoximeMV.png used on input line 69.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<quatAmMesomer3MV.png, id=242, 401.5pt x 401.5pt>
+File: quatAmMesomer3MV.png Graphic file (type png)
+ <use quatAmMesomer3MV.png>
+Package pdftex.def Info: quatAmMesomer3MV.png used on input line 71.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<NNOMV.png, id=243, 401.5pt x 401.5pt>
+File: NNOMV.png Graphic file (type png)
+ <use NNOMV.png>
+Package pdftex.def Info: NNOMV.png used on input line 73.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<amideMV.png, id=244, 401.5pt x 401.5pt>
+File: amideMV.png Graphic file (type png)
+ <use amideMV.png>
+Package pdftex.def Info: amideMV.png used on input line 75.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+<thiopurineMV.png, id=245, 401.5pt x 401.5pt>
+File: thiopurineMV.png Graphic file (type png)
+ <use thiopurineMV.png>
+Package pdftex.def Info: thiopurineMV.png used on input line 77.
+(pdftex.def)             Requested size: 240.90184pt x 240.90184pt.
+
+Overfull \hbox (54.53493pt too wide) in alignment at lines 42--79
+ [] [] [] [] [] [] [] 
+ []
+
+[41
+
+
+ <./clopidolMV.png>] [42 <./phthalimideMV.png>] [43 <./ViagraMV.png>]
+[44 <./quatAmMesomerMV.png>] [45 <./pyridinolMV.png>] [46 <./quatAmMesomer4MV.p
+ng>] [47 <./azideMV.png>] [48 <./triazinolMV.png>] [49 <./phosphateMV.png>]
+[50 <./PropenolMV.png>] [51 <./phosphineMV.png>] [52 <./cicletanineMV.png>]
+[53 <./propaneAcidMV.png>] [54 <./imidazoleMV.png>] [55 <./enamineMV.png>]
+[56 <./sulfoxideMV.png>] [57 <./sulfonamideMV.png>] [58 <./tiouracilMV.png>]
+[59 <./quatAmMesomer2MV.png>] [60 <./nitroMV.png>] [61 <./107and108and109MV.png
+>] [62 <./aminopyrimidineMV.png>] [63 <./105and106MV.png>] [64 <./RhodamineMV.p
+ng>] [65 <./sulfonMV.png>] [66 <./triazineMV.png>] [67 <./tetrazoleMV.png>]
+[68 <./phenolMV.png>] [69 <./phosphorMV.png>] [70 <./112and113MV.png>] [71 <./N
+OMV.png>] [72 <./diazoMV.png>] [73 <./benzaldoximeMV.png>] [74 <./quatAmMesomer
+3MV.png>] [75 <./NNOMV.png>] [76 <./amideMV.png>]) [77 <./thiopurineMV.png>]
+(./results.aux (./tableCA.aux) (./tableVS.aux)) ) 
+Here is how much of TeX's memory you used:
+ 2520 strings out of 495063
+ 37763 string characters out of 3182201
+ 120199 words of memory out of 3000000
+ 5599 multiletter control sequences out of 15000+200000
+ 7280 words of font info for 26 fonts, out of 3000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 38i,8n,32p,248b,259s stack positions out of 5000i,500n,10000p,200000b,50000s
+</usr/share/texlive/texmf-dist
+/fonts/type1/public/amsfonts/cm/cmbx12.pfb></usr/share/texlive/texmf-dist/fonts
+/type1/public/amsfonts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/
+public/amsfonts/cm/cmr12.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/
+amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfont
+s/cm/cmsy10.pfb>
+Output written on results.pdf (77 pages, 264118 bytes).
+PDF statistics:
+ 422 PDF objects out of 1000 (max. 8388607)
+ 188 compressed objects within 2 object streams
+ 0 named destinations out of 1000 (max. 500000)
+ 371 words of extra memory for PDF output out of 10000 (max. 10000000)
+

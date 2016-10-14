@@ -1,0 +1,78 @@
+\documentclass[
+10pt, % Main document font size
+a4paper, % Paper type, use 'letterpaper' for US Letter paper
+oneside, % One page layout (no page indentation)
+%twoside, % Two page layout (page indentation for binding and different headers)
+%headinclude,footinclude, % Extra spacing for the header and footer
+%BCOR5mm, % Binding correction
+%]{scrartcl}
+]{article}
+\usepackage{setspace}
+\usepackage{longtable}
+\usepackage{graphicx}
+\usepackage[margin=1in]{geometry}
+\usepackage{pdflscape}
+%\usepackage[cm]{fullpage}
+\doublespacing
+
+\title{\normalfont{Molecular standardization}}
+
+\begin{document}
+
+\maketitle
+
+The molecular standardization processes of ChemAxon's Standardizer and the Open Source library MolVS have been evaluated 
+on a test suit of 35 compounds containing tautomers, mesomers and functional groups that are often represented differently. 
+The 35 compounds are represented in multiple forms that, from a chemoinformatic perspective, should ideally be transformed 
+into the same representation by the standardization process. 
+However, the standardization process in Standardizer is not intended to transform into one canonical tautomer, but 
+produces so called normal canonical tautomers where the normal canonical tautomer is selected from from subsets of 
+tautomers considered interchangeable under physiological conditions. 
+
+For each method a table is produced showing the input and output structures as drawn by RDKit for the different forms.
+The table also displays two fingerprint similarities between all pairs of output structures. If the standardization 
+is successful the fingerprints should be identical. Furthermore, the set of 177 RDKit descriptors is calculated 
+for each output structure and the number of differing descriptors is reported for each pair of output structures.
+
+
+%\section{Results Summary}
+%ChemAxon's Standardizer fails to identify the different forms of 14 out of the 35 structures as similar, while MolVS fails 
+%for 3 structures. The failures of MolVS are all for certain functional groups, nitro, phosphine and diazo, while 
+%Standardizer fails in the canonicalization of 9 tautomers, as well as for 5 functional groups. 
+
+%As shown in the tables below, most of the standardization failures result in significant loss of fingerprint similarity 
+%and a large number of RDKit descriptors with different values. Hence, the failures will have an impact on the results of 
+%chemoinformatic analysis. 
+
+
+\section{Standardization with ChemAxon Standardizer }
+
+The ChemAxon standardizer was used with 7 actions, applied in the following order, together with the set of transformations defined in the GUI:
+\begin{itemize} 
+\item removesolvents
+\item stripsalts 
+\item removefragment:method=keeplargest
+\item mesomerize
+\item tautomerize
+\item neutralize
+\item transformations
+\item dearomatize
+\end{itemize} 
+%Two out of the failures to transform functional groups (Idx 7 and 35) originates from RDKit being unable to accept the valence of the structures 
+%returned by Standardizer. The output structure of molecule 7 is displayed below. 
+%\includegraphics[scale=0.4]{azideCAout.png}
+	
+
+\begin{landscape}
+\include{tableCA}
+\end{landscape}
+
+\section{Additional standardization with MolVS}
+
+In addition to running Standardizer by ChemAxon, the canonicalize and uncharge options of MolVS were used.
+
+\begin{landscape}
+\include{tableVS}
+\end{landscape}
+
+\end{document}

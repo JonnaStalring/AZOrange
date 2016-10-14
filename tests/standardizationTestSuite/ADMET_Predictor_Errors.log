@@ -1,0 +1,21 @@
+Error log created for ADMET Predictor(TM) session 2016-04-22 10:02:47
+Error log for input file Z:\projects\ChemInfoScripts\Standardization\testSuite\nitro.sdf
+
+------------ SUMMARY ------------
+
+3 records were read
+3 records were processed
+0 records skipped because of errors
+0 error messages
+
+------------   END   ------------
+Error log for ADMET calculation
+
+------------ SUMMARY ------------
+
+3 records were examined
+3 records were processed
+0 records skipped because of errors
+0 error messages
+
+------------   END   ------------

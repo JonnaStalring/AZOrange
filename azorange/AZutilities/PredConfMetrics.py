@@ -2,6 +2,7 @@ import scipy
 import numpy
 import math
 from AZutilities import dataUtilities
+from AZutilities import Mahalanobis
 from rdkit import DataStructs
 from rdkit import Chem
 from rdkit.Chem.Fingerprints import FingerprintMols
@@ -39,6 +40,13 @@ def getRespVar(tanList, tanDict, train, nameAttr):
         entropy = scipy.stats.entropy(pList)
 
     return entropy
+
+
+def getDescVect(predEx):
+    descVect = []
+    for attr in predEx.domain.attributes:
+        descVect.append(predEx[attr.name].value)
+    return descVect
  
 
 def getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType):
@@ -52,6 +60,16 @@ def getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
     elif simType == "MACCS":
         fpsTrain = [MACCSkeys.GenMACCSKeys(x) for x in trainSmilesList]
         fp = MACCSkeys.GenMACCSKeys(Chem.MolFromSmiles(predEx[smilesAttrName].value))
+    elif simType == "Mahalanobis":
+        attrList = [smilesAttrName, nameAttr]
+        predEx = dataUtilities.attributeDeselectionExample(predEx, attrList)
+        fp = getDescVect(predEx)
+        numTrain = dataUtilities.attributeDeselectionData(train, attrList)
+        trainMat = []
+        for ex in numTrain:
+            descVect = getDescVect(ex) 
+            trainMat.append(descVect)
+        norm = Mahalanobis.create_inverse_covariance_norm(trainMat)
     else:
         print "This type of sim is not implemented ", simType
 
@@ -65,13 +83,20 @@ def getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
             sim = DataStructs.DiceSimilarity(fpsTrain[idx],fp)
         elif simType == "MACCS":
             sim = DataStructs.FingerprintSimilarity(fpsTrain[idx],fp)
+        elif simType == "Mahalanobis":
+            descVect = trainMat[idx]
+            dist = Mahalanobis.compute_distance(fp, descVect, norm)
+            sim = dist
         else:
             print "This type of sim is not implemented ", simType
         idx = idx + 1
         simDict[ex[nameAttr].value] = sim
         simList.append(sim)
 
-    simList.sort(reverse = True)
+    if simType == "Mahalanobis":  # Mahalanobis gives a distance while the other methods are similarities
+        simList.sort()
+    else:
+        simList.sort(reverse = True)
     simList = simList[0:X]
     medSim = round(numpy.median(simList), 3)
     stdSim =  round(numpy.std(simList), 3)
@@ -114,6 +139,15 @@ def getXNNstat(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X):
     XNNstatDict["maxMACCSSim"] = maxSim
     XNNstatDict["entropyMACCS"] = entropy
     XNNstatDict["entropyClosestMACCS"] = entropyClosest
+
+    simType = "Mahalanobis"
+    medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
+    XNNstatDict["medMahalDist"] = medSim
+    XNNstatDict["stdMahalDist"] = stdSim
+    XNNstatDict["minMahalDist"] = minSim
+    XNNstatDict["maxMahalDist"] = maxSim
+    XNNstatDict["entropyMahal"] = entropy
+    XNNstatDict["entropyClosestMahal"] = entropyClosest
 
     return XNNstatDict
 

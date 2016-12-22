@@ -109,56 +109,56 @@ def getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
     return medSim, stdSim, minSim, maxSim, entropy, entropyClosest
 
 
-def getXNNstat(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X):
+def getXNNstat(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simTypes):
 
     XNNstatDict = {}
 
-    simType = "Topological"
-    medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
-    XNNstatDict["medTopSim"] = medSim
-    XNNstatDict["stdTopSim"] = stdSim
-    XNNstatDict["minTopSim"] = minSim
-    XNNstatDict["maxTopSim"] = maxSim
-    XNNstatDict["entropyTop"] = entropy
-    XNNstatDict["entropyClosestTop"] = entropyClosest
+    if "Topological" in simTypes:
+        medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
+        XNNstatDict["medTopSim"] = medSim
+        XNNstatDict["stdTopSim"] = stdSim
+        XNNstatDict["minTopSim"] = minSim
+        XNNstatDict["maxTopSim"] = maxSim
+        XNNstatDict["entropyTop"] = entropy
+        XNNstatDict["entropyClosestTop"] = entropyClosest
 
-    simType = "Morgan"
-    medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
-    XNNstatDict["medMorSim"] = medSim
-    XNNstatDict["stdMorSim"] = stdSim
-    XNNstatDict["minMorSim"] = minSim
-    XNNstatDict["maxMorSim"] = maxSim
-    XNNstatDict["entropyMor"] = entropy
-    XNNstatDict["entropyClosestMor"] = entropyClosest
+    if "Morgan" in simTypes:
+        medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
+        XNNstatDict["medMorSim"] = medSim
+        XNNstatDict["stdMorSim"] = stdSim
+        XNNstatDict["minMorSim"] = minSim
+        XNNstatDict["maxMorSim"] = maxSim
+        XNNstatDict["entropyMor"] = entropy
+        XNNstatDict["entropyClosestMor"] = entropyClosest
 
-    simType = "MACCS"
-    medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
-    XNNstatDict["medMACCSSim"] = medSim
-    XNNstatDict["stdMACCSSim"] = stdSim
-    XNNstatDict["minMACCSSim"] = minSim
-    XNNstatDict["maxMACCSSim"] = maxSim
-    XNNstatDict["entropyMACCS"] = entropy
-    XNNstatDict["entropyClosestMACCS"] = entropyClosest
+    if "MACCS" in simTypes:
+        medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
+        XNNstatDict["medMACCSSim"] = medSim
+        XNNstatDict["stdMACCSSim"] = stdSim
+        XNNstatDict["minMACCSSim"] = minSim
+        XNNstatDict["maxMACCSSim"] = maxSim
+        XNNstatDict["entropyMACCS"] = entropy
+        XNNstatDict["entropyClosestMACCS"] = entropyClosest
 
-    simType = "Mahalanobis"
-    medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
-    XNNstatDict["medMahalDist"] = medSim
-    XNNstatDict["stdMahalDist"] = stdSim
-    XNNstatDict["minMahalDist"] = minSim
-    XNNstatDict["maxMahalDist"] = maxSim
-    XNNstatDict["entropyMahal"] = entropy
-    XNNstatDict["entropyClosestMahal"] = entropyClosest
-
+    if "Mahalanobis" in simTypes:
+        medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
+        XNNstatDict["medMahalDist"] = medSim
+        XNNstatDict["stdMahalDist"] = stdSim
+        XNNstatDict["minMahalDist"] = minSim
+        XNNstatDict["maxMahalDist"] = maxSim
+        XNNstatDict["entropyMahal"] = entropy
+        XNNstatDict["entropyClosestMahal"] = entropyClosest
+      
     return XNNstatDict
 
 
-def getPredConfParam(train, predEx, smilesAttrName, nameAttr):
+def getPredConfParam(train, predEx, smilesAttrName, nameAttr, simTypes = ["Morgan"]):
 
     trainSmilesList = []
     for trainEx in train:
         trainSmilesList.append(Chem.MolFromSmiles(trainEx[smilesAttrName].value))
     X = 10 # The number of NN
-    XNNstatDict = getXNNstat(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X)
+    XNNstatDict = getXNNstat(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simTypes)
 
     return XNNstatDict
 

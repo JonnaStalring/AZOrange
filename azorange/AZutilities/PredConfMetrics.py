@@ -114,6 +114,7 @@ def getXNNstat(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simT
     XNNstatDict = {}
 
     if "Topological" in simTypes:
+        simType = "Topological"
         medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
         XNNstatDict["medTopSim"] = medSim
         XNNstatDict["stdTopSim"] = stdSim
@@ -123,6 +124,7 @@ def getXNNstat(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simT
         XNNstatDict["entropyClosestTop"] = entropyClosest
 
     if "Morgan" in simTypes:
+        simType = "Morgan"
         medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
         XNNstatDict["medMorSim"] = medSim
         XNNstatDict["stdMorSim"] = stdSim
@@ -132,6 +134,7 @@ def getXNNstat(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simT
         XNNstatDict["entropyClosestMor"] = entropyClosest
 
     if "MACCS" in simTypes:
+        simType = "MACCS"
         medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
         XNNstatDict["medMACCSSim"] = medSim
         XNNstatDict["stdMACCSSim"] = stdSim
@@ -141,6 +144,7 @@ def getXNNstat(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simT
         XNNstatDict["entropyClosestMACCS"] = entropyClosest
 
     if "Mahalanobis" in simTypes:
+        simType = "Mahalanobis"
         medSim, stdSim, minSim, maxSim, entropy, entropyClosest = getXNN(trainSmilesList, train, predEx, smilesAttrName, nameAttr, X, simType)
         XNNstatDict["medMahalDist"] = medSim
         XNNstatDict["stdMahalDist"] = stdSim

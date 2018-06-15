@@ -12,7 +12,7 @@ repository = git@github.com:JonnaStalring/AZOrange.git
 ;Always use full paths. 
 ;OBS Never make trunk and build dir the same. Recompiling is done in buildDir which is kept with preCleanBuildDir = No
 BuildDir = /tmp/AZOBuildDir
-;For developer Install Type, you can leave installDir blank
+;For developer Install Type this variable has no effect
 installDir = 
 
 

@@ -410,15 +410,21 @@ class AZOrangePredictor:
         # C-Lab descriptors
         self.exToPred = ClabUtilities.appendCLabTasks(self.clabTasks, self.smilesData)
 
-    def predict(self):
+    def predict(self, getProb = False):
 
         try:
-            prediction = self.model(self.exToPred[0]).value
+            if getProb:
+                predList = self.model(self.exToPred[0], returnDFV = True)
+                prediction = predList[0].value
+                prob = predList[1]
+            else:
+                prediction = self.model(self.exToPred[0]).value
+                prob = None
         except Exception, e:
             prediction = None
             raise Exception("Could not predict: " + str(e))
 
-        return prediction
+        return prediction, prob
 
     def processSignificance(self, smi, prediction, orderedDesc, res, resultsPath, exWithDesc = None, idx = 0, topN = 1, regMinIsDesired = True):
         """descs* = [(1.3, ["LogP"]), (0.2, ["[So2]", ...]), ...]
@@ -775,7 +781,7 @@ if __name__ == "__main__":
     print "Calculating descriptors..."
     predictor.getDescriptors(smi)
     print "Predicting...", smi, "..."
-    prediction = predictor.predict()
+    prediction, prob = predictor.predict()
     print prediction
     print "Finding significant descriptors..."
     significance = predictor.getSDs(smi, prediction)
